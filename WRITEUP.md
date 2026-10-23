@@ -33,7 +33,7 @@ The point is not the number. For each action an agent can tell what was proven a
 - "Everything a user can do by clicking around" makes the web app the reference. API operations are included because an agent should use them when they exist.
 - One action is one operation a person would name ("duplicate an e-mail campaign"); editing a field is an input. In the automation editor each trigger, action and rule is its own action.
 - The consumer is an agent that drives a browser or calls the REST API with a key the person provides. No access to Brevo's MCP server is assumed.
-- The test account is Free with the Portuguese interface, so labels and attribute ids are Portuguese (`ui_label_pt`); routes do not change.
+- The test account is Free with the Portuguese interface, so labels and attribute ids are Portuguese (`ui_label_pt`); routes do not change. `GLOSSARY_UI_PT_EN.md` translates the 474 Portuguese strings the catalog quotes; the translations are literal and were not checked against an English interface.
 - Plan limits are part of the truth: a locked feature is catalogued and marked `blocked`.
 
 ## What verification found
@@ -82,6 +82,7 @@ Read the 31 of 31 as a ceiling. I wrote the tasks and the key; I edited the key 
 - **Free plan only**: what is behind the 83 locked entries is unknown; for 56 of them even the lock is inferred. Plan availability is `unknown` for 214 actions, 160 of them API-only.
 - **Shallow areas**: the form editor, the campaign and template editors (the campaign recipes stop at creating or duplicating a draft; the test send exists only as an API operation, a gap a blind-test agent also flagged), the inbox, meetings, media upload, the import wizard past step one, conversions, CRM objects beyond their API.
 - **The spec moves**: 75 live operations are absent from the SDK snapshot and have less detail; 34 (33 in loyalty) have no captured request body, and the action says so.
+- **Interface language**: every UI step was observed in Portuguese. An agent on an English account has to match by route, position and the glossary; the English wording was never observed. Attribute ids also differ by language and whether they change when the language changes was not tested.
 - **Snapshot** of a pt-BR Free account on 2026-10-22.
 
 ## With more time
@@ -93,3 +94,4 @@ Read the 31 of 31 as a ceiling. I wrote the tasks and the key; I edited the key 
 5. A regression harness: re-run tier A flows headless on a schedule, re-run the blind test on every catalog change.
 6. A harder blind test written by someone who did not build the catalog, with a live sandbox where the agent executes.
 7. More depth on forms, the campaign editor, conversations, meetings, media and the import and export wizards.
+8. Switch the account to English, re-read the screens and record the real English labels next to the Portuguese ones.

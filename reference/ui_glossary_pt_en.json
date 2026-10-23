@@ -1,0 +1,4000 @@
+{
+ "note": "Literal English translations of Portuguese interface strings quoted in the catalog. Not captured from an English interface: Brevo's own English wording may differ.",
+ "entries": [
+  {
+   "pt": "Defina e salve essa ação.",
+   "en": "Set up and save this action.",
+   "actions": 45,
+   "example_actions": [
+    "automations.activate_automation",
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user"
+   ]
+  },
+  {
+   "pt": "Salvar",
+   "en": "Save",
+   "actions": 55,
+   "example_actions": [
+    "account.update_language_settings",
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user"
+   ]
+  },
+  {
+   "pt": "Cancelar",
+   "en": "Cancel",
+   "actions": 46,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user",
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Salva hoje às HH:MM",
+   "en": "Saved today at HH:MM",
+   "actions": 44,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user",
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Ações",
+   "en": "Actions",
+   "actions": 36,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user",
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Gatilhos",
+   "en": "Triggers",
+   "actions": 21,
+   "example_actions": [
+    "automations.configure_trigger_birthday",
+    "automations.configure_trigger_call_ended",
+    "automations.configure_trigger_contact_added_manually"
+   ]
+  },
+  {
+   "pt": "Duplicar",
+   "en": "Duplicate",
+   "actions": 7,
+   "example_actions": [
+    "automations.add_action_duplicate_deal",
+    "automations.duplicate_automation",
+    "contacts.duplicate_list"
+   ]
+  },
+  {
+   "pt": "Criar campanha",
+   "en": "Create campaign",
+   "actions": 7,
+   "example_actions": [
+    "automations.create_automation_from_prebuilt",
+    "automations.generate_automation_from_prompt",
+    "email_campaigns.generate_campaign_with_ai"
+   ]
+  },
+  {
+   "pt": "Excluir",
+   "en": "Delete",
+   "actions": 13,
+   "example_actions": [
+    "automations.add_action_delete_contact",
+    "automations.add_action_update_contact_attribute",
+    "automations.delete_automation"
+   ]
+  },
+  {
+   "pt": "Atualizar",
+   "en": "Refresh / Update",
+   "actions": 13,
+   "example_actions": [
+    "analytics.get_analytics_studio",
+    "analytics.list_conversions",
+    "automations.add_action_update_company_attribute"
+   ]
+  },
+  {
+   "pt": "Pasta",
+   "en": "Folder",
+   "actions": 11,
+   "example_actions": [
+    "contacts.create_list",
+    "contacts.create_segment",
+    "contacts.duplicate_list"
+   ]
+  },
+  {
+   "pt": "Mais ações",
+   "en": "More actions",
+   "actions": 7,
+   "example_actions": [
+    "contacts.add_contacts_to_automation",
+    "contacts.copy_sms_number_to_whatsapp",
+    "contacts.delete_contact"
+   ]
+  },
+  {
+   "pt": "Remetente",
+   "en": "Sender",
+   "actions": 14,
+   "example_actions": [
+    "account.configure_sending_cadence",
+    "account.create_domain",
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "Atualizar atributo de contato",
+   "en": "Update contact attribute",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_update_contact_attribute"
+   ]
+  },
+  {
+   "pt": "Criar",
+   "en": "Create",
+   "actions": 28,
+   "example_actions": [
+    "account.create_api_key",
+    "automations.add_action_create_deal",
+    "automations.add_action_create_task"
+   ]
+  },
+  {
+   "pt": "Criar do zero",
+   "en": "Create from scratch",
+   "actions": 2,
+   "example_actions": [
+    "automations.create_automation",
+    "content.update_email_template_content"
+   ]
+  },
+  {
+   "pt": "Criar pasta",
+   "en": "Create folder",
+   "actions": 3,
+   "example_actions": [
+    "content.create_template_folder",
+    "content.upload_gallery_image",
+    "email_campaigns.create_campaign_folder"
+   ]
+  },
+  {
+   "pt": "O contato está em um segmento",
+   "en": "Contact is in a segment",
+   "actions": 3,
+   "example_actions": [
+    "automations.configure_trigger_contact_in_segment",
+    "contacts.create_segment",
+    "contacts.delete_segment"
+   ]
+  },
+  {
+   "pt": "Pré-visualização",
+   "en": "Preview",
+   "actions": 6,
+   "example_actions": [
+    "content.create_email_template",
+    "content.preview_email_template",
+    "email_campaigns.create_campaign"
+   ]
+  },
+  {
+   "pt": "Rascunho",
+   "en": "Draft",
+   "actions": 6,
+   "example_actions": [
+    "email_campaigns.create_campaign",
+    "email_campaigns.duplicate_campaign",
+    "email_campaigns.schedule_campaign"
+   ]
+  },
+  {
+   "pt": "Tarefa concluída",
+   "en": "Task completed",
+   "actions": 2,
+   "example_actions": [
+    "automations.configure_trigger_task_completed",
+    "crm.update_task"
+   ]
+  },
+  {
+   "pt": "Tarefa criada",
+   "en": "Task created",
+   "actions": 2,
+   "example_actions": [
+    "automations.configure_trigger_task_created",
+    "crm.create_task"
+   ]
+  },
+  {
+   "pt": "Uso e plano",
+   "en": "Usage and plan",
+   "actions": 2,
+   "example_actions": [
+    "account.get_account",
+    "account.get_plan_usage"
+   ]
+  },
+  {
+   "pt": "Adicionar conteúdo",
+   "en": "Add content",
+   "actions": 3,
+   "example_actions": [
+    "content.create_email_template",
+    "content.update_email_template_content",
+    "transactional.update_template"
+   ]
+  },
+  {
+   "pt": "Adicionar um contato a uma lista",
+   "en": "Add a contact to a list",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Ativar automação",
+   "en": "Activate automation",
+   "actions": 2,
+   "example_actions": [
+    "automations.activate_automation",
+    "automations.create_automation"
+   ]
+  },
+  {
+   "pt": "Atribuir um usuário a um contato",
+   "en": "Assign a user to a contact",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_assign_contact_user",
+    "contacts.update_contact_owner"
+   ]
+  },
+  {
+   "pt": "Automatizada",
+   "en": "Automated",
+   "actions": 2,
+   "example_actions": [
+    "automations.create_automation_from_prebuilt",
+    "automations.generate_automation_from_prompt"
+   ]
+  },
+  {
+   "pt": "Colocado em lista bloqueada",
+   "en": "Added to blocklist",
+   "actions": 3,
+   "example_actions": [
+    "contacts.update_contact",
+    "contacts.update_contact_subscription",
+    "contacts.update_contacts_blocklist"
+   ]
+  },
+  {
+   "pt": "Contato adicionado à lista",
+   "en": "Contact added to list",
+   "actions": 2,
+   "example_actions": [
+    "automations.configure_trigger_contact_added_to_list",
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Conteúdo",
+   "en": "Content",
+   "actions": 6,
+   "example_actions": [
+    "automations.add_action_notify_by_email",
+    "content.update_email_template_content",
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Destinatários",
+   "en": "Recipients",
+   "actions": 5,
+   "example_actions": [
+    "email_campaigns.create_campaign",
+    "email_campaigns.duplicate_campaign",
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Enviar agora ou mais tarde",
+   "en": "Send now or later",
+   "actions": 2,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign",
+    "sms_whatsapp.schedule_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Enviar um e-mail",
+   "en": "Send an e-mail",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_send_email",
+    "automations.list_automation_messages"
+   ]
+  },
+  {
+   "pt": "Escolha de suas listas",
+   "en": "Choose your lists",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_remove_contact_from_list"
+   ]
+  },
+  {
+   "pt": "Inscrito",
+   "en": "Subscribed",
+   "actions": 2,
+   "example_actions": [
+    "contacts.update_contact",
+    "contacts.update_contact_subscription"
+   ]
+  },
+  {
+   "pt": "Listas",
+   "en": "Lists",
+   "actions": 8,
+   "example_actions": [
+    "contacts.add_contact_to_list",
+    "contacts.create_list",
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Mensagem",
+   "en": "Message",
+   "actions": 3,
+   "example_actions": [
+    "automations.add_action_send_email",
+    "automations.add_action_send_sms",
+    "automations.create_automation_from_prebuilt"
+   ]
+  },
+  {
+   "pt": "Meu plano",
+   "en": "My plan",
+   "actions": 2,
+   "example_actions": [
+    "account.get_account",
+    "account.get_plan_usage"
+   ]
+  },
+  {
+   "pt": "Método de autenticação",
+   "en": "Authentication method",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_call_webhook",
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Nome da campanha",
+   "en": "Campaign name",
+   "actions": 2,
+   "example_actions": [
+    "email_campaigns.create_campaign",
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Nome do remetente",
+   "en": "Sender name",
+   "actions": 4,
+   "example_actions": [
+    "account.create_sender",
+    "automations.add_action_send_sms",
+    "content.create_email_template"
+   ]
+  },
+  {
+   "pt": "Push",
+   "en": "Push",
+   "actions": 12,
+   "example_actions": [
+    "account.configure_sub_account_apps",
+    "account.get_sub_account",
+    "account.update_sub_account_plan"
+   ]
+  },
+  {
+   "pt": "Remetentes",
+   "en": "Senders",
+   "actions": 8,
+   "example_actions": [
+    "account.configure_sending_cadence",
+    "account.create_domain",
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "Aberturas da Apple MPP em segmentos",
+   "en": "Apple MPP opens in segments",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_apple_mpp_filter"
+   ]
+  },
+  {
+   "pt": "Adicionar licenças",
+   "en": "Add licenses",
+   "actions": 2,
+   "example_actions": [
+    "account.invite_user",
+    "account.purchase_licenses"
+   ]
+  },
+  {
+   "pt": "Administrar listas",
+   "en": "Manage lists",
+   "actions": 2,
+   "example_actions": [
+    "contacts.add_contact_to_list",
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Aniversário",
+   "en": "Birthday",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_birthday"
+   ]
+  },
+  {
+   "pt": "Atualizar atributo de empresa",
+   "en": "Update company attribute",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_update_company_attribute"
+   ]
+  },
+  {
+   "pt": "Atualizar atributo de oportunidades",
+   "en": "Update deal attribute",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_update_deal_attribute"
+   ]
+  },
+  {
+   "pt": "Automação",
+   "en": "Automation",
+   "actions": 4,
+   "example_actions": [
+    "automations.add_action_start_other_automation",
+    "automations.create_automation",
+    "automations.list_automation_messages"
+   ]
+  },
+  {
+   "pt": "Chamar um webhook",
+   "en": "Call a webhook",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_call_webhook"
+   ]
+  },
+  {
+   "pt": "Chaves API e MCP",
+   "en": "API & MCP keys",
+   "actions": 2,
+   "example_actions": [
+    "account.create_api_key",
+    "account.list_api_keys"
+   ]
+  },
+  {
+   "pt": "Colocar contato em lista bloqueada",
+   "en": "Put contact on blocklist",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Contato adicionado manualmente",
+   "en": "Contact added manually",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_contact_added_manually"
+   ]
+  },
+  {
+   "pt": "Contato removido da lista",
+   "en": "Contact removed from list",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_contact_removed_from_list"
+   ]
+  },
+  {
+   "pt": "Conteúdo da mensagem",
+   "en": "Message content",
+   "actions": 2,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign",
+    "sms_whatsapp.schedule_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Criar oportunidade",
+   "en": "Create deal",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_create_deal"
+   ]
+  },
+  {
+   "pt": "Criar uma tarefa",
+   "en": "Create a task",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_create_task"
+   ]
+  },
+  {
+   "pt": "Dividir em listas",
+   "en": "Split into lists",
+   "actions": 2,
+   "example_actions": [
+    "contacts.create_lists_from_segment",
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "Divisão condicional",
+   "en": "Conditional split",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_conditional_split"
+   ]
+  },
+  {
+   "pt": "Divisão percentual",
+   "en": "Percentage split",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_percentage_split"
+   ]
+  },
+  {
+   "pt": "Duplicar oportunidade",
+   "en": "Duplicate deal",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_duplicate_deal"
+   ]
+  },
+  {
+   "pt": "Editar",
+   "en": "Edit",
+   "actions": 5,
+   "example_actions": [
+    "account.list_senders",
+    "automations.update_automation_description",
+    "content.update_email_template_content"
+   ]
+  },
+  {
+   "pt": "Enviar e-mail de teste",
+   "en": "Send test e-mail",
+   "actions": 2,
+   "example_actions": [
+    "content.preview_email_template",
+    "transactional.send_test_template"
+   ]
+  },
+  {
+   "pt": "Enviar um SMS",
+   "en": "Send an SMS",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_send_sms",
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Enviar uma mensagem de WhatsApp",
+   "en": "Send a WhatsApp message",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_whatsapp_message"
+   ]
+  },
+  {
+   "pt": "Espere até que um evento aconteça",
+   "en": "Wait until an event happens",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_wait_for_event"
+   ]
+  },
+  {
+   "pt": "Excluir definitivamente",
+   "en": "Delete permanently",
+   "actions": 3,
+   "example_actions": [
+    "contacts.delete_contact",
+    "contacts.export_contacts",
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Excluir um contato",
+   "en": "Delete a contact",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_delete_contact"
+   ]
+  },
+  {
+   "pt": "Formulário enviado",
+   "en": "Form submitted",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_form_submitted"
+   ]
+  },
+  {
+   "pt": "Iniciar outra automação",
+   "en": "Start another automation",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_start_other_automation"
+   ]
+  },
+  {
+   "pt": "Lista bloqueada",
+   "en": "Blocklist",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contacts_blocklist"
+   ]
+  },
+  {
+   "pt": "Modelo push",
+   "en": "Push template",
+   "actions": 1,
+   "example_actions": [
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Mover segmento",
+   "en": "Move segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.move_segment"
+   ]
+  },
+  {
+   "pt": "Nome da lista",
+   "en": "List name",
+   "actions": 3,
+   "example_actions": [
+    "contacts.create_list",
+    "contacts.duplicate_list",
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "O contato atende a filtros personalizados",
+   "en": "Contact meets custom filters",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_contact_matches_filters"
+   ]
+  },
+  {
+   "pt": "Pontuações",
+   "en": "Scores",
+   "actions": 2,
+   "example_actions": [
+    "contacts.configure_lead_scoring",
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Pop-up",
+   "en": "Pop-up",
+   "actions": 2,
+   "example_actions": [
+    "content.create_subscription_form",
+    "push_popups.create_popup_campaign"
+   ]
+  },
+  {
+   "pt": "Pré-visualizar e testar",
+   "en": "Preview and test",
+   "actions": 3,
+   "example_actions": [
+    "content.preview_email_template",
+    "transactional.get_template_preview",
+    "transactional.send_test_template"
+   ]
+  },
+  {
+   "pt": "Página da web visitada",
+   "en": "Web page visited",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_web_page_visited"
+   ]
+  },
+  {
+   "pt": "Redirecionar contato para outra etapa",
+   "en": "Redirect contact to another step",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_redirect_contact"
+   ]
+  },
+  {
+   "pt": "Remover contato de uma lista",
+   "en": "Remove a contact from a list",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_remove_contact_from_list"
+   ]
+  },
+  {
+   "pt": "Reunião agendada",
+   "en": "Meeting scheduled",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_meeting_scheduled"
+   ]
+  },
+  {
+   "pt": "Reunião cancelada",
+   "en": "Meeting canceled",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_meeting_canceled"
+   ]
+  },
+  {
+   "pt": "Reunião iniciada",
+   "en": "Meeting started",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_meeting_started"
+   ]
+  },
+  {
+   "pt": "Salvar e ativar",
+   "en": "Save and activate",
+   "actions": 3,
+   "example_actions": [
+    "content.activate_email_template",
+    "content.create_email_template",
+    "transactional.update_template"
+   ]
+  },
+  {
+   "pt": "Última edição",
+   "en": "Last edited",
+   "actions": 5,
+   "example_actions": [
+    "automations.update_automation_description",
+    "contacts.list_segments",
+    "contacts.recalculate_segment"
+   ]
+  },
+  {
+   "pt": "+ Adicionar objeto",
+   "en": "+ Add object",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Adicionar a uma(s) lista(s)",
+   "en": "Add to one or more lists",
+   "actions": 2,
+   "example_actions": [
+    "contacts.add_contact_to_list",
+    "contacts.update_contacts_blocklist"
+   ]
+  },
+  {
+   "pt": "Adicionar contatos",
+   "en": "Add contacts",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact"
+   ]
+  },
+  {
+   "pt": "Adicionar conteúdo > Código HTML personalizado",
+   "en": "Add content > Custom HTML code",
+   "actions": 2,
+   "example_actions": [
+    "content.update_email_template_content",
+    "transactional.update_template"
+   ]
+  },
+  {
+   "pt": "Adicionar dados JSON transacionais",
+   "en": "Add transactional JSON data",
+   "actions": 2,
+   "example_actions": [
+    "content.preview_email_template",
+    "transactional.get_template_preview"
+   ]
+  },
+  {
+   "pt": "Adicionar objeto",
+   "en": "Add object",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_call_webhook",
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Adicionar pacote",
+   "en": "Add package",
+   "actions": 1,
+   "example_actions": [
+    "phone.purchase_package"
+   ]
+  },
+  {
+   "pt": "Adicionar usuários",
+   "en": "Add users",
+   "actions": 1,
+   "example_actions": [
+    "account.invite_user"
+   ]
+  },
+  {
+   "pt": "Adicionar webhook",
+   "en": "Add webhook",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Adicionar à pasta",
+   "en": "Add to folder",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.add_campaign_to_folder"
+   ]
+  },
+  {
+   "pt": "Adicione um design ao seu modelo antes de ativá-lo.",
+   "en": "Add a design to your template before activating it.",
+   "actions": 1,
+   "example_actions": [
+    "content.activate_email_template"
+   ]
+  },
+  {
+   "pt": "As inscrições do contato foram atualizadas.",
+   "en": "The contact's subscriptions were updated.",
+   "actions": 2,
+   "example_actions": [
+    "contacts.update_contact",
+    "contacts.update_contact_subscription"
+   ]
+  },
+  {
+   "pt": "Ativar",
+   "en": "Activate",
+   "actions": 6,
+   "example_actions": [
+    "account.configure_authorized_ips",
+    "account.configure_utm_tracking",
+    "automations.activate_automation"
+   ]
+  },
+  {
+   "pt": "Ativar rastreamento UTM",
+   "en": "Activate UTM tracking",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_utm_tracking"
+   ]
+  },
+  {
+   "pt": "Ativar webhook",
+   "en": "Activate webhook",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Atualizar dados",
+   "en": "Update data",
+   "actions": 1,
+   "example_actions": [
+    "contacts.recalculate_segment"
+   ]
+  },
+  {
+   "pt": "Atualizar seu plano",
+   "en": "Upgrade your plan",
+   "actions": 2,
+   "example_actions": [
+    "analytics.list_conversions",
+    "landing_pages.create_landing_page"
+   ]
+  },
+  {
+   "pt": "Atualizar valor de atributo / Excluir valor de atributo",
+   "en": "Update attribute value / Delete attribute value",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_update_contact_attribute"
+   ]
+  },
+  {
+   "pt": "Automação #<n>",
+   "en": "Automation #<n>",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation"
+   ]
+  },
+  {
+   "pt": "Automação renomeada",
+   "en": "Automation renamed",
+   "actions": 1,
+   "example_actions": [
+    "automations.rename_automation"
+   ]
+  },
+  {
+   "pt": "Buscar modelos",
+   "en": "Search templates",
+   "actions": 2,
+   "example_actions": [
+    "content.list_email_templates",
+    "transactional.list_templates"
+   ]
+  },
+  {
+   "pt": "Cadência de envio",
+   "en": "Sending cadence",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_sending_cadence"
+   ]
+  },
+  {
+   "pt": "Campanhas",
+   "en": "Campaigns",
+   "actions": 27,
+   "example_actions": [
+    "account.purchase_dedicated_ip",
+    "contacts.get_contact",
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Campanhas e automações",
+   "en": "Campaigns and automations",
+   "actions": 2,
+   "example_actions": [
+    "contacts.update_contact",
+    "contacts.update_contact_subscription"
+   ]
+  },
+  {
+   "pt": "Cenários do chatbot",
+   "en": "Chatbot scenarios",
+   "actions": 1,
+   "example_actions": [
+    "conversations.create_chatbot_scenario"
+   ]
+  },
+  {
+   "pt": "Chatbot e automação",
+   "en": "Chatbot and automation",
+   "actions": 6,
+   "example_actions": [
+    "conversations.configure_ai_chatbot",
+    "conversations.configure_assignment_rules",
+    "conversations.configure_chat_widget"
+   ]
+  },
+  {
+   "pt": "Colocar contato em lista bloqueada para",
+   "en": "Put contact on blocklist for",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Comece com o Brevo Reuniões",
+   "en": "Start with Brevo Meetings",
+   "actions": 1,
+   "example_actions": [
+    "meetings.activate_meetings"
+   ]
+  },
+  {
+   "pt": "Começar grátis",
+   "en": "Start free",
+   "actions": 1,
+   "example_actions": [
+    "crm.activate_sales_crm"
+   ]
+  },
+  {
+   "pt": "Compartilhar modelo",
+   "en": "Share template",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.get_shared_url"
+   ]
+  },
+  {
+   "pt": "Configurar SMS",
+   "en": "Set up SMS",
+   "actions": 2,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign",
+    "sms_whatsapp.schedule_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Configurar quando enviar o SMS",
+   "en": "Set when to send the SMS",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_sms"
+   ]
+  },
+  {
+   "pt": "Configurar seu domínio",
+   "en": "Set up your domain",
+   "actions": 2,
+   "example_actions": [
+    "account.create_domain",
+    "account.list_domains"
+   ]
+  },
+  {
+   "pt": "Configurações das listas",
+   "en": "List settings",
+   "actions": 2,
+   "example_actions": [
+    "contacts.configure_list_settings",
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Configurações padrão",
+   "en": "Default settings",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_default_settings"
+   ]
+  },
+  {
+   "pt": "Consentimento de rastreamento por pixel por contato",
+   "en": "Per-contact pixel tracking consent",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_pixel_consent"
+   ]
+  },
+  {
+   "pt": "Contato",
+   "en": "Contact",
+   "actions": 49,
+   "example_actions": [
+    "automations.add_action_add_contact_to_list",
+    "automations.add_action_assign_contact_user",
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Contatos no cenário",
+   "en": "Contacts in the scenario",
+   "actions": 2,
+   "example_actions": [
+    "automations.list_automation_logs",
+    "contacts.add_contacts_to_automation"
+   ]
+  },
+  {
+   "pt": "Contatos não engajados",
+   "en": "Unengaged contacts",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_unengaged_contacts"
+   ]
+  },
+  {
+   "pt": "Conteúdo de notificação",
+   "en": "Notification content",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_notify_by_email"
+   ]
+  },
+  {
+   "pt": "Criar automação",
+   "en": "Create automation",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation"
+   ]
+  },
+  {
+   "pt": "Criar modelo",
+   "en": "Create template",
+   "actions": 2,
+   "example_actions": [
+    "content.create_email_template",
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Criar um formulário de inscrição",
+   "en": "Create a sign-up form",
+   "actions": 1,
+   "example_actions": [
+    "content.create_subscription_form"
+   ]
+  },
+  {
+   "pt": "Criar um segmento",
+   "en": "Create a segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "Criar uma campanha",
+   "en": "Create a campaign",
+   "actions": 2,
+   "example_actions": [
+    "automations.generate_automation_from_prompt",
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Criar uma lista",
+   "en": "Create a list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_list"
+   ]
+  },
+  {
+   "pt": "Desativar",
+   "en": "Deactivate",
+   "actions": 2,
+   "example_actions": [
+    "content.activate_email_template",
+    "content.deactivate_email_template"
+   ]
+  },
+  {
+   "pt": "Descrição",
+   "en": "Description",
+   "actions": 2,
+   "example_actions": [
+    "automations.update_automation_description",
+    "contacts.configure_list_settings"
+   ]
+  },
+  {
+   "pt": "Disponível no módulo Sales Advanced",
+   "en": "Available in the Sales Advanced module",
+   "actions": 2,
+   "example_actions": [
+    "contacts.create_contact_call",
+    "phone.purchase_package"
+   ]
+  },
+  {
+   "pt": "Domínios",
+   "en": "Domains",
+   "actions": 2,
+   "example_actions": [
+    "account.create_domain",
+    "account.list_domains"
+   ]
+  },
+  {
+   "pt": "Duplicar segmento",
+   "en": "Duplicate segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.duplicate_segment"
+   ]
+  },
+  {
+   "pt": "E-mail do remetente",
+   "en": "Sender e-mail",
+   "actions": 3,
+   "example_actions": [
+    "account.create_sender",
+    "content.create_email_template",
+    "transactional.get_template"
+   ]
+  },
+  {
+   "pt": "Equipe",
+   "en": "Team",
+   "actions": 6,
+   "example_actions": [
+    "conversations.configure_ai_chatbot",
+    "conversations.configure_assignment_rules",
+    "conversations.configure_chat_widget"
+   ]
+  },
+  {
+   "pt": "Excluir lista",
+   "en": "Delete list",
+   "actions": 2,
+   "example_actions": [
+    "contacts.delete_list",
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Excluir segmento",
+   "en": "Delete segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.delete_segment"
+   ]
+  },
+  {
+   "pt": "Exportar (arquivo .csv)",
+   "en": "Export (.csv file)",
+   "actions": 2,
+   "example_actions": [
+    "contacts.export_contacts",
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Gerar campanha com IA",
+   "en": "Generate campaign with AI",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.generate_campaign_with_ai"
+   ]
+  },
+  {
+   "pt": "Gerar chave API",
+   "en": "Generate API key",
+   "actions": 1,
+   "example_actions": [
+    "account.create_api_key"
+   ]
+  },
+  {
+   "pt": "Importar contatos",
+   "en": "Import contacts",
+   "actions": 2,
+   "example_actions": [
+    "contacts.import_contacts",
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Importar de um arquivo",
+   "en": "Import from a file",
+   "actions": 1,
+   "example_actions": [
+    "contacts.import_contacts"
+   ]
+  },
+  {
+   "pt": "Incluir detalhes do contato que acionou o evento",
+   "en": "Include details of the contact that triggered the event",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_call_webhook"
+   ]
+  },
+  {
+   "pt": "Lista de teste",
+   "en": "Test list",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_test_list"
+   ]
+  },
+  {
+   "pt": "Lista duplicada",
+   "en": "List duplicated",
+   "actions": 1,
+   "example_actions": [
+    "contacts.duplicate_list"
+   ]
+  },
+  {
+   "pt": "Mais filtros",
+   "en": "More filters",
+   "actions": 2,
+   "example_actions": [
+    "reporting.list_email_events",
+    "reporting.list_sms_events"
+   ]
+  },
+  {
+   "pt": "Modelo de e-mail",
+   "en": "E-mail template",
+   "actions": 2,
+   "example_actions": [
+    "content.create_email_template",
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Nome da chave*",
+   "en": "Key name*",
+   "actions": 1,
+   "example_actions": [
+    "account.create_api_key"
+   ]
+  },
+  {
+   "pt": "Novo modelo",
+   "en": "New template",
+   "actions": 1,
+   "example_actions": [
+    "content.create_email_template"
+   ]
+  },
+  {
+   "pt": "Para pré-visualizar, crie um design.",
+   "en": "To preview, create a design.",
+   "actions": 1,
+   "example_actions": [
+    "content.preview_email_template"
+   ]
+  },
+  {
+   "pt": "Pasta de destino",
+   "en": "Destination folder",
+   "actions": 2,
+   "example_actions": [
+    "contacts.duplicate_list",
+    "contacts.duplicate_segment"
+   ]
+  },
+  {
+   "pt": "Programar",
+   "en": "Schedule",
+   "actions": 2,
+   "example_actions": [
+    "email_campaigns.schedule_campaign",
+    "email_campaigns.send_campaign_now"
+   ]
+  },
+  {
+   "pt": "Pré-visualizar",
+   "en": "Preview",
+   "actions": 3,
+   "example_actions": [
+    "content.preview_email_template",
+    "transactional.get_template_preview",
+    "transactional.send_test_template"
+   ]
+  },
+  {
+   "pt": "Pré-visualização de evento",
+   "en": "Event preview",
+   "actions": 2,
+   "example_actions": [
+    "content.preview_email_template",
+    "transactional.get_template_preview"
+   ]
+  },
+  {
+   "pt": "Pré-visualização do texto",
+   "en": "Preview text",
+   "actions": 3,
+   "example_actions": [
+    "content.create_email_template",
+    "email_campaigns.create_campaign",
+    "transactional.get_template"
+   ]
+  },
+  {
+   "pt": "Páginas de cancelamento de inscrição",
+   "en": "Unsubscribe pages",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_unsubscribe_page"
+   ]
+  },
+  {
+   "pt": "Qual modelo você deseja criar?",
+   "en": "Which template do you want to create?",
+   "actions": 2,
+   "example_actions": [
+    "content.create_email_template",
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Quem você deseja notificar?",
+   "en": "Who do you want to notify?",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_notify_by_email"
+   ]
+  },
+  {
+   "pt": "Ramificação A (rename)",
+   "en": "Branch A (rename)",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_conditional_split"
+   ]
+  },
+  {
+   "pt": "Ramificação A > Adicionar filtro",
+   "en": "Branch A > Add filter",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_conditional_split"
+   ]
+  },
+  {
+   "pt": "Ramificação A Porcentagem",
+   "en": "Branch A percentage",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_percentage_split"
+   ]
+  },
+  {
+   "pt": "Ramificação B Porcentagem",
+   "en": "Branch B percentage",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_percentage_split"
+   ]
+  },
+  {
+   "pt": "Regras de atribuição",
+   "en": "Assignment rules",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_assignment_rules"
+   ]
+  },
+  {
+   "pt": "Regras de retenção",
+   "en": "Retention rules",
+   "actions": 1,
+   "example_actions": [
+    "transactional.configure_retention_rules"
+   ]
+  },
+  {
+   "pt": "Renomear",
+   "en": "Rename",
+   "actions": 3,
+   "example_actions": [
+    "automations.rename_automation",
+    "contacts.rename_segment",
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Renomear lista",
+   "en": "Rename list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Renomear segmento",
+   "en": "Rename segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.rename_segment"
+   ]
+  },
+  {
+   "pt": "Salva hoje às <hora>",
+   "en": "Saved today at <hour>",
+   "actions": 2,
+   "example_actions": [
+    "automations.configure_trigger_contact_added_to_list",
+    "automations.create_automation"
+   ]
+  },
+  {
+   "pt": "Salvar como segmento",
+   "en": "Save as segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "Salvar e Sair",
+   "en": "Save and exit",
+   "actions": 2,
+   "example_actions": [
+    "content.update_email_template_content",
+    "transactional.update_template"
+   ]
+  },
+  {
+   "pt": "Selecionar remetentes",
+   "en": "Select senders",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_blocklist_contact"
+   ]
+  },
+  {
+   "pt": "Sua primeira pasta",
+   "en": "Your first folder",
+   "actions": 2,
+   "example_actions": [
+    "contacts.create_list",
+    "contacts.duplicate_list"
+   ]
+  },
+  {
+   "pt": "Total de contatos",
+   "en": "Total contacts",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Webhook de entrada",
+   "en": "Inbound webhook",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_inbound_webhook"
+   ]
+  },
+  {
+   "pt": "Webhook de saída",
+   "en": "Outbound webhook",
+   "actions": 2,
+   "example_actions": [
+    "integrations.create_inbound_webhook",
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "A lista \"<name>\" foi criada na pasta \"<folder>\"",
+   "en": "The list \"<name>\" was created in the folder \"<folder>\"",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_list"
+   ]
+  },
+  {
+   "pt": "A lista foi atualizada para o contato",
+   "en": "The list was updated for the contact",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Adicionado em N lista",
+   "en": "Added to N list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Adicionar arquivo",
+   "en": "Add file",
+   "actions": 1,
+   "example_actions": [
+    "content.upload_gallery_image"
+   ]
+  },
+  {
+   "pt": "Adicionar condição de saída",
+   "en": "Add exit condition",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Adicionar filtro",
+   "en": "Add filter",
+   "actions": 3,
+   "example_actions": [
+    "automations.add_rule_conditional_split",
+    "contacts.list_contacts",
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Adicionar filtros",
+   "en": "Add filters",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Adicionar mensagem",
+   "en": "Add message",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_email"
+   ]
+  },
+  {
+   "pt": "Adicionar ramificação",
+   "en": "Add branch",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_conditional_split"
+   ]
+  },
+  {
+   "pt": "Adicionar remetente",
+   "en": "Add sender",
+   "actions": 1,
+   "example_actions": [
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "Adicionar um domínio",
+   "en": "Add a domain",
+   "actions": 1,
+   "example_actions": [
+    "account.create_domain"
+   ]
+  },
+  {
+   "pt": "Adicionar à automação",
+   "en": "Add to automation",
+   "actions": 3,
+   "example_actions": [
+    "contacts.add_contacts_to_automation",
+    "contacts.export_contacts",
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Adicionar à lista",
+   "en": "Add to list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Administrar listas / Adicionar a uma(s) lista(s)",
+   "en": "Manage lists / Add to one or more lists",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Anotação",
+   "en": "Note",
+   "actions": 3,
+   "example_actions": [
+    "contacts.get_contact",
+    "contacts.send_contact_email",
+    "crm.create_note"
+   ]
+  },
+  {
+   "pt": "Análise > Analytics studio",
+   "en": "Analysis > Analytics studio",
+   "actions": 1,
+   "example_actions": [
+    "analytics.get_analytics_studio"
+   ]
+  },
+  {
+   "pt": "Análise > Conversões",
+   "en": "Analysis > Conversions",
+   "actions": 1,
+   "example_actions": [
+    "analytics.list_conversions"
+   ]
+  },
+  {
+   "pt": "As estatísticas foram atualizadas.",
+   "en": "The statistics were updated.",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Associar empresa a contatos",
+   "en": "Associate company with contacts",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "Ativar para chaves ...",
+   "en": "Activate for keys ...",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_authorized_ips"
+   ]
+  },
+  {
+   "pt": "Ativar para chaves SMTP",
+   "en": "Activate for SMTP keys",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_authorized_ips"
+   ]
+  },
+  {
+   "pt": "Atraso de tempo",
+   "en": "Time delay",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_delay"
+   ]
+  },
+  {
+   "pt": "Atributo atualizado",
+   "en": "Attribute updated",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Atributos de contato",
+   "en": "Contact attributes",
+   "actions": 3,
+   "example_actions": [
+    "contacts.create_attribute",
+    "contacts.create_segment",
+    "contacts.list_attributes"
+   ]
+  },
+  {
+   "pt": "Atributos de contato > Criar um atributo",
+   "en": "Contact attributes > Create an attribute",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_attribute"
+   ]
+  },
+  {
+   "pt": "Atualização de perfil",
+   "en": "Profile update",
+   "actions": 1,
+   "example_actions": [
+    "content.list_forms"
+   ]
+  },
+  {
+   "pt": "Aumentar tráfego",
+   "en": "Increase traffic",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation_from_prebuilt"
+   ]
+  },
+  {
+   "pt": "Autenticação em dois fatores",
+   "en": "Two-factor authentication",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_two_factor"
+   ]
+  },
+  {
+   "pt": "Automação #1",
+   "en": "Automation #1",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation"
+   ]
+  },
+  {
+   "pt": "Automações > Ações > Atribuir uma tag",
+   "en": "Automations > Actions > Assign a tag",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_automation_tag"
+   ]
+  },
+  {
+   "pt": "Automações > Cenários",
+   "en": "Automations > Scenarios",
+   "actions": 5,
+   "example_actions": [
+    "automations.delete_automation",
+    "automations.duplicate_automation",
+    "automations.list_automations"
+   ]
+  },
+  {
+   "pt": "Automações > Mensagens",
+   "en": "Automations > Messages",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_messages"
+   ]
+  },
+  {
+   "pt": "Baixar CSV",
+   "en": "Download CSV",
+   "actions": 1,
+   "example_actions": [
+    "reporting.list_email_events"
+   ]
+  },
+  {
+   "pt": "Biblioteca > Multimídia",
+   "en": "Library > Media",
+   "actions": 1,
+   "example_actions": [
+    "content.upload_gallery_image"
+   ]
+  },
+  {
+   "pt": "Buscar contatos",
+   "en": "Search contacts",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_logs"
+   ]
+  },
+  {
+   "pt": "CRM > Contatos",
+   "en": "CRM > Contacts",
+   "actions": 23,
+   "example_actions": [
+    "contacts.add_contact_to_list",
+    "contacts.configure_apple_mpp_filter",
+    "contacts.configure_contact_columns"
+   ]
+  },
+  {
+   "pt": "CRM > Empresas > Criar empresa",
+   "en": "CRM > Companies > Create company",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "CRM > Listas (coluna Pasta)",
+   "en": "CRM > Lists (Folder column)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_folders"
+   ]
+  },
+  {
+   "pt": "Campanha \"<name>\" duplicada.",
+   "en": "Campaign \"<name>\" duplicated.",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.duplicate_campaign"
+   ]
+  },
+  {
+   "pt": "Campanhas > Ações > Adicionar à pasta",
+   "en": "Campaigns > Actions > Add to folder",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.add_campaign_to_folder"
+   ]
+  },
+  {
+   "pt": "Campanhas > Ações > Atribuir etiqueta",
+   "en": "Campaigns > Actions > Assign a label",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.add_campaign_tag"
+   ]
+  },
+  {
+   "pt": "Campanhas > Configurações padrão",
+   "en": "Campaigns > Default settings",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_default_settings"
+   ]
+  },
+  {
+   "pt": "Campanhas > Criar pasta",
+   "en": "Campaigns > Create folder",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.create_campaign_folder"
+   ]
+  },
+  {
+   "pt": "Campanhas > E-mail",
+   "en": "Campaigns > E-mail",
+   "actions": 2,
+   "example_actions": [
+    "email_campaigns.create_ab_test_campaign",
+    "email_campaigns.create_campaign"
+   ]
+  },
+  {
+   "pt": "Campanhas > E-mail > Teste A/B",
+   "en": "Campaigns > E-mail > A/B test",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.create_ab_test_campaign"
+   ]
+  },
+  {
+   "pt": "Campanhas > Gerar campanha com IA",
+   "en": "Campaigns > Generate campaign with AI",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.generate_campaign_with_ai"
+   ]
+  },
+  {
+   "pt": "Campanhas > Google Analytics",
+   "en": "Campaigns > Google Analytics",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_google_analytics"
+   ]
+  },
+  {
+   "pt": "Campanhas > ID do remetente SMS",
+   "en": "Campaigns > SMS sender ID",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_sender_id"
+   ]
+  },
+  {
+   "pt": "Campanhas > Lista de teste",
+   "en": "Campaigns > Test list",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_test_list"
+   ]
+  },
+  {
+   "pt": "Campanhas > Push",
+   "en": "Campaigns > Push",
+   "actions": 1,
+   "example_actions": [
+    "push_popups.configure_push_settings"
+   ]
+  },
+  {
+   "pt": "Campanhas > Páginas de cancelamento de inscrição",
+   "en": "Campaigns > Unsubscribe pages",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.configure_unsubscribe_page"
+   ]
+  },
+  {
+   "pt": "Campanhas > SMS",
+   "en": "Campaigns > SMS",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Campanhas > WhatsApp",
+   "en": "Campaigns > WhatsApp",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.connect_whatsapp_account"
+   ]
+  },
+  {
+   "pt": "Campanhas de SMS",
+   "en": "SMS campaigns",
+   "actions": 1,
+   "example_actions": [
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Campanhas de e-mail",
+   "en": "E-mail campaigns",
+   "actions": 1,
+   "example_actions": [
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Cancelamento da assinatura de e-mails",
+   "en": "E-mail unsubscribe",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_email_unsubscribed"
+   ]
+  },
+  {
+   "pt": "Carregar uma lista ou um segmento",
+   "en": "Upload a list or a segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_contacts"
+   ]
+  },
+  {
+   "pt": "Centro de entregabilidade",
+   "en": "Deliverability center",
+   "actions": 2,
+   "example_actions": [
+    "account.get_deliverability_status",
+    "automations.activate_automation"
+   ]
+  },
+  {
+   "pt": "Chamada encerrada",
+   "en": "Call ended",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_call_ended"
+   ]
+  },
+  {
+   "pt": "Condições de reinicialização",
+   "en": "Restart conditions",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Condições de saída",
+   "en": "Exit conditions",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Conecte sua loja à Brevo",
+   "en": "Connect your store to Brevo",
+   "actions": 1,
+   "example_actions": [
+    "ecommerce.install_plugin"
+   ]
+  },
+  {
+   "pt": "Configurar tempo de espera",
+   "en": "Set wait time",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Configurações",
+   "en": "Settings",
+   "actions": 36,
+   "example_actions": [
+    "account.configure_aura_agents",
+    "account.configure_utm_tracking",
+    "account.connect_individual_email"
+   ]
+  },
+  {
+   "pt": "Configurações > CRM > Contatos > Atributos de contato",
+   "en": "Settings > CRM > Contacts > Contact attributes",
+   "actions": 2,
+   "example_actions": [
+    "contacts.create_attribute",
+    "contacts.list_attributes"
+   ]
+  },
+  {
+   "pt": "Configurações > Campanhas > Obter um IP dedicado",
+   "en": "Settings > Campaigns > Get a dedicated IP",
+   "actions": 1,
+   "example_actions": [
+    "account.purchase_dedicated_ip"
+   ]
+  },
+  {
+   "pt": "Configurações > Centro de controle da Aura IA",
+   "en": "Settings > Aura AI control center",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_aura_agents"
+   ]
+  },
+  {
+   "pt": "Configurações > Contatos > Pontuações",
+   "en": "Settings > Contacts > Scores",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_lead_scoring"
+   ]
+  },
+  {
+   "pt": "Configurações > E-mail individual",
+   "en": "Settings > Individual e-mail",
+   "actions": 1,
+   "example_actions": [
+    "account.connect_individual_email"
+   ]
+  },
+  {
+   "pt": "Configurações > Feeds de dados",
+   "en": "Settings > Data feeds",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_data_feed"
+   ]
+  },
+  {
+   "pt": "Configurações > Geral",
+   "en": "Settings > General",
+   "actions": 1,
+   "example_actions": [
+    "account.update_general_settings"
+   ]
+  },
+  {
+   "pt": "Configurações > Idioma",
+   "en": "Settings > Language",
+   "actions": 1,
+   "example_actions": [
+    "account.update_language_settings"
+   ]
+  },
+  {
+   "pt": "Configurações > Parâmetros de UTM",
+   "en": "Settings > UTM parameters",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_utm_tracking"
+   ]
+  },
+  {
+   "pt": "Configurações > Usuários",
+   "en": "Settings > Users",
+   "actions": 4,
+   "example_actions": [
+    "account.invite_user",
+    "account.list_activity_logs",
+    "account.list_users"
+   ]
+  },
+  {
+   "pt": "Configurações > Usuários > Adicionar usuários",
+   "en": "Settings > Users > Add users",
+   "actions": 1,
+   "example_actions": [
+    "account.invite_user"
+   ]
+  },
+  {
+   "pt": "Configurações > Usuários > Logs de atividades",
+   "en": "Settings > Users > Activity logs",
+   "actions": 1,
+   "example_actions": [
+    "account.list_activity_logs"
+   ]
+  },
+  {
+   "pt": "Configurações adicionais",
+   "en": "Additional settings",
+   "actions": 3,
+   "example_actions": [
+    "automations.add_action_assign_contact_user",
+    "email_campaigns.create_campaign",
+    "email_campaigns.duplicate_campaign"
+   ]
+  },
+  {
+   "pt": "Consentimento de rastreamento por pixel",
+   "en": "Pixel tracking consent",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_pixel_consent"
+   ]
+  },
+  {
+   "pt": "Contato > Anotação",
+   "en": "Contact > Note",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_note"
+   ]
+  },
+  {
+   "pt": "Contato > E-mail",
+   "en": "Contact > E-mail",
+   "actions": 1,
+   "example_actions": [
+    "contacts.send_contact_email"
+   ]
+  },
+  {
+   "pt": "Contato > Ligar",
+   "en": "Contact > Call",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact_call"
+   ]
+  },
+  {
+   "pt": "Contato > Mais > Oportunidade / CRM > Oportunidades",
+   "en": "Contact > More > Deal / CRM > Deals",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_deal"
+   ]
+  },
+  {
+   "pt": "Contato > SMS",
+   "en": "Contact > SMS",
+   "actions": 1,
+   "example_actions": [
+    "contacts.send_contact_sms"
+   ]
+  },
+  {
+   "pt": "Contato > Tarefa / CRM > Tarefas",
+   "en": "Contact > Task / CRM > Tasks",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_task"
+   ]
+  },
+  {
+   "pt": "Contatos > +",
+   "en": "Contacts > +",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_saved_view"
+   ]
+  },
+  {
+   "pt": "Contatos > Lista bloqueada",
+   "en": "Contacts > Blocklist",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contacts_blocklist"
+   ]
+  },
+  {
+   "pt": "Contatos > Mais ações > Adicionar à automação",
+   "en": "Contacts > More actions > Add to automation",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contacts_to_automation"
+   ]
+  },
+  {
+   "pt": "Contatos > Mais ações > Atribuir",
+   "en": "Contacts > More actions > Assign",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contact_owner"
+   ]
+  },
+  {
+   "pt": "Contatos > Mais ações > Copie o número de SMS para o WhatsApp",
+   "en": "Contacts > More actions > Copy the SMS number to WhatsApp",
+   "actions": 1,
+   "example_actions": [
+    "contacts.copy_sms_number_to_whatsapp"
+   ]
+  },
+  {
+   "pt": "Contatos > Mais ações > Modificar",
+   "en": "Contacts > More actions > Modify",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_selected_contacts"
+   ]
+  },
+  {
+   "pt": "Contatos > Personalizar colunas",
+   "en": "Contacts > Customize columns",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_contact_columns"
+   ]
+  },
+  {
+   "pt": "Conversas > Caixa de entrada",
+   "en": "Conversations > Inbox",
+   "actions": 8,
+   "example_actions": [
+    "conversations.configure_ai_chatbot",
+    "conversations.configure_assignment_rules",
+    "conversations.configure_chat_widget"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Canais",
+   "en": "Conversations > Settings > Channels",
+   "actions": 1,
+   "example_actions": [
+    "conversations.connect_inbox_channel"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Cenários do chatbot",
+   "en": "Conversations > Settings > Chatbot scenarios",
+   "actions": 1,
+   "example_actions": [
+    "conversations.create_chatbot_scenario"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Chat widget",
+   "en": "Conversations > Settings > Chat widget",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_chat_widget"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Chatbot de IA",
+   "en": "Conversations > Settings > AI chatbot",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_ai_chatbot"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Equipe > Grupos",
+   "en": "Conversations > Settings > Team > Groups",
+   "actions": 1,
+   "example_actions": [
+    "conversations.create_agent_group"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Equipe > Regras de atribuição",
+   "en": "Conversations > Settings > Team > Assignment rules",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_assignment_rules"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Pessoal > Notificações",
+   "en": "Conversations > Settings > Personal > Notifications",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_conversation_notifications"
+   ]
+  },
+  {
+   "pt": "Conversas > Configurações > Respostas salvas",
+   "en": "Conversations > Settings > Saved replies",
+   "actions": 1,
+   "example_actions": [
+    "conversations.create_saved_reply"
+   ]
+  },
+  {
+   "pt": "Copiar e colar",
+   "en": "Copy and paste",
+   "actions": 1,
+   "example_actions": [
+    "contacts.import_contacts"
+   ]
+  },
+  {
+   "pt": "Copie o número de SMS para o WhatsApp",
+   "en": "Copy the SMS number to WhatsApp",
+   "actions": 2,
+   "example_actions": [
+    "contacts.copy_sms_number_to_whatsapp",
+    "contacts.export_contacts"
+   ]
+  },
+  {
+   "pt": "Criar ...",
+   "en": "Create ...",
+   "actions": 1,
+   "example_actions": [
+    "content.list_forms"
+   ]
+  },
+  {
+   "pt": "Criar campanha > Automatizada > Comece com uma frase",
+   "en": "Create campaign > Automated > Start with a sentence",
+   "actions": 1,
+   "example_actions": [
+    "automations.generate_automation_from_prompt"
+   ]
+  },
+  {
+   "pt": "Criar campanha > Automatizada > Tipo de automação pré-construído",
+   "en": "Create campaign > Automated > Pre-built automation type",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation_from_prebuilt"
+   ]
+  },
+  {
+   "pt": "Criar campanha > Pop-up",
+   "en": "Create campaign > Pop-up",
+   "actions": 1,
+   "example_actions": [
+    "push_popups.create_popup_campaign"
+   ]
+  },
+  {
+   "pt": "Criar campanha > Push",
+   "en": "Create campaign > Push",
+   "actions": 1,
+   "example_actions": [
+    "push_popups.create_push_campaign"
+   ]
+  },
+  {
+   "pt": "Criar campanha > WhatsApp",
+   "en": "Create campaign > WhatsApp",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_whatsapp_campaign"
+   ]
+  },
+  {
+   "pt": "Criar empresa",
+   "en": "Create company",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "Criar formulário",
+   "en": "Create form",
+   "actions": 1,
+   "example_actions": [
+    "content.create_subscription_form"
+   ]
+  },
+  {
+   "pt": "Criar landing pages que convertem",
+   "en": "Create landing pages that convert",
+   "actions": 1,
+   "example_actions": [
+    "landing_pages.create_landing_page"
+   ]
+  },
+  {
+   "pt": "Criar lista",
+   "en": "Create list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_list"
+   ]
+  },
+  {
+   "pt": "Criar modelo > Modelo de e-mail",
+   "en": "Create template > E-mail template",
+   "actions": 1,
+   "example_actions": [
+    "content.create_email_template"
+   ]
+  },
+  {
+   "pt": "Criar nova mensagem",
+   "en": "Create new message",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_email"
+   ]
+  },
+  {
+   "pt": "Criar segmento",
+   "en": "Create segment",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "Criar um e-mail",
+   "en": "Create an e-mail",
+   "actions": 1,
+   "example_actions": [
+    "content.update_email_template_content"
+   ]
+  },
+  {
+   "pt": "Criar uma automação que envie uma mensagem pelo <canal> quando <algo acontecer>",
+   "en": "Create an automation that sends a message via <channel> when <something happens>",
+   "actions": 1,
+   "example_actions": [
+    "automations.generate_automation_from_prompt"
+   ]
+  },
+  {
+   "pt": "Criar uma empresa",
+   "en": "Create a company",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "Criar uma nova pasta",
+   "en": "Create a new folder",
+   "actions": 1,
+   "example_actions": [
+    "contacts.move_segment"
+   ]
+  },
+  {
+   "pt": "Criar webhook de saída",
+   "en": "Create outbound webhook",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Criação",
+   "en": "Creation",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.create_campaign"
+   ]
+  },
+  {
+   "pt": "Código HTML personalizado",
+   "en": "Custom HTML code",
+   "actions": 2,
+   "example_actions": [
+    "content.update_email_template_content",
+    "transactional.update_template"
+   ]
+  },
+  {
+   "pt": "Definições da Lista",
+   "en": "List definitions",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_list_settings"
+   ]
+  },
+  {
+   "pt": "Desativar esse modelo?",
+   "en": "Deactivate this template?",
+   "actions": 1,
+   "example_actions": [
+    "content.deactivate_email_template"
+   ]
+  },
+  {
+   "pt": "Desativar modelo",
+   "en": "Deactivate template",
+   "actions": 1,
+   "example_actions": [
+    "content.deactivate_email_template"
+   ]
+  },
+  {
+   "pt": "Destinatário (Para)",
+   "en": "Recipient (To)",
+   "actions": 1,
+   "example_actions": [
+    "reporting.list_email_events"
+   ]
+  },
+  {
+   "pt": "Detalhes da automação",
+   "en": "Automation details",
+   "actions": 1,
+   "example_actions": [
+    "automations.update_automation_description"
+   ]
+  },
+  {
+   "pt": "Digite um nome de lista",
+   "en": "Enter a list name",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_list"
+   ]
+  },
+  {
+   "pt": "Domínio",
+   "en": "Domain",
+   "actions": 3,
+   "example_actions": [
+    "account.create_domain",
+    "account.list_domains",
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "Domínios > Adicionar um domínio",
+   "en": "Domains > Add a domain",
+   "actions": 1,
+   "example_actions": [
+    "account.create_domain"
+   ]
+  },
+  {
+   "pt": "Duplicar a lista... Pode levar alguns minutos.",
+   "en": "Duplicating the list... It may take a few minutes.",
+   "actions": 1,
+   "example_actions": [
+    "contacts.duplicate_list"
+   ]
+  },
+  {
+   "pt": "Duplicar campanha",
+   "en": "Duplicate campaign",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.duplicate_campaign"
+   ]
+  },
+  {
+   "pt": "Duplicar campanha?",
+   "en": "Duplicate campaign?",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.duplicate_campaign"
+   ]
+  },
+  {
+   "pt": "E-commerce > Instalar plug-in",
+   "en": "E-commerce > Install plugin",
+   "actions": 1,
+   "example_actions": [
+    "ecommerce.install_plugin"
+   ]
+  },
+  {
+   "pt": "E-mail (endereço)",
+   "en": "E-mail (address)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "E-mail aberto",
+   "en": "E-mail opened",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_email_opened"
+   ]
+  },
+  {
+   "pt": "E-mail do remetente*",
+   "en": "Sender e-mail*",
+   "actions": 1,
+   "example_actions": [
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "E-mails transacionais > Rastreamento",
+   "en": "Transactional e-mails > Tracking",
+   "actions": 1,
+   "example_actions": [
+    "transactional.configure_email_tracking"
+   ]
+  },
+  {
+   "pt": "Editar descrição",
+   "en": "Edit description",
+   "actions": 1,
+   "example_actions": [
+    "automations.update_automation_description"
+   ]
+  },
+  {
+   "pt": "Editor de modelos",
+   "en": "Template editor",
+   "actions": 1,
+   "example_actions": [
+    "transactional.get_template"
+   ]
+  },
+  {
+   "pt": "Endereço IP",
+   "en": "IP address",
+   "actions": 2,
+   "example_actions": [
+    "account.list_senders",
+    "account.purchase_dedicated_ip"
+   ]
+  },
+  {
+   "pt": "Entrada e saída do público",
+   "en": "Audience entry and exit",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Enviar e-mail",
+   "en": "Send e-mail",
+   "actions": 3,
+   "example_actions": [
+    "automations.create_automation",
+    "content.preview_email_template",
+    "transactional.send_test_template"
+   ]
+  },
+  {
+   "pt": "Enviar para",
+   "en": "Send to",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Enviar um SMS de teste",
+   "en": "Send a test SMS",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Envie um e-mail individual a partir de ...",
+   "en": "Send an individual e-mail from ...",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_individual_email"
+   ]
+  },
+  {
+   "pt": "Escolha o período antes da próxima etapa",
+   "en": "Choose the period before the next step",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_delay"
+   ]
+  },
+  {
+   "pt": "Escreva seu próprio",
+   "en": "Write your own",
+   "actions": 1,
+   "example_actions": [
+    "automations.generate_automation_from_prompt"
+   ]
+  },
+  {
+   "pt": "Esperar",
+   "en": "Wait",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_rule_delay"
+   ]
+  },
+  {
+   "pt": "Estatísticas",
+   "en": "Statistics",
+   "actions": 4,
+   "example_actions": [
+    "contacts.export_contacts",
+    "conversations.list_conversations",
+    "email_campaigns.send_campaign_now"
+   ]
+  },
+  {
+   "pt": "Etapa da oportunidade atualizada",
+   "en": "Deal stage updated",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_deal_stage_updated"
+   ]
+  },
+  {
+   "pt": "Evento personalizado",
+   "en": "Custom event",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_custom_event"
+   ]
+  },
+  {
+   "pt": "Exportar",
+   "en": "Export",
+   "actions": 2,
+   "example_actions": [
+    "contacts.export_contacts",
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Faça mais com a Brevo",
+   "en": "Do more with Brevo",
+   "actions": 1,
+   "example_actions": [
+    "analytics.list_conversions"
+   ]
+  },
+  {
+   "pt": "Gerar automação",
+   "en": "Generate automation",
+   "actions": 1,
+   "example_actions": [
+    "automations.generate_automation_from_prompt"
+   ]
+  },
+  {
+   "pt": "Gerar imagem",
+   "en": "Generate image",
+   "actions": 2,
+   "example_actions": [
+    "content.generate_image_with_ai",
+    "content.upload_gallery_image"
+   ]
+  },
+  {
+   "pt": "ID do atributo",
+   "en": "Attribute ID",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_attribute"
+   ]
+  },
+  {
+   "pt": "ID do remetente SMS",
+   "en": "SMS sender ID",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_sender_id"
+   ]
+  },
+  {
+   "pt": "ID do remetente SMS (request a sender ID)",
+   "en": "SMS sender ID (request a sender ID)",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_sender_id"
+   ]
+  },
+  {
+   "pt": "ID do remetente*",
+   "en": "Sender ID*",
+   "actions": 2,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign",
+    "sms_whatsapp.create_sms_sender_id"
+   ]
+  },
+  {
+   "pt": "Importar contatos para criação ou atualização em massa",
+   "en": "Import contacts for bulk creation or update",
+   "actions": 1,
+   "example_actions": [
+    "contacts.import_contacts"
+   ]
+  },
+  {
+   "pt": "Importar de outra ferramenta",
+   "en": "Import from another tool",
+   "actions": 1,
+   "example_actions": [
+    "contacts.import_contacts"
+   ]
+  },
+  {
+   "pt": "Importar seus dados para a Brevo",
+   "en": "Import your data into Brevo",
+   "actions": 1,
+   "example_actions": [
+    "contacts.import_contacts"
+   ]
+  },
+  {
+   "pt": "Importar via URL",
+   "en": "Import via URL",
+   "actions": 1,
+   "example_actions": [
+    "content.upload_gallery_image"
+   ]
+  },
+  {
+   "pt": "Informações",
+   "en": "Information",
+   "actions": 3,
+   "example_actions": [
+    "account.update_profile",
+    "contacts.get_contact",
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Informações / Preferences (página do contato)",
+   "en": "Information / Preferences (contact page)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Informações da Empresa",
+   "en": "Company information",
+   "actions": 1,
+   "example_actions": [
+    "account.update_profile"
+   ]
+  },
+  {
+   "pt": "Informações pessoais",
+   "en": "Personal information",
+   "actions": 1,
+   "example_actions": [
+    "account.update_profile"
+   ]
+  },
+  {
+   "pt": "Inscrição",
+   "en": "Subscription",
+   "actions": 2,
+   "example_actions": [
+    "content.create_subscription_form",
+    "content.list_forms"
+   ]
+  },
+  {
+   "pt": "Insira o endereço de e-mail",
+   "en": "Enter the e-mail address",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact"
+   ]
+  },
+  {
+   "pt": "Integrações",
+   "en": "Integrations",
+   "actions": 3,
+   "example_actions": [
+    "integrations.create_inbound_webhook",
+    "integrations.install_integration",
+    "integrations.list_integrations"
+   ]
+  },
+  {
+   "pt": "Integrações > Todas as integrações",
+   "en": "Integrations > All integrations",
+   "actions": 1,
+   "example_actions": [
+    "integrations.install_integration"
+   ]
+  },
+  {
+   "pt": "Integrações > Webhooks > Webhook de entrada",
+   "en": "Integrations > Webhooks > Inbound webhook",
+   "actions": 1,
+   "example_actions": [
+    "integrations.create_inbound_webhook"
+   ]
+  },
+  {
+   "pt": "LISTAS",
+   "en": "LISTS",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact"
+   ]
+  },
+  {
+   "pt": "Link clicado em um e-mail",
+   "en": "Link clicked in an e-mail",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_email_link_clicked"
+   ]
+  },
+  {
+   "pt": "Lista <name> - #<id>",
+   "en": "List <name> - #<id>",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_contact_added_to_list"
+   ]
+  },
+  {
+   "pt": "Lista renomeada para \"<name>\"",
+   "en": "List renamed to \"<name>\"",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Listas > Recalcular agora",
+   "en": "Lists > Recalculate now",
+   "actions": 1,
+   "example_actions": [
+    "contacts.recalculate_lists"
+   ]
+  },
+  {
+   "pt": "Logs de cenários",
+   "en": "Scenario logs",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_logs"
+   ]
+  },
+  {
+   "pt": "Mais ações > Adicionar à automação",
+   "en": "More actions > Add to automation",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contacts_to_automation"
+   ]
+  },
+  {
+   "pt": "Mais ações > Atribuir",
+   "en": "More actions > Assign",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_contact_owner"
+   ]
+  },
+  {
+   "pt": "Mais ações > Copie o número de SMS para o WhatsApp",
+   "en": "More actions > Copy the SMS number to WhatsApp",
+   "actions": 1,
+   "example_actions": [
+    "contacts.copy_sms_number_to_whatsapp"
+   ]
+  },
+  {
+   "pt": "Mais ações > Exportar",
+   "en": "More actions > Export",
+   "actions": 1,
+   "example_actions": [
+    "contacts.export_contacts"
+   ]
+  },
+  {
+   "pt": "Mais ações > Modificar",
+   "en": "More actions > Modify",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_selected_contacts"
+   ]
+  },
+  {
+   "pt": "Mantenha-se organizado com pastas",
+   "en": "Stay organized with folders",
+   "actions": 1,
+   "example_actions": [
+    "email_campaigns.create_campaign_folder"
+   ]
+  },
+  {
+   "pt": "Manter o modelo ativado",
+   "en": "Keep the template active",
+   "actions": 1,
+   "example_actions": [
+    "content.deactivate_email_template"
+   ]
+  },
+  {
+   "pt": "Marketing > Campanhas",
+   "en": "Marketing > Campaigns",
+   "actions": 13,
+   "example_actions": [
+    "account.purchase_dedicated_ip",
+    "email_campaigns.configure_default_settings",
+    "email_campaigns.create_campaign"
+   ]
+  },
+  {
+   "pt": "Marketing > Estatísticas",
+   "en": "Marketing > Statistics",
+   "actions": 3,
+   "example_actions": [
+    "contacts.export_contacts",
+    "email_campaigns.send_campaign_now",
+    "reporting.get_marketing_statistics"
+   ]
+  },
+  {
+   "pt": "Marketing > Formulários",
+   "en": "Marketing > Forms",
+   "actions": 2,
+   "example_actions": [
+    "content.create_subscription_form",
+    "content.list_forms"
+   ]
+  },
+  {
+   "pt": "Marketing > Landing pages",
+   "en": "Marketing > Landing pages",
+   "actions": 1,
+   "example_actions": [
+    "landing_pages.create_landing_page"
+   ]
+  },
+  {
+   "pt": "Marketing > Modelos",
+   "en": "Marketing > Templates",
+   "actions": 11,
+   "example_actions": [
+    "content.activate_email_template",
+    "content.create_email_template",
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Meu perfil",
+   "en": "My profile",
+   "actions": 1,
+   "example_actions": [
+    "account.update_profile"
+   ]
+  },
+  {
+   "pt": "Minhas integrações",
+   "en": "My integrations",
+   "actions": 1,
+   "example_actions": [
+    "integrations.list_integrations"
+   ]
+  },
+  {
+   "pt": "Modelo do WhatsApp",
+   "en": "WhatsApp template",
+   "actions": 1,
+   "example_actions": [
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Modelo salvo com sucesso!",
+   "en": "Template saved successfully!",
+   "actions": 1,
+   "example_actions": [
+    "content.create_email_template"
+   ]
+  },
+  {
+   "pt": "Modelos > Criar modelo > Modelo push",
+   "en": "Templates > Create template > Push template",
+   "actions": 1,
+   "example_actions": [
+    "content.create_push_template"
+   ]
+  },
+  {
+   "pt": "Modelos > Criar pasta",
+   "en": "Templates > Create folder",
+   "actions": 1,
+   "example_actions": [
+    "content.create_template_folder"
+   ]
+  },
+  {
+   "pt": "Mostrar configuracoes avançadas",
+   "en": "Show advanced settings",
+   "actions": 1,
+   "example_actions": [
+    "transactional.get_template"
+   ]
+  },
+  {
+   "pt": "Mova segmento para outra pasta",
+   "en": "Move segment to another folder",
+   "actions": 1,
+   "example_actions": [
+    "contacts.move_segment"
+   ]
+  },
+  {
+   "pt": "Multimédia > Gerar imagem com IA",
+   "en": "Media > Generate image with AI",
+   "actions": 1,
+   "example_actions": [
+    "content.generate_image_with_ai"
+   ]
+  },
+  {
+   "pt": "Multimédia > Importar por URL",
+   "en": "Media > Import by URL",
+   "actions": 1,
+   "example_actions": [
+    "content.import_image_from_url"
+   ]
+  },
+  {
+   "pt": "Multimédia > Pastas",
+   "en": "Media > Folders",
+   "actions": 1,
+   "example_actions": [
+    "content.create_media_folder"
+   ]
+  },
+  {
+   "pt": "Mídia",
+   "en": "Media",
+   "actions": 1,
+   "example_actions": [
+    "content.upload_gallery_image"
+   ]
+  },
+  {
+   "pt": "Nome da automação",
+   "en": "Automation name",
+   "actions": 1,
+   "example_actions": [
+    "automations.rename_automation"
+   ]
+  },
+  {
+   "pt": "Nome da empresa*",
+   "en": "Company name*",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "Nome do formulário*",
+   "en": "Form name*",
+   "actions": 1,
+   "example_actions": [
+    "content.create_subscription_form"
+   ]
+  },
+  {
+   "pt": "Nome do remetente*",
+   "en": "Sender name*",
+   "actions": 1,
+   "example_actions": [
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "Notificar por e-mail",
+   "en": "Notify by e-mail",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_notify_by_email"
+   ]
+  },
+  {
+   "pt": "Notificações",
+   "en": "Notifications",
+   "actions": 1,
+   "example_actions": [
+    "conversations.configure_conversation_notifications"
+   ]
+  },
+  {
+   "pt": "Novo nome do segmento",
+   "en": "New segment name",
+   "actions": 1,
+   "example_actions": [
+    "contacts.rename_segment"
+   ]
+  },
+  {
+   "pt": "Não",
+   "en": "No",
+   "actions": 4,
+   "example_actions": [
+    "automations.add_rule_wait_for_event",
+    "contacts.create_segment",
+    "conversations.list_conversations"
+   ]
+  },
+  {
+   "pt": "Não enviar para",
+   "en": "Do not send to",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Não enviar para contatos não engajados",
+   "en": "Do not send to unengaged contacts",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Número de telefone",
+   "en": "Phone number",
+   "actions": 1,
+   "example_actions": [
+    "crm.create_company"
+   ]
+  },
+  {
+   "pt": "O contato <email> foi criado.",
+   "en": "The contact <email> was created.",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact"
+   ]
+  },
+  {
+   "pt": "O modelo <name> está duplicado.",
+   "en": "The template <name> is duplicated.",
+   "actions": 1,
+   "example_actions": [
+    "content.duplicate_email_template"
+   ]
+  },
+  {
+   "pt": "Oportunidade criada",
+   "en": "Deal created",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_deal_created"
+   ]
+  },
+  {
+   "pt": "Oportunidades > Começar grátis",
+   "en": "Deals > Start free",
+   "actions": 1,
+   "example_actions": [
+    "crm.activate_sales_crm"
+   ]
+  },
+  {
+   "pt": "Permitir a reentrada de contatos após a saída",
+   "en": "Allow contacts to re-enter after exit",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Período",
+   "en": "Period",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Pesquisar por nome",
+   "en": "Search by name",
+   "actions": 1,
+   "example_actions": [
+    "content.list_forms"
+   ]
+  },
+  {
+   "pt": "Pesquise um nome ou ID de lista",
+   "en": "Search a list name or ID",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_lists"
+   ]
+  },
+  {
+   "pt": "Pesquise um nome ou ID de segmento",
+   "en": "Search a segment name or ID",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_segments"
+   ]
+  },
+  {
+   "pt": "Plano Free",
+   "en": "Free plan",
+   "actions": 1,
+   "example_actions": [
+    "account.get_plan_usage"
+   ]
+  },
+  {
+   "pt": "Pontuação de capacidade de entrega",
+   "en": "Deliverability score",
+   "actions": 1,
+   "example_actions": [
+    "account.get_deliverability_status"
+   ]
+  },
+  {
+   "pt": "Preferences",
+   "en": "Preferences",
+   "actions": 4,
+   "example_actions": [
+    "contacts.get_contact",
+    "contacts.update_contact",
+    "contacts.update_contact_subscription"
+   ]
+  },
+  {
+   "pt": "Preferências de comunicação",
+   "en": "Communication preferences",
+   "actions": 1,
+   "example_actions": [
+    "account.update_profile"
+   ]
+  },
+  {
+   "pt": "Procurar uma automação",
+   "en": "Search for an automation",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automations"
+   ]
+  },
+  {
+   "pt": "Pré-visualizar como destinatario",
+   "en": "Preview as recipient",
+   "actions": 1,
+   "example_actions": [
+    "transactional.get_template_preview"
+   ]
+  },
+  {
+   "pt": "Pré-visualizar como destinatário",
+   "en": "Preview as recipient",
+   "actions": 1,
+   "example_actions": [
+    "content.preview_email_template"
+   ]
+  },
+  {
+   "pt": "Página do contato",
+   "en": "Contact page",
+   "actions": 1,
+   "example_actions": [
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Página inteira/incorporada",
+   "en": "Full page / embedded",
+   "actions": 1,
+   "example_actions": [
+    "content.create_subscription_form"
+   ]
+  },
+  {
+   "pt": "Que tipo de formulário você quer criar?",
+   "en": "What type of form do you want to create?",
+   "actions": 1,
+   "example_actions": [
+    "content.create_subscription_form"
+   ]
+  },
+  {
+   "pt": "Reentrada de contato após a saída",
+   "en": "Contact re-entry after exit",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Registros de acesso / Logs",
+   "en": "Access records / Logs",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_logs"
+   ]
+  },
+  {
+   "pt": "Remetente (De)",
+   "en": "Sender (From)",
+   "actions": 1,
+   "example_actions": [
+    "reporting.list_sms_events"
+   ]
+  },
+  {
+   "pt": "Remetentes > Adicionar remetente",
+   "en": "Senders > Add sender",
+   "actions": 1,
+   "example_actions": [
+    "account.create_sender"
+   ]
+  },
+  {
+   "pt": "Remetentes > Cadência de envio",
+   "en": "Senders > Sending cadence",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_sending_cadence"
+   ]
+  },
+  {
+   "pt": "Remetentes > Domínios",
+   "en": "Senders > Domains",
+   "actions": 1,
+   "example_actions": [
+    "account.list_domains"
+   ]
+  },
+  {
+   "pt": "Remover contatos de outras listas se estiverem nesta lista",
+   "en": "Remove contacts from other lists if they are in this list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_list_settings"
+   ]
+  },
+  {
+   "pt": "Remover contatos desta lista se estiverem em outras listas",
+   "en": "Remove contacts from this list if they are in other lists",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_list_settings"
+   ]
+  },
+  {
+   "pt": "Renomear / Mover (menu de ações da lista)",
+   "en": "Rename / Move (list actions menu)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.update_list"
+   ]
+  },
+  {
+   "pt": "Renomear a automação",
+   "en": "Rename the automation",
+   "actions": 1,
+   "example_actions": [
+    "automations.rename_automation"
+   ]
+  },
+  {
+   "pt": "Resposta do WhatsApp recebida",
+   "en": "WhatsApp reply received",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_whatsapp_reply_received"
+   ]
+  },
+  {
+   "pt": "Reuniões > Comece com o Brevo Reuniões",
+   "en": "Meetings > Start with Brevo Meetings",
+   "actions": 1,
+   "example_actions": [
+    "meetings.activate_meetings"
+   ]
+  },
+  {
+   "pt": "Salvar alterações",
+   "en": "Save changes",
+   "actions": 1,
+   "example_actions": [
+    "contacts.add_contact_to_list"
+   ]
+  },
+  {
+   "pt": "Salvar as preferências",
+   "en": "Save preferences",
+   "actions": 1,
+   "example_actions": [
+    "account.update_language_settings"
+   ]
+  },
+  {
+   "pt": "Salvar condições",
+   "en": "Save conditions",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_reentry_and_exit"
+   ]
+  },
+  {
+   "pt": "Segmento \"<name>\" duplicado",
+   "en": "Segment \"<name>\" duplicated",
+   "actions": 1,
+   "example_actions": [
+    "contacts.duplicate_segment"
+   ]
+  },
+  {
+   "pt": "Segmento renomeado para \"<name>\"",
+   "en": "Segment renamed to \"<name>\"",
+   "actions": 1,
+   "example_actions": [
+    "contacts.rename_segment"
+   ]
+  },
+  {
+   "pt": "Segmentos",
+   "en": "Segments",
+   "actions": 4,
+   "example_actions": [
+    "contacts.create_lists_from_segment",
+    "contacts.create_segment",
+    "contacts.list_segments"
+   ]
+  },
+  {
+   "pt": "Segmentos > Ações > Dividir em listas",
+   "en": "Segments > Actions > Split into lists",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_lists_from_segment"
+   ]
+  },
+  {
+   "pt": "Segmentos salvos com sucesso!",
+   "en": "Segments saved successfully!",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_segment"
+   ]
+  },
+  {
+   "pt": "Segurança > Autenticação em dois fatores",
+   "en": "Security > Two-factor authentication",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_two_factor"
+   ]
+  },
+  {
+   "pt": "Segurança > IPs autorizados",
+   "en": "Security > Authorized IPs",
+   "actions": 1,
+   "example_actions": [
+    "account.configure_authorized_ips"
+   ]
+  },
+  {
+   "pt": "Seja o que seus contatos veem primeiro",
+   "en": "Be what your contacts see first",
+   "actions": 1,
+   "example_actions": [
+    "push_popups.create_push_campaign"
+   ]
+  },
+  {
+   "pt": "Sem autenticação",
+   "en": "No authentication",
+   "actions": 2,
+   "example_actions": [
+    "automations.add_action_call_webhook",
+    "integrations.create_webhook"
+   ]
+  },
+  {
+   "pt": "Seu modelo foi ativado.",
+   "en": "Your template was activated.",
+   "actions": 1,
+   "example_actions": [
+    "content.activate_email_template"
+   ]
+  },
+  {
+   "pt": "Seu modelo foi desativado.",
+   "en": "Your template was deactivated.",
+   "actions": 1,
+   "example_actions": [
+    "content.deactivate_email_template"
+   ]
+  },
+  {
+   "pt": "Seus modelos",
+   "en": "Your templates",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_send_email"
+   ]
+  },
+  {
+   "pt": "Status da automação",
+   "en": "Automation status",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_messages"
+   ]
+  },
+  {
+   "pt": "Sua primeira lista",
+   "en": "Your first list",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_lists"
+   ]
+  },
+  {
+   "pt": "Suas mensagens de automação, em um só lugar",
+   "en": "Your automation messages, in one place",
+   "actions": 1,
+   "example_actions": [
+    "automations.list_automation_messages"
+   ]
+  },
+  {
+   "pt": "Tarefa",
+   "en": "Task",
+   "actions": 7,
+   "example_actions": [
+    "automations.configure_trigger_task_completed",
+    "automations.configure_trigger_task_created",
+    "contacts.get_contact"
+   ]
+  },
+  {
+   "pt": "Telefone > Adicionar pacote",
+   "en": "Phone > Add package",
+   "actions": 1,
+   "example_actions": [
+    "phone.purchase_package"
+   ]
+  },
+  {
+   "pt": "Testar",
+   "en": "Test",
+   "actions": 2,
+   "example_actions": [
+    "automations.create_automation",
+    "automations.test_automation"
+   ]
+  },
+  {
+   "pt": "Tipo de automação pré-construído",
+   "en": "Pre-built automation type",
+   "actions": 1,
+   "example_actions": [
+    "automations.create_automation_from_prebuilt"
+   ]
+  },
+  {
+   "pt": "Todas as integrações",
+   "en": "All integrations",
+   "actions": 2,
+   "example_actions": [
+    "integrations.install_integration",
+    "integrations.list_integrations"
+   ]
+  },
+  {
+   "pt": "Todas as pastas (N listas)",
+   "en": "All folders (N lists)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_lists"
+   ]
+  },
+  {
+   "pt": "Todas as pastas (N segmentos)",
+   "en": "All folders (N segments)",
+   "actions": 1,
+   "example_actions": [
+    "contacts.list_segments"
+   ]
+  },
+  {
+   "pt": "Transacional > E-mail > Logs",
+   "en": "Transactional > E-mail > Logs",
+   "actions": 1,
+   "example_actions": [
+    "reporting.list_email_events"
+   ]
+  },
+  {
+   "pt": "Transacional > E-mail > Modelos",
+   "en": "Transactional > E-mail > Templates",
+   "actions": 1,
+   "example_actions": [
+    "transactional.list_templates"
+   ]
+  },
+  {
+   "pt": "Transacional > Regras de retenção",
+   "en": "Transactional > Retention rules",
+   "actions": 1,
+   "example_actions": [
+    "transactional.configure_retention_rules"
+   ]
+  },
+  {
+   "pt": "Transacional > SMS > Logs",
+   "en": "Transactional > SMS > Logs",
+   "actions": 1,
+   "example_actions": [
+    "reporting.list_sms_events"
+   ]
+  },
+  {
+   "pt": "Transforme cada visitante em um lead",
+   "en": "Turn every visitor into a lead",
+   "actions": 1,
+   "example_actions": [
+    "push_popups.create_popup_campaign"
+   ]
+  },
+  {
+   "pt": "Um ou mais contatos",
+   "en": "One or more contacts",
+   "actions": 1,
+   "example_actions": [
+    "automations.add_action_notify_by_email"
+   ]
+  },
+  {
+   "pt": "Unique coupon sent",
+   "en": "Unique coupon sent",
+   "actions": 1,
+   "example_actions": [
+    "automations.configure_trigger_coupon_sent"
+   ]
+  },
+  {
+   "pt": "Usuários > Adicionar licenças",
+   "en": "Users > Add licenses",
+   "actions": 1,
+   "example_actions": [
+    "account.purchase_licenses"
+   ]
+  },
+  {
+   "pt": "Ver detalhes > Editar descrição",
+   "en": "View details > Edit description",
+   "actions": 1,
+   "example_actions": [
+    "automations.update_automation_description"
+   ]
+  },
+  {
+   "pt": "Ver guia de configuração",
+   "en": "View setup guide",
+   "actions": 1,
+   "example_actions": [
+    "ecommerce.install_plugin"
+   ]
+  },
+  {
+   "pt": "Ver relatório",
+   "en": "View report",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Ver relatório / Atividade",
+   "en": "View report / Activity",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Ver relatório completo",
+   "en": "View full report",
+   "actions": 1,
+   "example_actions": [
+    "automations.get_automation_activity"
+   ]
+  },
+  {
+   "pt": "Visão geral",
+   "en": "Overview",
+   "actions": 2,
+   "example_actions": [
+    "contacts.get_contact",
+    "contacts.update_contact"
+   ]
+  },
+  {
+   "pt": "Você não tem nenhuma chave API",
+   "en": "You have no API key",
+   "actions": 1,
+   "example_actions": [
+    "account.list_api_keys"
+   ]
+  },
+  {
+   "pt": "Você precisa configurar SMS antes de poder enviar",
+   "en": "You need to set up SMS before you can send",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Você precisa configurar SMS antes de poder enviar uma campanha de SMS",
+   "en": "You need to set up SMS before you can send an SMS campaign",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_sms_campaign"
+   ]
+  },
+  {
+   "pt": "Você precisa preencher ao menos uma das seguintes informações para criar um contato",
+   "en": "You must fill in at least one of the following to create a contact",
+   "actions": 1,
+   "example_actions": [
+    "contacts.create_contact"
+   ]
+  },
+  {
+   "pt": "Vocês estão todos atualizados!",
+   "en": "You are all caught up!",
+   "actions": 1,
+   "example_actions": [
+    "conversations.list_conversations"
+   ]
+  },
+  {
+   "pt": "Voltar",
+   "en": "Back",
+   "actions": 1,
+   "example_actions": [
+    "contacts.configure_list_settings"
+   ]
+  },
+  {
+   "pt": "Vá aonde seu cliente está com o WhatsApp",
+   "en": "Go where your customer is with WhatsApp",
+   "actions": 1,
+   "example_actions": [
+    "sms_whatsapp.create_whatsapp_campaign"
+   ]
+  },
+  {
+   "pt": "Webhooks",
+   "en": "Webhooks",
+   "actions": 7,
+   "example_actions": [
+    "account.create_api_key",
+    "automations.add_action_call_webhook",
+    "integrations.create_inbound_webhook"
+   ]
+  },
+  {
+   "pt": "Última edição feita em ...",
+   "en": "Last edited on ...",
+   "actions": 1,
+   "example_actions": [
+    "content.list_email_templates"
+   ]
+  }
+ ]
+}

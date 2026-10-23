@@ -14,6 +14,7 @@ A catalog of the business actions a person can perform in Brevo, written for AI 
 | `index.md` | One line per action (id, tier, risk, whether a human must confirm, preferred route, summary). Load this first (about 14k tokens). |
 | `AGENT_GUIDE.md` | The rules for an agent that uses the catalog: which fields to read, how far to trust each tier, known traps, which safety rules the build enforces and which the agent must keep, what never to do. |
 | `coverage.md` | Counts per tier and per domain. |
+| `GLOSSARY_UI_PT_EN.md` | The test account was in Portuguese, so the UI steps quote Portuguese labels. This glossary gives a literal English translation of the 474 strings (also in `reference/ui_glossary_pt_en.json`).
 | `actions/` | The source of truth: one YAML file per action. `_generated/` (280 actions) comes from the API inventory and a curated map, `_generated_ui/` (44) from the automation node reference. The other folders (42 actions, plus 76 in `ui_observed/`) are written from what was seen and done in the web app. |
 | `overlays/` | UI evidence layered on top of 38 generated API actions (steps, labels, side effects, verification, `related`). |
 | `reference/automation_nodes.json` | The 45 building blocks of the automation editor (22 triggers, 19 actions, 4 rules) with what was seen for each. |
