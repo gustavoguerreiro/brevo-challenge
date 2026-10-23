@@ -1,0 +1,103 @@
+id: transactional.get_inbound_event
+domain: transactional
+summary: Fetch all events history for one particular received email.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'uuid' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    uuid:
+      type: string
+      description: UUID to fetch events specific to recieved email
+  required:
+  - uuid
+outputs:
+  type: object
+  properties:
+    receivedAt:
+      type: string
+      format: date-time
+      description: Date when email was received on SMTP relay
+    deliveredAt:
+      type: string
+      format: date-time
+      description: Date when email was delivered successfully to client’s webhook
+    recipient:
+      type: string
+      format: email
+      description: Recipient’s email address
+    sender:
+      type: string
+      format: email
+      description: Sender’s email address
+    messageId:
+      type: string
+      description: Value of the Message-ID header. This will be present only after the processing is done.
+    subject:
+      type: string
+      description: Value of the Subject header. This will be present only after the processing is done.
+    attachments:
+      type: array
+      description: List of attachments of the email. This will be present only after the processing is done.
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: filename specified in the Content-Disposition header of the attachment
+          contentType:
+            type: string
+            description: value of the Content-Type header of the attachment
+          contentId:
+            type: string
+            description: value of the Content-ID header of the attachment.
+          contentLength:
+            type: integer
+            description: size of the attachment in bytes
+    logs:
+      type: array
+      description: List of events/logs that describe the lifecycle of the email on SIB platform
+      items:
+        type: object
+        properties:
+          date:
+            type: string
+            format: date-time
+            description: Date of the event
+          type:
+            type: string
+            description: Type of the event
+            enum:
+            - received
+            - processed
+            - webhookFailed
+            - webhookDelivered
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /inbound/events/{uuid}
+    auth: api-key header (never store the value).
+    operation_id: getInboundEmailEventsByUuid
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

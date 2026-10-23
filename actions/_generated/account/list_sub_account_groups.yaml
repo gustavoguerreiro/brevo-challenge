@@ -1,0 +1,47 @@
+id: account.list_sub_account_groups
+domain: account
+summary: Get the list of groups.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: array
+  items:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique id of the group
+      groupName:
+        type: string
+        description: The name of the group of sub-accounts
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /corporate/groups
+    auth: api-key header (never store the value).
+    operation_id: getSubAccountGroups
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

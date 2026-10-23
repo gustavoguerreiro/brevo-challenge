@@ -1,0 +1,42 @@
+id: content.delete_email_template
+domain: content
+summary: Delete an e-mail template. Only inactive templates offer the option.
+ui_label_pt: Excluir
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  properties:
+    template_id:
+      type: integer
+      description: Template to delete.
+side_effects:
+- 'Not observed: Campaigns and automations that used the template keep their own copies or break (not checked).'
+postcondition_check: The row disappears.
+errors: []
+limits: []
+depends_on:
+- content.list_email_templates
+related:
+- transactional.delete_template
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - 'Open Marketing > Modelos and the row menu of an INACTIVE template; the last entry ''Excluir'' is red. Active
+      templates do not show it: deactivate first.'
+    - 'Confirm in the dialog. NOT EXECUTED: the dialog was not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: Menu entry only.

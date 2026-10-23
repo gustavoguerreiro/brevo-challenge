@@ -1,0 +1,49 @@
+id: automations.list_automations
+domain: automations
+summary: 'List automations with status and run counters. UI only: the public REST API has no automation endpoints.'
+ui_label_pt: Automações > Cenários
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    status:
+      type: string
+      enum:
+      - all
+      - active
+      - paused
+      - inactive
+      default: all
+    search:
+      type: string
+side_effects:
+- None; read only.
+postcondition_check: The table lists the automations of the selected tab.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Open Automações > Cenários (/automation/automations).
+    - 'Tabs: Todos, Ativada, Pausados, Desativada, each with a counter. Search box ''Procurar uma automação''; a
+      tag filter ''Selecione tags'' is crown-gated.'
+    - 'Each row shows the name, ID (#N), last edit time, status and four counters: Ativo agora, Iniciada, Finalizada,
+      Suspensa.'
+    internal_service: workflow-apis (path seen in resource timing)
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  verified_via:
+  - ui
+  notes: Read in the UI many times.

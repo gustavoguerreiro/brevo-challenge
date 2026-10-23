@@ -1,0 +1,59 @@
+id: sms_whatsapp.create_sms_campaign
+domain: sms_whatsapp
+summary: Create an SMS campaign as a draft (name first, then content, sender ID, recipients). Creating does not send.
+ui_label_pt: "Campanhas > SMS"
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: "The draft can be created and edited on Free (observed). Sending needs SMS set up and credits: the test account has 0 credits and the editor shows a banner 'Você precisa configurar SMS antes de poder enviar'. Tags and folders are crown-gated."
+preconditions:
+  - "Name is required (UI counter 0/128)."
+  - "API route: name, sender and content are required by the API. The UI creates the draft from the name alone and asks for the rest in the editor."
+  - "API route: this action does not accept scheduledAt. POST /smsCampaigns accepts it, and a call that sets it together with recipients schedules a real SMS send; that is sms_whatsapp.schedule_sms_campaign and needs a human yes."
+  - "Creating a draft is safe. Sending or scheduling is a different action."
+inputs:
+  type: object
+  required: [name, sender, content]
+  properties:
+    name: {type: string, maxLength: 128, description: "UI label 'Nome da campanha'."}
+    sender: {type: string, description: "Required by the API. UI: field 'ID do remetente*' in the editor section 'Remetente'. Brevo notes that some recipients may see a short code instead; include the company name in the text."}
+    content: {type: string, description: "Required by the API. UI: the text area opened by 'Criar' in 'Conteúdo da mensagem' (/sms-campaign/design/<id>), counter 0/160 for one SMS, buttons for emoji, variable, 'Write with AI' and link, optional image (JPG, PNG or GIF, up to 850 kb)."}
+    recipients: {type: object, description: "API recipients {listIds, exclusionListIds}. UI section 'Destinatários': 'Enviar para' lists or segments, 'Não enviar para contatos não engajados', advanced 'Não enviar para' and 'Adicionar filtros'."}
+outputs:
+  type: object
+  properties:
+    campaign_id: {type: integer, description: "UI URL becomes /sms-campaign/edit/<id>. Campaign ids are shared with e-mail campaigns (1, 4, 5 in the test account)."}
+    status: {type: string, description: "Draft shows as 'Rascunho'."}
+side_effects:
+  - "None for recipients while the status is draft (observed: nothing is sent when the draft is created)."
+postcondition_check: "URL is /sms-campaign/edit/<id> and the header shows the name with status 'Rascunho'."
+errors:
+  - condition: "SMS not set up or no credits"
+    symptom: "A banner at the top of the editor: 'Você precisa configurar SMS antes de poder enviar uma campanha de SMS' with a button 'Configurar SMS'. The draft can still be built."
+    recovery: "Complete the SMS set-up and add credits before any send step."
+limits:
+  - "The SMS counter is 160 characters for one SMS; longer text is billed in more segments (a note says the count is an estimate)."
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smsCampaigns
+    operation_id: createSmsCampaign
+    auth: "api-key header (never store the value). The account had no key, so this path was not run."
+  ui:
+    entry: "/campaigns/listing"
+    steps:
+      - "Go to Marketing > Campanhas, press 'Criar campanha' and choose the card 'SMS'."
+      - "On /sms-campaign/campaign-setup fill 'Nome da campanha' (the fields 'Tags' and 'Pasta' appear and are crown-gated) and press 'Criar uma campanha'."
+      - "The editor opens at /sms-campaign/edit/<id> with status 'Rascunho', header buttons 'Enviar um SMS de teste' and 'Enviar agora ou mais tarde' (not pressed), and sections 'Conteúdo da mensagem', 'Remetente', 'Destinatários'."
+      - "Optional: 'Criar' opens /sms-campaign/design/<id> to write the text. Not saved in the test."
+provenance:
+  sources: [ui, api_docs]
+  verification: executed_verified
+  verified_at: "2026-10-22"
+  verified_via: [ui]
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: "UI run created draft ZZ_TEST_sms_1 (ID 5) from the name alone. Content, sender ID and recipients were not set; nothing was scheduled or sent. The API route is documented and was not called."

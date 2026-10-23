@@ -1,0 +1,52 @@
+id: email_campaigns.delete_campaign
+domain: email_campaigns
+summary: Delete an e-mail campaign (destructive; confirm first).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: id of the campaign
+  required:
+  - campaignId
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /emailCampaigns/{campaignId}
+    auth: api-key header (never store the value).
+    operation_id: deleteEmailCampaign
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Open Marketing > Campanhas and the row menu; the red entry 'Excluir' is last.
+    - 'Confirm in the dialog. NOT EXECUTED: the dialog was not seen.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Menu entry only. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the
+    account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/content.template_lifecycle.json
+ui_label_pt: Excluir

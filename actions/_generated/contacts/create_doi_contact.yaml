@@ -1,0 +1,83 @@
+id: contacts.create_doi_contact
+domain: contacts
+summary: Create Contact via DOI (Double-Opt-In) Flow.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address where the confirmation email will be sent. This email address will be the identifier
+        for all other contact attributes.
+      x-in: body
+    attributes:
+      type: object
+      description: Pass the set of attributes and their values. These attributes must be present in your Brevo account.
+        For eg. {'FNAME':'Elly', 'LNAME':'Roger', 'COUNTRIES':['India','China']}
+      additionalProperties: {}
+      x-in: body
+    includeListIds:
+      type: array
+      description: Lists under user account where contact should be added
+      items:
+        type: integer
+        format: int64
+        description: Id of the list
+      x-in: body
+    excludeListIds:
+      type: array
+      description: Lists under user account where contact should not be added
+      items:
+        type: integer
+        format: int64
+        description: Id of the list
+      x-in: body
+    templateId:
+      type: integer
+      format: int64
+      description: Id of the Double opt-in (DOI) template
+      x-in: body
+    redirectionUrl:
+      type: string
+      format: url
+      description: URL of the web page that user will be redirected to after clicking on the double opt in URL.
+        When editing your DOI template you can reference this URL by using the tag {{ params.DOIurl }}.
+      x-in: body
+  required:
+  - email
+  - includeListIds
+  - redirectionUrl
+  - templateId
+side_effects:
+- 'Expected (from the API docs, not verified): A double opt-in confirmation e-mail goes to the contact.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/doubleOptinConfirmation
+    auth: api-key header (never store the value).
+    operation_id: createDoiContact
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Sends a double opt-in confirmation
+  e-mail to the contact.'

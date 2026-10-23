@@ -1,0 +1,126 @@
+id: contacts.create_contact
+domain: contacts
+summary: Create a contact from an e-mail, phone number or external ID, optionally into lists.
+ui_label_pt: Adicionar contatos
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+  note: Free plan stores up to 100,000 contacts (help center).
+preconditions:
+- 'At least one identifier is required: e-mail, SMS number, WhatsApp number, landline number or EXT_ID (UI validation
+  message, observed).'
+- Phone numbers need a country code; the UI defaults the country selector to +55 in this account.
+- Lists are optional; list IDs must already exist (see contacts.create_list).
+- Inputs email_blacklisted, sms_blacklisted and smtp_blacklist_sender change e-mail/SMS consent. Set them only on
+  an explicit yes from the person, naming the contact; never set them to false to re-enable someone who unsubscribed
+  or was blocked.
+inputs:
+  type: object
+  description: API shape. The UI form fields (NOME, SOBRENOME, SMS, WHATSAPP, COUNTRY, ...) are contact attributes
+    and go inside 'attributes' when calling the API.
+  anyOf:
+  - required:
+    - email
+  - required:
+    - ext_id
+  - required:
+    - attributes
+  properties:
+    email:
+      type: string
+      format: email
+      description: Mandatory in the API unless SMS is passed inside attributes.
+    ext_id:
+      type: string
+      maxLength: 254
+      description: 'Your own ID for the contact (UI label EXT_ID, counter 0/254). API: ext_id.'
+    attributes:
+      type: object
+      description: 'Attribute name to value. Names must be UPPER CASE and must already exist in the account (list
+        them with contacts.list_attributes). UI labels seen: NOME, SOBRENOME, SMS, WHATSAPP, LANDLINE_NUMBER, COUNTRY,
+        CONTACT_TIMEZONE, JOB_TITLE, LINKEDIN, DETECTED LANGUAGE, DOUBLE_OPT-IN, OPT_IN. The API docs example uses
+        FNAME and LNAME, but in this pt-BR account the first and last name attributes have the localized IDs NOME
+        and SOBRENOME (read in Configurações > Atributos at /objects/settings/contact). Attribute IDs are localized
+        per account language, so an agent must list the account''s attributes (contacts.list_attributes) before
+        sending names; do not assume FNAME/LNAME or FIRSTNAME/LASTNAME. Whether the API accepts the English names
+        as aliases was NOT verified. Phone numbers need a country code (the UI defaults the selector to +55 here).
+        Values of the wrong type are silently ignored by the API.'
+      additionalProperties: true
+    list_ids:
+      type: array
+      items:
+        type: integer
+      description: UI field LISTAS (multi-select). API field listIds. Lists must already exist (contacts.create_list).
+    update_if_exists:
+      type: boolean
+      default: false
+      description: 'API updateEnabled: update the contact instead of failing when it already exists (the API then
+        answers 204).'
+    email_blacklisted:
+      type: boolean
+      description: 'API emailBlacklisted. UI: the column COLOCADO EM LISTA BLOQUEADA.'
+    sms_blacklisted:
+      type: boolean
+      description: API smsBlacklisted.
+    smtp_blacklist_sender:
+      type: array
+      items:
+        type: string
+        format: email
+      description: 'API smtpBlacklistSender: transactional senders forbidden for this contact. Only valid together
+        with updateEnabled true.'
+    company:
+      type: string
+      description: 'UI only: field ASSOCIADO A EMPRESAS (select an existing company).'
+outputs:
+  type: object
+  properties:
+    contact_id:
+      type: integer
+      description: 'API: id in the 201 response (204 with no body when an existing contact was updated). UI: the
+        new contact opens at /contact/index/<id>; the test contact got ID 2.'
+side_effects:
+- 'Expected (not verified: no such automation was active): may enroll the contact in automations whose trigger is
+  ''Contact added to list'' or a form.'
+- 'Expected (not verified: no mailbox was watched): no e-mail is sent on creation from the UI.'
+postcondition_check: The contact appears in Contatos (/contact/list); search by e-mail returns it. The UI shows
+  a green toast 'O contato <email> foi criado.'
+errors:
+- condition: No identifier provided
+  symptom: 'Red banner: ''Você precisa preencher ao menos uma das seguintes informações para criar um contato''
+    with the five identifiers.'
+  recovery: Provide e-mail, SMS, WhatsApp, landline or EXT_ID.
+- condition: Contact already exists (API)
+  symptom: HTTP 400 duplicate_parameter from POST /contacts (documented, not reproduced).
+  recovery: Set updateEnabled true to update instead (answer 204), or use contacts.update_contact.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts
+    operation_id: createContact
+    auth: api-key header (a key created under SMTP & API; never store the value).
+  ui:
+    entry: /contact/list?action=create_contact
+    steps:
+    - Open the entry URL, or go to CRM > Contatos and press the button 'Adicionar contatos'; a side panel opens.
+    - Fill at least one identifier (textbox 'Insira o endereço de e-mail', or an SMS/WhatsApp/landline number, or
+      EXT_ID).
+    - Optionally set other fields and pick lists in 'LISTAS'.
+    - Press 'Criar'.
+    internal_service: contacts-api / contacts-api-v2 (create call not captured; see known limitations)
+provenance:
+  sources:
+  - ui
+  - api_docs
+  - help_center
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.create_contact.json
+  notes: Executed in the UI with a test e-mail on example.com. The API path was not executed (no API key created).

@@ -1,0 +1,39 @@
+id: automations.test_automation
+domain: automations
+summary: Run a test of the automation for a contact. May act on a real contact.
+ui_label_pt: Testar
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+      description: Automation to test.
+side_effects:
+- 'Not observed: Unknown. Assume that steps run for the chosen contact, including sends.'
+postcondition_check: Not observed.
+errors: []
+limits: []
+depends_on:
+- automations.create_automation
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/edit/<automation_id>
+    steps:
+    - 'Open the editor and press the header button ''Testar''. NOT EXECUTED: the dialog and what a test actually
+      performs were not observed.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.create_automation.json
+  notes: Not pressed, because a test may run real steps (add to list, send) for the chosen contact.

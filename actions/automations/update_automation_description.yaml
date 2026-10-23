@@ -1,0 +1,42 @@
+id: automations.update_automation_description
+domain: automations
+summary: Edit the description of an automation.
+ui_label_pt: Ver detalhes > Editar descrição
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  - description
+  properties:
+    automation_id:
+      type: integer
+    description:
+      type: string
+side_effects:
+- 'Expected (not observed): Changes account data.'
+postcondition_check: The description shows in the details dialog.
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Open Automações > Cenários and the row menu 'Ver detalhes'. The dialog 'Detalhes da automação' shows 'Criada
+      em', 'Última edição' and 'Descrição'.
+    - Press 'Editar descrição', type and confirm (not exercised); 'Fechar' closes the dialog.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Dialog opened and closed, description not edited.

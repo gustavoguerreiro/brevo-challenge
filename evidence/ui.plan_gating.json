@@ -1,0 +1,31 @@
+{
+ "action": "plan-gated features on the Free plan (landing pages, push, pop-up, WhatsApp campaigns, folders, A/B, tags, conversions and others)",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR, Free plan. Panels and dialogs were opened and read as text through the DOM; every one was closed without choosing anything. Self-reported, no screenshots kept.",
+ "clicked_live_in_this_pass": {
+  "Criar campanha > WhatsApp card": "A panel titled 'Vá aonde seu cliente está com o WhatsApp' with a short pitch and one button 'Atualizar'. The campaign editor did not open.",
+  "Criar campanha > Push card": "A panel titled 'Seja o que seus contatos veem primeiro' with a pitch and the button 'Atualizar'.",
+  "Criar campanha > Pop-up card": "A panel titled 'Transforme cada visitante em um lead' with a pitch and the button 'Atualizar'.",
+  "Sidebar Marketing > Landing pages": "A dialog titled 'Criar landing pages que convertem' with the button 'Atualizar seu plano'. The URL did not change.",
+  "Sidebar Análise > Conversões": "A dialog titled 'Faça mais com a Brevo' saying the option is not available in the current plan, with 'Atualizar seu plano'.",
+  "Campanhas > Criar pasta": "A dialog titled 'Mantenha-se organizado com pastas' saying to upgrade the plan to create folders, with 'Atualizar'."
+ },
+ "seen_earlier_as_crown_or_upsell_without_clicking_through": [
+  "E-mail campaign setup form: tab 'Teste A/B', fields 'Tags' and 'Pasta' carry the crown (evidence/email_campaigns.create_campaign.json)",
+  "Campanhas list: filters by tags and folder, row menu entries 'Adicionar à pasta' and 'Atribuir etiqueta' (crown)",
+  "Modelos: 'Criar pasta' and the template kind 'Modelo push' (crown)",
+  "Segmentos row menu: 'Dividir em listas' (crown)",
+  "Contact page: card 'Pontuações' locked; Settings > Contatos: card 'Pontuações' (crown)",
+  "Settings > Webhooks: 'Webhook de entrada' (crown); Settings > Data management: 'Feeds de dados' (crown); Settings > Organization: 'Localização' (crown); Settings > Analysis: 'Conversões' (crown)",
+  "Analytics studio (/analytics): upsell page that asks for the Professional plan",
+  "Usuários: 'Adicionar licenças' (crown) and 'Adicionar usuários' with a lock",
+  "Automações: row menu 'Atribuir uma tag' (crown); conditional and percentage splits: 'Adicionar ramificação' (crown)",
+  "Caixa de entrada settings: channels Facebook, Instagram, WhatsApp, SMS and 'Respostas salvas' carry the crown"
+ ],
+ "limitations": [
+  "Only the first panel or dialog was read. What the features do after an upgrade was not seen.",
+  "A crown means the UI marks the feature as paid; the exact plan that unlocks it differs by feature (Analytics studio says Professional, Loyalty says Enterprise) and was not tabulated.",
+  "No upgrade or purchase button was pressed."
+ ],
+ "test_data_left_in_account": "none"
+}

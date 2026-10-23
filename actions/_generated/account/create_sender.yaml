@@ -1,0 +1,100 @@
+id: account.create_sender
+domain: account
+summary: Add a sender (name and address); Brevo e-mails a verification message to the address.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: From Name to use for the sender
+      x-in: body
+    email:
+      type: string
+      format: email
+      description: From email to use for the sender. A verification email will be sent to this address.
+      x-in: body
+    ips:
+      type: array
+      description: Mandatory in case of dedicated IP, IPs to associate to the sender
+      items:
+        type: object
+        required:
+        - domain
+        - ip
+        properties:
+          ip:
+            type: string
+            description: Dedicated IP available in your account
+          domain:
+            type: string
+            description: Domain of the IP
+          weight:
+            type: integer
+            format: int64
+            description: Weight to apply to the IP. Sum of all IP weights must be 100. Should be passed for either
+              ALL or NONE of the IPs. If it's not passed, the sending will be equally balanced on all IPs.
+            minimum: 1
+            maximum: 100
+      x-in: body
+  required:
+  - email
+  - name
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: ID of the Sender created
+    spfError:
+      type: boolean
+      description: Status of SPF configuration for the sender (true = SPF not well configured, false = SPF well
+        configured)
+    dkimError:
+      type: boolean
+      description: Status of DKIM configuration for the sender (true = DKIM not well configured, false = DKIM well
+        configured)
+side_effects:
+- 'Expected (from the API docs, not verified): Brevo e-mails a verification message to the sender address.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /senders
+    auth: api-key header (never store the value).
+    operation_id: createSender
+  ui:
+    entry: /senders/add
+    steps:
+    - Open Configurações > Remetentes, domínios e IPs dedicados (/senders/list) and press 'Adicionar remetente'.
+    - 'Fill ''Nome do remetente*'' and ''E-mail do remetente*'' (format name@domain). The button stays disabled
+      until both are filled. NOT EXECUTED: submitting sends a verification e-mail to that address.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Form observed in an earlier pass (inventory/ui_crawl_pass3_crm_marketing.md). Generated from the Brevo
+    public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live
+    developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.contacts_pages_pass3.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Brevo sends a verification
+  message to the sender address.'
+ui_label_pt: Remetentes > Adicionar remetente

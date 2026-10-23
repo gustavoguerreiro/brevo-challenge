@@ -1,0 +1,20 @@
+{
+  "action": "contacts.create_contact",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR",
+  "steps_run": [
+    "Opened /contact/list, pressed 'Adicionar contatos' (URL gained ?action=create_contact)",
+    "Pressed 'Criar' with an empty form",
+    "Filled E-MAIL with a test address on example.com and NOME 'ZZ_TEST', pressed 'Criar'"
+  ],
+  "results": [
+    "Empty form: red banner asking for at least one of E-mail, Número SMS, Número do WhatsApp, Número de telefone fixo, EXT_ID",
+    "Filled form: panel closed and toast 'O contato zz_test_contact_1@example.com foi criado.' with a link 'Visualizar os dados do contato'"
+  ],
+  "form_fields_pt": ["NOME", "SOBRENOME", "E-MAIL", "SMS", "WHATSAPP", "LANDLINE_NUMBER", "EXT_ID (0/254)", "COUNTRY", "LISTAS", "ASSOCIADO A EMPRESAS", "CONTACT_TIMEZONE", "JOB_TITLE", "LINKEDIN", "DETECTED LANGUAGE", "DOUBLE_OPT-IN", "OPT_IN"],
+  "limitations": [
+    "The create request itself was not captured (network reader returned nothing; fetch hook missed it; resource-timing buffer was full).",
+    "Contact count after the create was not re-read."
+  ],
+  "test_data_left_in_account": "contact zz_test_contact_1@example.com (to be removed by the account owner)"
+}

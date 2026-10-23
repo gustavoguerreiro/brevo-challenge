@@ -1,0 +1,100 @@
+id: email_campaigns.create_campaign
+domain: email_campaigns
+summary: Create a regular e-mail campaign as a draft (name first, then sender, recipients, subject, content). Creating
+  does not send.
+ui_label_pt: Campanhas > E-mail
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: 'Free plan: A/B test, tags and campaign folders are crown-gated in the setup form. Sending is capped at
+    300 e-mails per day.'
+preconditions:
+- Name is required (UI counter shows 0/128).
+- A verified sender is needed later to send; the account has one default sender.
+- 'Creating a draft is safe. Scheduling or sending is a different action: see email_campaigns.schedule_campaign
+  and email_campaigns.send_campaign_now.'
+- 'API route: this action does not accept scheduledAt or sendAtBestTime. POST /emailCampaigns accepts both, and
+  a call that sets them together with recipients schedules a real send; that is email_campaigns.schedule_campaign
+  and needs a human yes.'
+- 'API route: sender ({name, email} or {id}) is required by the API. The UI presets the account''s default sender.'
+inputs:
+  type: object
+  required:
+  - name
+  - sender
+  properties:
+    name:
+      type: string
+      maxLength: 128
+      description: UI label 'Nome da campanha'.
+    subject:
+      type: string
+      description: UI section 'Assunto'. API field subject.
+    preview_text:
+      type: string
+      description: UI 'Pré-visualização do texto' (preheader). API previewText.
+    sender:
+      type: object
+      description: 'Required by the API: {name, email} or {id}. In the UI the section ''Remetente'' presets the
+        account''s default sender, so it can be left alone there.'
+    recipients:
+      type: object
+      description: API recipients {listIds, exclusionListIds, segmentIds}. UI section 'Destinatários'.
+    html_content:
+      type: string
+      description: API htmlContent, or templateId, or htmlUrl. UI section 'Criação'.
+outputs:
+  type: object
+  properties:
+    campaign_id:
+      type: integer
+      description: UI URL becomes /marketing-campaign/edit/<id>; the first campaign got ID 1.
+    status:
+      type: string
+      description: Draft shows as 'Rascunho' in the UI.
+side_effects:
+- 'Observed: the new draft has no recipients and nothing was sent.'
+- 'Expected (not verified): a draft does not count against the daily allowance; only sending does.'
+postcondition_check: URL is /marketing-campaign/edit/<id>, the campaign shows in /campaigns/listing with status
+  'Rascunho' and the given name.
+errors:
+- condition: Account suspended for marketing e-mails or sender not verified
+  symptom: Sending is blocked even though the draft can be built. A red compliance banner was seen on the Automations
+    list; a phone-verification banner appears on the first campaign editor.
+  recovery: Review the Conformidade (compliance) page and complete phone verification before trying to send.
+limits:
+- 300 e-mails per day on the Free plan.
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /emailCampaigns
+    operation_id: createEmailCampaign
+    auth: api-key header (a key from SMTP & API; never store the value). The account had no key, so this path was
+      not run.
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Go to Marketing > Campanhas and choose the E-mail card.
+    - On /marketing-campaign/campaign-setup keep the tab 'Regular', fill 'Nome da campanha', and continue.
+    - The editor opens at /marketing-campaign/edit/<id> with sections Remetente, Destinatários, Assunto, Criação
+      and Configurações adicionais.
+    - Fill 'Assunto' and save the section.
+    internal_service: email-campaigns-backend/email-campaign/api/regular/setup (path seen in resource timing; evidence
+      only).
+provenance:
+  sources:
+  - ui
+  - network
+  - api_docs
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/email_campaigns.create_campaign.json
+  notes: 'UI run created draft ZZ_TEST_campaign_1 (ID 1) and saved a subject. Recipients, content and schedule were
+    not set. Warning for API use: POST /emailCampaigns accepts scheduledAt and recipients, so a call that includes
+    both can schedule a real send.'

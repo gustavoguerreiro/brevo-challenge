@@ -1,0 +1,106 @@
+id: reporting.get_email_aggregate_report
+domain: reporting
+summary: Get your transactional email activity aggregated over a period of time.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date of the report (YYYY-MM-DD). Must be lower than equal
+        to endDate
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date of the report (YYYY-MM-DD). Must be greater than
+        equal to startDate
+    days:
+      type: integer
+      format: int64
+      description: Number of days in the past including today (positive integer). Not compatible with 'startDate'
+        and 'endDate'
+    tag:
+      type: string
+      description: Tag of the emails
+outputs:
+  type: object
+  properties:
+    range:
+      type: string
+      description: Time frame of the report
+    requests:
+      type: integer
+      format: int64
+      description: Number of requests for the timeframe
+    delivered:
+      type: integer
+      format: int64
+      description: Number of delivered emails for the timeframe
+    hardBounces:
+      type: integer
+      format: int64
+      description: Number of hardbounces for the timeframe
+    softBounces:
+      type: integer
+      format: int64
+      description: Number of softbounces for the timeframe
+    clicks:
+      type: integer
+      format: int64
+      description: Number of clicks for the timeframe
+    uniqueClicks:
+      type: integer
+      format: int64
+      description: Number of unique clicks for the timeframe
+    opens:
+      type: integer
+      format: int64
+      description: Number of openings for the timeframe
+    uniqueOpens:
+      type: integer
+      format: int64
+      description: Number of unique openings for the timeframe
+    spamReports:
+      type: integer
+      format: int64
+      description: Number of complaint (spam report) for the timeframe
+    blocked:
+      type: integer
+      format: int64
+      description: Number of blocked contact emails for the timeframe
+    invalid:
+      type: integer
+      format: int64
+      description: Number of invalid emails for the timeframe
+    unsubscribed:
+      type: integer
+      format: int64
+      description: Number of unsubscribed emails for the timeframe
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/statistics/aggregatedReport
+    auth: api-key header (never store the value).
+    operation_id: getAggregatedSmtpReport
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

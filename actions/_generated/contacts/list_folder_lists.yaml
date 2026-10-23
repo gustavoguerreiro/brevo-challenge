@@ -1,0 +1,102 @@
+id: contacts.list_folder_lists
+domain: contacts
+summary: Get lists in a folder.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'folderId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    folderId:
+      type: integer
+      format: int64
+      description: Id of the folder
+    limit:
+      type: integer
+      format: int64
+      default: 10
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document of the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+  required:
+  - folderId
+outputs:
+  type: object
+  properties:
+    lists:
+      type: array
+      items:
+        type: object
+        allOf:
+        - type: object
+          required:
+          - id
+          - name
+          - totalBlacklisted
+          - totalSubscribers
+          - uniqueSubscribers
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID of the list
+            name:
+              type: string
+              description: Name of the list
+            totalBlacklisted:
+              type: integer
+              format: int64
+              description: Number of blacklisted contacts in the list
+            totalSubscribers:
+              type: integer
+              format: int64
+              description: Number of contacts in the list
+            uniqueSubscribers:
+              type: integer
+              format: int64
+              description: Number of unique contacts in the list
+    count:
+      type: integer
+      format: int64
+      description: Number of lists in the folder
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Folder ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /contacts/folders/{folderId}/lists
+    auth: api-key header (never store the value).
+    operation_id: getFolderLists
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

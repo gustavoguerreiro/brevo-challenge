@@ -1,0 +1,69 @@
+id: automations.create_automation
+domain: automations
+summary: Create a new, inactive automation (workflow) from scratch in the visual editor. UI only, the public API
+  has no automation endpoints.
+ui_label_pt: Criar automação
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Free plan allows 2,000 unique contacts into automations. Tag filter on the list is paid. A red banner states
+    the account is suspended for marketing e-mails, so 'Enviar e-mail' steps cannot run here.
+preconditions:
+- 'No required fields to create the draft: choosing ''Criar do zero'' opens the editor with a default name ''Automação
+  #<n>''.'
+- To make it useful, a trigger must be set; lists, segments or forms used by the trigger must already exist.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: 'Editable in the editor header. Default ''Automação #<n>''.'
+    start_mode:
+      type: string
+      enum:
+      - from_scratch
+      description: Only 'Criar do zero' was executed. The modal also offers an AI-prompt mode and pre-built automations;
+        they were seen, not used, and are not covered by this action.
+outputs:
+  type: object
+  properties:
+    automation_id:
+      type: integer
+      description: URL becomes /automation/edit/<id>; the first automation got ID 1.
+    status:
+      type: string
+      description: New drafts show 'Desativada' (inactive).
+side_effects:
+- 'Observed: nothing ran while the draft was inactive. Expected: nothing runs until ''Ativar automação'' is pressed
+  (see automations.activate_automation).'
+postcondition_check: URL is /automation/edit/<id>; the automation list /automation/automations shows it under the
+  tab 'Desativada'.
+errors: []
+limits:
+- 'Free plan: 2,000 unique contacts in automations.'
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Go to Automações and press 'Criar automação'.
+    - In the modal choose 'Criar do zero'.
+    - The editor opens at /automation/edit/<id>. The header has the name, undo/redo, 'Ativar automação', 'Testar'
+      and 'Sair do editor'; the left rail has Editor, Configurações and Atividade.
+    - Changes autosave; the header shows 'Salva hoje às <hora>'.
+    internal_service: workflow-apis (seen in the web app; evidence only).
+provenance:
+  sources:
+  - ui
+  - network
+  - help_center
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/automations.create_automation.json
+  notes: 'Executed with ''Criar do zero''; created draft ''Automação #1'' (ID 1), left inactive. AI-prompt and pre-built
+    creation modes were seen but not used.'

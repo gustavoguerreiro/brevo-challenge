@@ -1,0 +1,18 @@
+id: contacts.delete_contact
+plan_availability:
+  free: available
+ui_label_pt: Excluir definitivamente
+ui:
+  entry: /contact/index/<contact_id>
+  steps:
+  - Contact page > 'Mais' > 'Excluir definitivamente', or select rows in CRM > Contatos > 'Mais ações' > 'Excluir
+    definitivamente'.
+  - 'NOT EXECUTED: permanent deletion was out of scope, so the confirmation dialog was not seen. The wording ''definitivamente''
+    means no undo.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Menu entries only.

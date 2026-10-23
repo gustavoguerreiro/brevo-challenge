@@ -1,0 +1,23 @@
+id: transactional.get_template_preview
+plan_availability:
+  free: available
+ui_label_pt: Pré-visualização
+ui:
+  entry: /templates/listing
+  steps:
+  - Row menu > 'Pré-visualização' opens the dialog 'Pré-visualizar e testar'. Tab 'Pré-visualizar' renders the body
+    for a chosen contact ('Pré-visualizar como destinatario'), optionally with JSON transactional data ('Adicionar
+    dados JSON transacionais') or an event ('Pré-visualização de evento').
+  - 'Without a design the UI refuses: toast ''Para pre-visualizar, crie um design.'''
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: The web app's preview dialog was opened with its first tab only. The API operation takes parameters and
+    exists only in the live developer-site spec; whether the dialog uses it was not checked, and the request and
+    response were never seen. UI preview executed with the first tab only. The API preview takes parameters; whether
+    the UI tab uses the same endpoint was not checked.
+related:
+- content.preview_email_template

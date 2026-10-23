@@ -1,0 +1,213 @@
+id: email_campaigns.get_ab_test_result
+domain: email_campaigns
+summary: Get an A/B test email campaign results.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the A/B test campaign
+  required:
+  - campaignId
+outputs:
+  type: object
+  properties:
+    winningVersion:
+      type: string
+      description: Winning Campaign Info. pending = Campaign has been picked for sending and winning version is
+        yet to be decided, tie = A tie happened between both the versions, notAvailable = Campaign has not yet been
+        picked for sending.
+      enum:
+      - notAvailable
+      - pending
+      - tie
+      - A
+      - B
+    winningCriteria:
+      type: string
+      description: Criteria choosen for winning version (Open/Click)
+      enum:
+      - Open
+      - Click
+    winningSubjectLine:
+      type: string
+      description: Subject Line of current winning version
+    openRate:
+      type: string
+      description: Open rate for current winning version
+    clickRate:
+      type: string
+      description: Click rate for current winning version
+    winningVersionRate:
+      type: string
+      description: Open/Click rate for the winner version
+    statistics:
+      type: object
+      required:
+      - clicks
+      - complaints
+      - hardBounces
+      - openers
+      - softBounces
+      - unsubscribed
+      properties:
+        openers:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+        clicks:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+        unsubscribed:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+        hardBounces:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+        softBounces:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+        complaints:
+          type: object
+          required:
+          - Version A
+          - Version B
+          properties:
+            Version A:
+              type: string
+              description: percentage of an event for version A
+            Version B:
+              type: string
+              description: percentage of an event for version B
+          description: Percentage of a particular event for both versions
+    clickedLinks:
+      type: object
+      required:
+      - Version A
+      - Version B
+      properties:
+        Version A:
+          type: array
+          description: Information on clicked links for a particular version
+          items:
+            type: object
+            required:
+            - clickRate
+            - clicksCount
+            - link
+            properties:
+              link:
+                type: string
+                description: URL of the link
+              clicksCount:
+                type: integer
+                format: int64
+                description: Number of times a link is clicked
+              clickRate:
+                type: string
+                description: Percentage of clicks of link with respect to total clicks
+        Version B:
+          type: array
+          description: Information on clicked links for a particular version
+          items:
+            type: object
+            required:
+            - clickRate
+            - clicksCount
+            - link
+            properties:
+              link:
+                type: string
+                description: URL of the link
+              clicksCount:
+                type: integer
+                format: int64
+                description: Number of times a link is clicked
+              clickRate:
+                type: string
+                description: Percentage of clicks of link with respect to total clicks
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: A/B test Email Campaign not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+- condition: 'HTTP 405: Only email campaigns or templates are allowed'
+  recovery: Method not allowed for this resource; re-check the path.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /emailCampaigns/{campaignId}/abTestCampaignResult
+    auth: api-key header (never store the value).
+    operation_id: getAbTestCampaignResult
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

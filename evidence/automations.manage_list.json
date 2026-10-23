@@ -1,0 +1,26 @@
+{
+  "action": "automations.* (list-level management)",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR, Free plan. No automation was activated, tested or run. Nothing was sent.",
+  "steps_run": [
+    "Opened Automações > Cenários (/automation/automations): tabs Todos, Ativada, Pausados, Desativada; search box; tag filter (crown).",
+    "Row menu > Renomear: dialog 'Renomear a automação', renamed the draft to ZZ_TEST_automation_1, toast 'Automação renomeada'.",
+    "Row menu > Duplicar: no dialog was visible. After a reload the list had a second row '[COPY]ZZ_TEST_automation_1' (ID 2, Desativada).",
+    "Row menu > Ver detalhes: dialog with 'Criada em', 'Última edição', 'Descrição' and 'Editar descrição'. Closed without editing.",
+    "Row menu > Registros de acesso (/automation/logs/scenarios): tabs 'Logs de cenários' and 'Contatos no cenário'; no data to read.",
+    "Row menu > Ver relatório (/automation/stats/<id>): per-step cards, 'Nenhum dados ainda'; refresh toast 'As estatísticas foram atualizadas.'",
+    "Opened /automation/settings/<id>: re-entry toggle with wait time, exit conditions, reinitialization conditions, button 'Salvar condições'. Nothing changed.",
+    "Opened Automações > Mensagens (/automation/messages): empty state.",
+    "Saw the row menu entries 'Atribuir uma tag' (crown) and 'Excluir'; Excluir was not pressed."
+  ],
+  "observations": [
+    "Duplicar acts immediately. An agent must not click it twice: each click creates another copy.",
+    "The list does not refresh after Duplicar; a reload is needed to see the copy.",
+    "Activation was not tried: the account has marketing e-mail sending suspended and activation would start real processing."
+  ],
+  "limitations": [
+    "Request bodies were not captured.",
+    "Activate, test, delete, description edit and reentry/exit changes were observed as UI elements but not executed."
+  ],
+  "test_data_left_in_account": "automation ZZ_TEST_automation_1 (ID 1, inactive) and '[COPY]ZZ_TEST_automation_1' (ID 2, inactive)"
+}

@@ -1,0 +1,46 @@
+id: reporting.get_marketing_statistics
+domain: reporting
+summary: Read aggregate marketing statistics for e-mail and SMS campaigns over a date range (UI page, CSV export
+  per table).
+ui_label_pt: Marketing > Estatísticas
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    start_date:
+      type: string
+      format: date
+    end_date:
+      type: string
+      format: date
+side_effects:
+- None; read only. The CSV export was not pressed.
+postcondition_check: The tiles show numbers for the chosen range.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /marketing-reports/statistics
+    steps:
+    - Open Marketing > Estatísticas (/marketing-reports/statistics). The date range defaults to the last 30 days;
+      the page remembers it in the URL fragment (#from=...&to=...).
+    - 'Tiles: Enviadas, Destinatários, Aberturas, Cliques, Soft + hard bounces, Respondidos, Taxa de abertura, Taxa
+      de cliques, Cancelamentos de assinatura, Taxa de cancelamento de assinatura. A note says that automated opens
+      and clicks are included.'
+    - 'Below: tables ''Campanhas de e-mail'' and ''Campanhas de SMS'', each with ''Exportar (arquivo .csv)''.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  verified_via:
+  - ui
+  notes: Opened; every number was 0 because the account never sent a campaign.

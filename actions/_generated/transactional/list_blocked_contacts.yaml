@@ -1,0 +1,112 @@
+id: transactional.list_blocked_contacts
+domain: transactional
+summary: Get the list of blocked or unsubscribed transactional contacts.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date (YYYY-MM-DD) from which you want to fetch the blocked
+        or unsubscribed contacts
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date (YYYY-MM-DD) till which you want to fetch the blocked
+        or unsubscribed contacts
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page
+    senders:
+      type: array
+      items:
+        type: string
+      description: Comma separated list of emails of the senders from which contacts are blocked or unsubscribed
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    count:
+      type: integer
+      format: int64
+      description: Count of blocked or unsubscribed contact
+    contacts:
+      type: array
+      items:
+        type: object
+        required:
+        - blockedAt
+        - email
+        - reason
+        - senderEmail
+        properties:
+          email:
+            type: string
+            format: email
+            description: Email address of the blocked or unsubscribed contact
+          senderEmail:
+            type: string
+            format: email
+            description: Sender email address of the blocked or unsubscribed contact
+          reason:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Reason code for blocking / unsubscribing (This code is safe for comparison)
+                enum:
+                - unsubscribedViaMA
+                - unsubscribedViaEmail
+                - adminBlocked
+                - unsubscribedViaApi
+                - hardBounce
+                - contactFlaggedAsSpam
+              message:
+                type: string
+                description: Reason for blocking / unsubscribing (This string is not safe for comparison)
+            description: Reason for blocking / unsubscribing
+          blockedAt:
+            type: string
+            description: Date when the contact was blocked or unsubscribed on
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/blockedContacts
+    auth: api-key header (never store the value).
+    operation_id: getTransacBlockedContacts
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

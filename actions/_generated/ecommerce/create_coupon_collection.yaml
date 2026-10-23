@@ -1,0 +1,74 @@
+id: ecommerce.create_coupon_collection
+domain: ecommerce
+summary: Create а coupon collection.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of the coupons collection
+      x-in: body
+    defaultCoupon:
+      type: string
+      description: Default coupons collection name
+      x-in: body
+    expirationDate:
+      type: string
+      format: date-time
+      description: Specify an expiration date for the coupon collection in RFC3339 format. Use null to remove the
+        expiration date.
+      x-in: body
+    remainingDaysAlert:
+      type: integer
+      description: Send a notification alert (email) when the remaining days until the expiration date are equal
+        or fall bellow this number. Use null to disable alerts.
+      x-in: body
+    remainingCouponsAlert:
+      type: integer
+      description: Send a notification alert (email) when the remaining coupons count is equal or fall bellow this
+        number. Use null to disable alerts.
+      x-in: body
+  required:
+  - defaultCoupon
+  - name
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      format: uuidv4
+      description: The id of the created collection
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 401: unauthorized'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /couponCollections
+    auth: api-key header (never store the value).
+    operation_id: createCouponCollection
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

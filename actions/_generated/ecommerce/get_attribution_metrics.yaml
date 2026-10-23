@@ -1,0 +1,82 @@
+id: ecommerce.get_attribution_metrics
+domain: ecommerce
+summary: Get detailed attribution metrics for a single Brevo campaign.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+- 'Path value ''conversionSource'' must be one of: email_campaign.'
+- Path value 'conversionSourceId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    conversionSource:
+      type: string
+      enum:
+      - email_campaign
+      description: The Brevo campaign type for which data will be retrieved
+    conversionSourceId:
+      type: number
+      format: integer
+      description: The Brevo campaign id for which data will be retrieved
+  required:
+  - conversionSource
+  - conversionSourceId
+outputs:
+  type: object
+  required:
+  - newCustomersCount
+  properties:
+    ConversionSourceMetrics:
+      type: object
+      required:
+      - averageBasket
+      - conversionSource
+      - id
+      - ordersCount
+      - revenue
+      properties:
+        id:
+          type: number
+          format: integer
+        conversionSource:
+          type: string
+          enum:
+          - email_campaign
+        ordersCount:
+          type: number
+          format: integer
+        revenue:
+          type: number
+          format: float
+        averageBasket:
+          type: number
+          format: float
+    newCustomersCount:
+      type: number
+      format: integer
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /ecommerce/attribution/metrics/{conversionSource}/{conversionSourceId}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

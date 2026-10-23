@@ -1,0 +1,97 @@
+id: account.get_admin_user_permissions
+domain: account
+summary: Check admin user permissions.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'email' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      description: Email of the invited user
+  required:
+  - email
+outputs:
+  type: object
+  required:
+  - email
+  - feature_access
+  - groups
+  - status
+  properties:
+    email:
+      type: string
+      description: Email address of the user.
+    status:
+      type: string
+      description: Status of the invited user.
+    groups:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: group identifier
+          name:
+            type: string
+            description: Group name
+        description: Groups details
+    feature_access:
+      type: object
+      properties:
+        api_keys:
+          type: array
+          description: Permission on api keys
+          items:
+            type: string
+            description: Permission details
+        my_plan:
+          type: array
+          description: Permission on my plan
+          items:
+            type: string
+            description: Permission details
+        user_management:
+          type: array
+          description: Permission on user management
+          items:
+            type: string
+            description: Permission details
+        apps_management:
+          type: array
+          description: Permission on apps management
+          items:
+            type: string
+            description: Permission details
+      description: Granular feature permissions given to the user.
+  description: Check admin user permissions
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /corporate/user/{email}/permissions
+    auth: api-key header (never store the value).
+    operation_id: getCorporateUserPermission
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

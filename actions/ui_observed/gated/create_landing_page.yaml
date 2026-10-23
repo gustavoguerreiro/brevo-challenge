@@ -1,0 +1,42 @@
+id: landing_pages.create_landing_page
+domain: landing_pages
+summary: 'Create a landing page. Blocked on the Free plan: the UI shows an upgrade dialog and the editor was never
+  seen.'
+ui_label_pt: Marketing > Landing pages
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions:
+- A paid plan that includes landing pages.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of the page. Assumed; the editor was not seen.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /
+    steps:
+    - In the left menu open Marketing > Landing pages (crown icon).
+    - 'On the Free plan an upgrade panel or dialog opens instead (dialog ''Criar landing pages que convertem'',
+      button ''Atualizar seu plano''). Stop here: nothing beyond it was seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Only the upgrade dialog was seen. The dialog's pitch says pages can be created and published; publishing
+    is a public action and needs the person's yes.

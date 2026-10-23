@@ -1,0 +1,34 @@
+id: account.get_plan_usage
+domain: account
+summary: Read the plan and remaining allowance (top bar 'Uso e plano' and account menu 'Meu plano').
+ui_label_pt: Uso e plano
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /
+    steps:
+    - Press 'Uso e plano' in the top bar. The popover showed 'Plano Free', the e-mails left for the day (300), pre-paid
+      e-mail credits (0) and pre-paid SMS credits (0).
+    - The account menu also has 'Meu plano' and 'Pegada de carbono'.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.read_pages.json
+  notes: Popover read in the crawl; 'Meu plano' and 'Pegada de carbono' were not opened.

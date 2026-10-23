@@ -1,0 +1,59 @@
+id: contacts.delete_contact
+domain: contacts
+summary: Delete a contact and its history for good (destructive; confirm first).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'identifier' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    identifier:
+      type: string
+      description: Email (urlencoded) OR ID of the contact
+  required:
+  - identifier
+side_effects:
+- 'Expected (from the API docs, not verified): The contact and its activity history are removed; automations enrolled
+  for it stop.'
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Contact not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+- condition: 'HTTP 405: You''re not allowed to delete registered email contact with Brevo'
+  recovery: Method not allowed for this resource; re-check the path.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /contacts/{identifier}
+    auth: api-key header (never store the value).
+    operation_id: deleteContact
+  ui:
+    entry: /contact/index/<contact_id>
+    steps:
+    - Contact page > 'Mais' > 'Excluir definitivamente', or select rows in CRM > Contatos > 'Mais ações' > 'Excluir
+      definitivamente'.
+    - 'NOT EXECUTED: permanent deletion was out of scope, so the confirmation dialog was not seen. The wording ''definitivamente''
+      means no undo.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Menu entries only. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the
+    account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.contacts_pages_pass3.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Removes the contact and its
+  history.'
+ui_label_pt: Excluir definitivamente

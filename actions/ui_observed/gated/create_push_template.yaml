@@ -1,0 +1,39 @@
+id: content.create_push_template
+domain: content
+summary: Create a push notification template ('Modelo push' under Modelos > Criar modelo). Blocked on the Free plan.
+ui_label_pt: Modelos > Criar modelo > Modelo push
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Template name. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - On Marketing > Modelos press 'Criar modelo'. The dialog 'Qual modelo você deseja criar?' offers 'Modelo de
+      e-mail', 'Modelo do WhatsApp' and 'Modelo push' (crown).
+    - '''Modelo push'' was not pressed.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Crown seen in the dialog; not pressed.

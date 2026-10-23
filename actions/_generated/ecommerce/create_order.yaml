@@ -1,0 +1,134 @@
+id: ecommerce.create_order
+domain: ecommerce
+summary: Managing the status of the order.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Unique ID of the order.
+      x-in: body
+    createdAt:
+      type: string
+      description: Event occurrence UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when order is actually created.
+      x-in: body
+    updatedAt:
+      type: string
+      description: Event updated UTC date-time (YYYY-MM-DDTHH:mm:ssZ), when the status of the order is actually
+        changed/updated.
+      x-in: body
+    status:
+      type: string
+      description: State of the order.
+      x-in: body
+    amount:
+      type: number
+      description: Total amount of the order, including all shipping expenses, tax and the price of items.
+      x-in: body
+    storeId:
+      type: string
+      description: ID of store where the order is placed
+      x-in: body
+    products:
+      type: array
+      items:
+        type: object
+        required:
+        - price
+        - productId
+        - quantity
+        properties:
+          productId:
+            type: string
+            description: ID of the product.
+          quantity:
+            type: number
+            description: How many pieces of the product the visitor has added to the cart.
+          variantId:
+            type: string
+            description: Product ID of the red color shirts.
+          price:
+            type: number
+            description: The price of a unit of product
+        description: Details for the Products in an order.
+      x-in: body
+    email:
+      type: string
+      description: Email of the contact, Mandatory if "phone" field is not passed in "billing" parameter.
+      x-in: body
+    billing:
+      type: object
+      properties:
+        address:
+          type: string
+          description: Full billing address.
+        city:
+          type: string
+          description: Exact city of the address.
+        countryCode:
+          type: string
+          description: Billing country 2-letter ISO code.
+        country:
+          type: string
+          description: Billing country name.
+        phone:
+          type: string
+          description: Phone number to contact for further details about the order, Mandatory if "email" field is
+            not passed.
+        postCode:
+          type: string
+          description: Postcode for delivery and billing.
+        paymentMethod:
+          type: string
+          description: How the visitor will pay for the item(s), e.g. paypal, check, etc.
+        region:
+          type: string
+          description: Exact region (state/province) for delivery and billing.
+      description: Billing details of an order.
+      x-in: body
+    coupons:
+      type: array
+      description: Coupons applied to the order. Stored case insensitive.
+      items:
+        type: string
+      x-in: body
+  required:
+  - amount
+  - createdAt
+  - id
+  - products
+  - status
+  - updatedAt
+side_effects:
+- 'Expected (from the API docs, not verified): Order events can trigger automations that send messages.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /orders/status
+    auth: api-key header (never store the value).
+    operation_id: createOrder
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Order events can trigger automations
+  that send messages.'

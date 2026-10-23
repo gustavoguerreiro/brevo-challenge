@@ -1,0 +1,149 @@
+id: account.get_master_account
+domain: account
+summary: Get the details of requested master account.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: object
+  properties:
+    email:
+      type: string
+      description: Email id of master account
+    companyName:
+      type: string
+      description: Company name of master account organization
+    id:
+      type: integer
+      format: int64
+      description: Unique identifier of the master account organization
+    currencyCode:
+      type: string
+      description: Currency code of the master account organization
+    timezone:
+      type: string
+      description: Timezone of the master account organization
+    billingInfo:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Billing email id of master account
+        companyName:
+          type: string
+          description: Company name of master account
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              description: First name for billing
+            familyName:
+              type: string
+              description: Last name for billing
+          description: Billing name of master account holder
+        address:
+          type: object
+          properties:
+            streetAddress:
+              type: string
+              description: Street address
+            locality:
+              type: string
+              description: Locality
+            postalCode:
+              type: string
+              description: Postal code
+            stateCode:
+              type: string
+              description: State code
+            countryCode:
+              type: string
+              description: Country code
+          description: Billing address of master account
+      description: Billing details of the master account organization
+    planInfo:
+      type: object
+      properties:
+        currencyCode:
+          type: string
+          description: Plan currency
+        nextBillingAt:
+          type: integer
+          format: int64
+          description: Timestamp of next billing date
+        price:
+          type: number
+          description: Plan amount
+        planPeriod:
+          type: string
+          description: Plan period type
+          enum:
+          - month
+          - year
+        subAccounts:
+          type: integer
+          description: Number of sub-accounts
+        features:
+          type: array
+          description: List of provided features in the plan
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the feature
+              unitValue:
+                type: string
+                description: Unit value of the feature
+              quantity:
+                type: integer
+                format: int64
+                description: Quantity provided in the plan
+              quantityWithOverages:
+                type: integer
+                format: int64
+                description: Quantity with overages provided in the plan (only applicable on ENTv2)
+              used:
+                type: integer
+                format: int64
+                description: Quantity consumed by master
+              usedOverages:
+                type: integer
+                format: int64
+                description: Quantity consumed by sub-organizations over the admin plan limit (only applicable on
+                  ENTv2)
+              remaining:
+                type: integer
+                format: int64
+                description: Quantity remaining in the plan
+      description: Plan details
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /corporate/masterAccount
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

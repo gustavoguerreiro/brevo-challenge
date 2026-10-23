@@ -1,0 +1,16 @@
+id: sms_whatsapp.create_whatsapp_campaign
+ui_label_pt: Criar campanha > WhatsApp
+plan_availability:
+  free: blocked
+  note: "The 'WhatsApp' card of 'Criar campanha' carries a crown and opens an upgrade panel on Free (observed live). The API call was not tried; it is expected to fail without a WhatsApp Business account and a plan that includes it."
+ui:
+  entry: /campaigns/listing
+  steps:
+    - "On Marketing > Campanhas press 'Criar campanha' and pick the card 'WhatsApp' (crown)."
+    - "On Free a panel titled 'Vá aonde seu cliente está com o WhatsApp' opens with the button 'Atualizar'. Stop here: the campaign editor was never seen."
+provenance:
+  sources: [ui]
+  verification: observed_not_executed
+  verified_at: "2026-10-22"
+  evidence: evidence/ui.plan_gating.json
+  notes: "UI route: only the upgrade panel was seen. The API summary says 'Create and Send', so the API call is treated as an external effect."

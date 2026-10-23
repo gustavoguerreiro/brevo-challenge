@@ -1,0 +1,55 @@
+id: crm.import_deals
+domain: crm
+summary: Import deals(creation and updation).
+risk: write
+reversible: false
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    file:
+      type: string
+      format: binary
+      description: The CSV file to upload.The file should have the first row as the mapping attribute. Some default
+        attribute names are (a) deal_id [brevo mongoID to update deals] (b) associated_contact (c) associated_company
+        (f) any other attribute with …
+    mapping:
+      type: string
+      description: 'The mapping options in JSON format. json { "link_entities": true, // Determines whether to link
+        related entities during the import process "unlink_entities": false, //Determines whether to unlink related
+        entities during the import process. …'
+  required:
+  - file
+  - mapping
+outputs:
+  type: object
+  properties:
+    processId:
+      type: integer
+      description: The ID of the import process
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 400: Bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /crm/deals/import
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

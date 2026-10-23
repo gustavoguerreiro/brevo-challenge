@@ -1,0 +1,58 @@
+id: contacts.configure_list_settings
+domain: contacts
+summary: Set per-list sender name, sender address, reply-to, header, footer, description and exclusion rules.
+ui_label_pt: Configurações das listas
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - list_id
+  properties:
+    list_id:
+      type: integer
+    custom_sender_name:
+      type: string
+    custom_sender_address:
+      type: string
+    custom_reply_to:
+      type: string
+    custom_header:
+      type: string
+    custom_footer:
+      type: string
+    description:
+      type: string
+    remove_from_other_lists_when_in_this_list:
+      type: boolean
+    remove_from_this_list_when_in_other_lists:
+      type: boolean
+side_effects:
+- 'Expected (from the labels, not seen): the two exclusion toggles move contacts between lists automatically from then on.'
+postcondition_check: 'Not observed. Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list-listing
+    steps:
+    - 'Open the Ações menu of the list row and choose ''Configurações das listas''. The page opens on a legacy host:
+      my.brevo.com/lists/settings/id/<list_id> (titled ''Definições da Lista'').'
+    - 'Available settings: custom sender name, custom sender address, custom reply-to address, custom header, custom
+      footer, ''Descrição'', ''Remover contatos de outras listas se estiverem nesta lista'', ''Remover contatos
+      desta lista se estiverem em outras listas''.'
+    - 'Buttons ''Voltar'' and ''Salvar''. NOT EXECUTED: the page was read as text only.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.configure_list_settings.json
+  notes: Field labels were read from page text on my.brevo.com (screenshots of that host were blocked in the session).
+    The input types are inferred from the labels.

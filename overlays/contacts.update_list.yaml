@@ -1,0 +1,35 @@
+id: contacts.update_list
+plan_availability:
+  free: available
+ui_label_pt: Renomear / Mover (menu de ações da lista)
+preconditions:
+- 'UI route: a list whose numeric ID equals the ID of a system folder can drag that folder''s name along when renamed
+  (observed with list 3). Before renaming, list the folders and note their names; after renaming, compare. Prefer
+  PUT /contacts/lists/{listId} (not tested) for such lists.'
+side_effects:
+- 'Observed: renaming a list through the UI also renamed the system folder whose numeric ID equals the list ID (see
+  evidence). After any rename, re-read the folder list and compare with the old folder names.'
+postcondition_check: 'UI: toast ''Lista renomeada para "<name>"'' and the new name in the Listas table. Then check
+  the Pasta column of the other lists for unwanted changes. API: HTTP 204, then read it back with contacts.get_list.'
+ui:
+  entry: /contact/list-listing
+  steps:
+  - Go to CRM > Contatos > Listas and write down the names in the Pasta column (and the folder list) before renaming.
+  - 'Open the three-dot menu in the Ações column of the list row (menu: Configurações das listas, Duplicar, Importar
+    contatos para a lista, Renomear, Mover, Excluir lista).'
+  - 'Renomear: in the side panel ''Renomear lista'' replace ''Nome da lista'' (max 255) and press ''Renomear lista''.
+    Submitting an unchanged name sends nothing.'
+  - After the toast, reload and compare the folder names with the ones noted earlier. If a folder name changed,
+    rename the list back to restore it (that is how it was repaired in the test).'
+  - 'Mover (observed only): pick another folder in the panel. Needs at least one more folder.'
+  internal_service: contacts-api-v2/lists/update (a GET request, then lists/get-folders and lists/get-lists to refresh)
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_list.json
+  notes: Rename executed in the UI twice (and a third time to repair an unexpected folder rename). Move not executed.

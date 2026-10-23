@@ -1,0 +1,47 @@
+id: automations.create_automation_from_prebuilt
+domain: automations
+summary: 'Start an automation from a pre-built one (dialog ''Criar campanha'' > ''Automatizada''): welcome message,
+  abandoned cart and others.'
+ui_label_pt: Criar campanha > Automatizada > Tipo de automação pré-construído
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    template:
+      type: string
+      enum:
+      - Mensagem de boas-vindas
+      - Carrinho abandonado
+      - Atividade de marketing
+      - Compra de produto
+      - Data de aniversário
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Press 'Criar campanha'. In 'Automatizada' pick a card under 'Tipo de automação pré-construído' (filters 'Mais
+      populares', 'Todos', 'Aumentar o engajamento', 'Aumentar tráfego', 'Aumentar a receita', 'Construir relacionamentos';
+      and 'Canal').
+    - 'E-mail cards seen: Mensagem de boas-vindas, Carrinho abandonado, Atividade de marketing, Compra de produto,
+      Data de aniversário. None was chosen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Cards read; none opened, so what a pre-built automation contains is unknown. Keep the result inactive until
+    a human reviews it.

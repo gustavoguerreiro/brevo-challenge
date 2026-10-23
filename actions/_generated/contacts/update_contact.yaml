@@ -1,0 +1,111 @@
+id: contacts.update_contact
+domain: contacts
+summary: Change a contact's attributes, list memberships or subscription status (blocklist flags change consent).
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'identifier' must identify an existing record.
+- Inputs emailBlacklisted, smsBlacklisted, smtpBlacklistSender change e-mail/SMS consent. Set them only on an explicit
+  yes from the person, naming the contact or list; never set them to false to re-enable someone who unsubscribed
+  or was blocked.
+inputs:
+  type: object
+  properties:
+    identifier:
+      type: string
+      description: Email (urlencoded) OR ID of the contact
+    attributes:
+      type: object
+      description: Pass the set of attributes to be updated. These attributes must be present in your account. Values
+        that don't match the attribute type (e.g. text or string in a date attribute) will be ignored.To update
+        existing email address of a contact …
+      properties: {}
+      x-in: body
+    ext_id:
+      type: string
+      description: Pass your own Id to update ext_id of a contact.
+      x-in: body
+    emailBlacklisted:
+      type: boolean
+      description: Set/unset this field to blacklist/allow the contact for emails (emailBlacklisted = true)
+      x-in: body
+    smsBlacklisted:
+      type: boolean
+      description: Set/unset this field to blacklist/allow the contact for SMS (smsBlacklisted = true)
+      x-in: body
+    listIds:
+      type: array
+      description: Ids of the lists to add the contact to
+      items:
+        type: integer
+        format: int64
+        description: Id of the list to add the contact to
+      x-in: body
+    unlinkListIds:
+      type: array
+      description: Ids of the lists to remove the contact from
+      items:
+        type: integer
+        format: int64
+        description: Id of the list to remove the contact from
+      x-in: body
+    smtpBlacklistSender:
+      type: array
+      description: transactional email forbidden sender for contact. Use only for email Contact
+      items:
+        type: string
+        format: email
+      x-in: body
+  required:
+  - identifier
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+- 'Expected (not verified): changing list membership or subscription can fire automations and changes who receives
+  campaigns.'
+- 'Observed: choosing ''Colocado em lista bloqueada'' gave a confirmation toast and no dialog; it was reverted with
+  ''Inscrito'' in the same dropdown, and the contact history keeps both events.'
+- 'Expected (no campaign was sent to test it): a blocklisted contact receives no campaign e-mails.'
+postcondition_check: 'UI attribute edit: toast ''Atributo atualizado'' and the new value in the card; subscription:
+  toast ''As inscrições do contato foram atualizadas.''. API: HTTP 204.'
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Contact''s email not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /contacts/{identifier}
+    auth: api-key header (never store the value).
+    operation_id: updateContact
+  ui:
+    entry: /contact/index/<contact_id>
+    steps:
+    - 'Attribute: on tab ''Visão geral'', card ''Informações'', click the value of a field (placeholder shows the
+      attribute name), type, press Enter. It saves at once. The gear icon chooses which fields the card shows.'
+    - 'Subscription: tab ''Preferences'' > ''Campanhas e automações'' > dropdown ''Campanhas'' (Inscrito | Colocado
+      em lista bloqueada); ''Transacional'' has its own dropdown and a pencil ''Remetentes'' to restrict which senders
+      may e-mail the contact. The change applies immediately, with no confirmation dialog.'
+    - 'Lists: see contacts.add_contact_to_list (tab ''Listas'' > ''Administrar listas'').'
+    internal_service: contacts-api/contact/backend/contacts/update (a GET request)
+provenance:
+  sources:
+  - api_docs
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Executed for one attribute and the campaign subscription of the test contact. Generated from the Brevo
+    public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live
+    developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_contact.json
+ui_label_pt: Informações / Preferences (página do contato)

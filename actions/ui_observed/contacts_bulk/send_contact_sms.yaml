@@ -1,0 +1,42 @@
+id: contacts.send_contact_sms
+domain: contacts
+summary: Text one contact from the contact page (action bar 'SMS'). A real message; button seen, not pressed.
+ui_label_pt: Contato > SMS
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    contact_id:
+      type: integer
+      description: Contact.
+    body:
+      type: string
+      description: Message text. Assumed.
+  required:
+  - contact_id
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run. Expected: an SMS entry in the contact''s ''Histórico'' tab. SMS needs set-up and
+  credits that the test account lacks, so the outcome is unknown.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/index/<id>
+    steps:
+    - Open the contact page and press 'SMS' in the action bar (seen, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Button seen only. The account has no SMS credits.

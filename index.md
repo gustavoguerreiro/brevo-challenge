@@ -1,0 +1,485 @@
+# Brevo action index
+
+Load this first, together with AGENT_GUIDE.md (rules for using the catalog). Fetch the full spec of one action from catalog.json by id.
+
+Legend: tier A = executed through the route(s) in `verified_via` and read back, B = observed or documented, not executed, C = inferred. risk: read / write / destructive / external_effect. `blocked on Free` = the feature needs a paid plan.
+
+## account
+- `account.add_ip_to_sub_accounts` [B, write, needs human OK, use api] Associate an IP to sub-accounts.
+- `account.configure_aura_agents` [B, write, use ui] Switch the AI agents on or off (Centro de controle da Aura IA): 'Agente de marketing' and 'Agente de vendas'.
+- `account.configure_authorized_ips` [B, write, needs human OK, use ui] Restrict API and SMTP keys to authorised IPs (Segurança > IPs autorizados; banner 'Ativar para chaves ...').
+- `account.configure_sending_cadence` [B, write, use ui] Edit the sending cadence (tab 'Cadência de envio' of Remetentes, domínio, IPs). Only the tab was seen.
+- `account.configure_sub_account_apps` [B, write, needs human OK, use api] Enable/disable sub-account application(s).
+- `account.configure_two_factor` [B, write, needs human OK, use ui] Enable two-factor authentication with an authenticator app or SMS (Segurança > Autenticação em dois fatores).
+- `account.configure_utm_tracking` [B, write, use ui] Turn automatic UTM parameters on or off for campaigns, templates and scenarios (Parâmetros de UTM).
+- `account.connect_individual_email` [B, write, needs human OK, use ui] Connect the user's own mailbox ('Conectar e-mail individual') to work with contact e-mail inside Brevo.
+- `account.create_admin_sso_token` [B, write, needs human OK, use api] Generate SSO token to access admin account.
+- `account.create_api_key` [B, write, needs human OK, use ui] Create an API or MCP key (Configurações > SMTP & API > Chaves API e MCP > Gerar chave API). Form read, not submitted.
+- `account.create_domain` [B, write, needs human OK, use api] Add a sending domain to the account; authenticating it is a separate step.
+- `account.create_sender` [B, external_effect, needs human OK, use api] Add a sender (name and address); Brevo e-mails a verification message to the address.
+- `account.create_sub_account` [B, write, needs human OK, use api] Create a new sub-account under a master account.
+- `account.create_sub_account_api_key` [B, write, needs human OK, use api] Create an API key for a sub-account.
+- `account.create_sub_account_group` [B, write, use api] Create a new group of sub-accounts.
+- `account.create_sub_account_sso_token` [B, write, needs human OK, use api] Generate SSO token to access sub-account.
+- `account.delete_domain` [B, destructive, needs human OK, use api] Delete a sending domain from the account (destructive; confirm first).
+- `account.delete_sender` [B, destructive, needs human OK, use api] Delete a sender from the account (destructive; confirm first).
+- `account.delete_sub_account` [B, destructive, needs human OK, use api] Delete a sub-account of a corporate (master) account.
+- `account.delete_sub_account_group` [B, destructive, needs human OK, use api] Delete a group of sub-accounts of a corporate (master) account.
+- `account.get_account` [A, read, use api, verified via ui (api route NOT run)] Get your account information, plan and credits details.
+- `account.get_admin_user_permissions` [B, read, use api] Check admin user permissions.
+- `account.get_deliverability_status` [B, read, use ui] Read the sending status and deliverability score (Centro de entregabilidade). Explains the 'sending restricted' banner.
+- `account.get_domain` [B, read, use api] Validate domain configuration.
+- `account.get_master_account` [B, read, use api] Get the details of requested master account.
+- `account.get_plan_usage` [B, read, use ui] Read the plan and remaining allowance (top bar 'Uso e plano' and account menu 'Meu plano').
+- `account.get_process` [B, read, use api] Return the informations for a process.
+- `account.get_sub_account` [B, read, use api] Get sub-account details.
+- `account.get_sub_account_group` [B, read, use api] GET a group details.
+- `account.get_user_permissions` [B, read, use api] Check user permission.
+- `account.invite_admin_user` [B, external_effect, needs human OK, use api] Send invitation to an admin user.
+- `account.invite_user` [B, external_effect, needs human OK, blocked on Free, use api] Invite a person to the account with chosen permissions; an invitation e-mail goes out. Locked on Free.
+- `account.list_activity_logs` [B, read, use api] Get user activity logs.
+- `account.list_admin_invitations` [B, read, use api] Get the list of all admin users.
+- `account.list_api_keys` [B, read, use ui] List the account's API and MCP keys (table on Configurações > SMTP & API > Chaves API e MCP). Values are secrets.
+- `account.list_corporate_ips` [B, read, use api] List corporate ips (GET /corporate/ip).
+- `account.list_dedicated_ips` [B, read, use api] Get all the dedicated IPs for your account.
+- `account.list_domains` [A, read, use api, verified via ui (api route NOT run)] Get the list of all your domains.
+- `account.list_processes` [B, read, use api] Return all the processes for your account.
+- `account.list_sender_ips` [B, read, use api] Get all the dedicated IPs for a sender.
+- `account.list_senders` [A, read, use api, verified via ui (api route NOT run)] Get the list of all your senders.
+- `account.list_sub_account_groups` [B, read, use api] Get the list of groups.
+- `account.list_sub_accounts` [B, read, use api] Get the list of all the sub-accounts of the master account.
+- `account.list_user_invitations` [B, read, use api] Get the list of all your users.
+- `account.list_users` [B, read, use ui] List the account's users with status and roles (Configurações > Usuários). Inviting users is blocked on Free.
+- `account.purchase_dedicated_ip` [B, external_effect, needs human OK, use ui] Buy a dedicated IP ('Obter um IP dedicado' on Configurações > Campanhas). A purchase; not executed.
+- `account.purchase_licenses` [B, external_effect, needs human OK, blocked on Free, use ui] Add user licences ('Adicionar licenças', crown). Buys capacity; blocked on the Free plan.
+- `account.remove_admin_user` [B, destructive, needs human OK, use api] Revoke an admin user's access to the account.
+- `account.remove_ip_from_sub_account` [B, write, needs human OK, use api] Dissociate an IP from sub-accounts.
+- `account.remove_sub_accounts_from_group` [B, write, needs human OK, use api] Delete sub-account from group.
+- `account.remove_user` [B, destructive, needs human OK, use api] Revoke a user's access to the account.
+- `account.update_admin_invitation` [B, external_effect, needs human OK, use api] Resend / cancel admin user invitation.
+- `account.update_admin_user_permissions` [B, write, needs human OK, use api] Update admin user permissions (PUT /corporate/user/{email}/permissions).
+- `account.update_general_settings` [B, write, use ui] Edit account preferences: time zone, 24h/12h clock, date format, notifications, invoice e-mails, support access (Geral).
+- `account.update_language_settings` [B, write, needs human OK, use ui] Change the interface language and time zone (Idioma). Seven languages are offered.
+- `account.update_profile` [B, write, use ui] Edit the user's profile: personal information, company information, communication preferences (Meu perfil).
+- `account.update_sender` [B, write, use api] Change the name or e-mail address of an existing sender.
+- `account.update_sub_account_group` [B, write, use api] Update a group of sub-accounts.
+- `account.update_sub_account_plan` [B, write, needs human OK, use api] Change the plan (credits and features) of a sub-account of a corporate account.
+- `account.update_sub_accounts_plan` [B, write, needs human OK, use api] Update sub accounts plan (PUT /corporate/subAccounts/plan).
+- `account.update_user_invitation` [B, external_effect, needs human OK, use api] Resend / Cancel invitation.
+- `account.update_user_permissions` [B, write, needs human OK, use api] Update permission for a user.
+- `account.verify_domain` [B, write, use api] Authenticate a sending domain by checking its DNS records; the domain must exist already.
+- `account.verify_sender` [B, write, use api] Complete a sender's verification with the OTP code received by e-mail.
+
+## analytics
+- `analytics.get_analytics_studio` [B, read, blocked on Free, use ui] Open Analytics studio (Análise > Analytics studio). Blocked on the Free plan: the page asks for the Professional plan.
+- `analytics.list_conversions` [B, read, blocked on Free, use ui] Open the Conversões section (Análise > Conversões). Blocked on the Free plan: an upgrade dialog opens.
+
+## automations
+- `automations.activate_automation` [B, external_effect, needs human OK, use ui] Activate an automation so that it starts processing real contacts. External effect.
+- `automations.add_action_add_contact_to_list` [A, write, use ui, verified via ui] Add the action step 'Adicionar um contato a uma lista' (Contatos) to an automation. UI only.
+- `automations.add_action_assign_contact_user` [B, write, use ui] Add the action step 'Atribuir um usuário a um contato' (Contatos) to an automation. UI only.
+- `automations.add_action_blocklist_contact` [B, write, use ui] Add the action step 'Colocar contato em lista bloqueada' (Contatos) to an automation. UI only.
+- `automations.add_action_call_webhook` [B, write, use ui] Add the action step 'Chamar um webhook' (Webhooks) to an automation. UI only.
+- `automations.add_action_create_deal` [B, write, use ui] Add the action step 'Criar oportunidade' (Oportunidades) to an automation. UI only.
+- `automations.add_action_create_task` [B, write, blocked on Free, use ui] Add the action step 'Criar uma tarefa' (Oportunidades) to an automation. UI only.
+- `automations.add_action_delete_contact` [B, write, use ui] Add the action step 'Excluir um contato' (Contatos) to an automation. UI only.
+- `automations.add_action_duplicate_deal` [B, write, use ui] Add the action step 'Duplicar oportunidade' (Oportunidades) to an automation. UI only.
+- `automations.add_action_notify_by_email` [B, write, use ui] Add the action step 'Notificar por e-mail' (Mensagens) to an automation. UI only.
+- `automations.add_action_redirect_contact` [B, write, use ui] Add the action step 'Redirecionar contato para outra etapa' (Automations) to an automation. UI only.
+- `automations.add_action_remove_contact_from_list` [B, write, use ui] Add the action step 'Remover contato de uma lista' (Contatos) to an automation. UI only.
+- `automations.add_action_send_email` [B, write, use ui] Add the action step 'Enviar um e-mail' (Mensagens) to an automation. UI only.
+- `automations.add_action_send_individual_email` [B, write, blocked on Free, use ui] Add the action step 'Envie um e-mail individual a partir de ...' (Mensagens) to an automation. UI only.
+- `automations.add_action_send_sms` [B, write, use ui] Add the action step 'Enviar um SMS' (Mensagens) to an automation. UI only.
+- `automations.add_action_send_whatsapp_message` [B, write, blocked on Free, use ui] Add the action step 'Enviar uma mensagem de WhatsApp' (Mensagens) to an automation. UI only.
+- `automations.add_action_start_other_automation` [B, write, use ui] Add the action step 'Iniciar outra automação' (Automations) to an automation. UI only.
+- `automations.add_action_update_company_attribute` [B, write, use ui] Add the action step 'Atualizar atributo de empresa' (Contatos) to an automation. UI only.
+- `automations.add_action_update_contact_attribute` [B, write, use ui] Add the action step 'Atualizar atributo de contato' (Contatos) to an automation. UI only.
+- `automations.add_action_update_deal_attribute` [B, write, use ui] Add the action step 'Atualizar atributo de oportunidades' (Oportunidades) to an automation. UI only.
+- `automations.add_automation_tag` [B, write, blocked on Free, use ui] Tag an automation (row menu 'Atribuir uma tag'). Blocked on the Free plan.
+- `automations.add_rule_conditional_split` [B, write, use ui] Add the rule step 'Divisão condicional' (Regras) to an automation. UI only.
+- `automations.add_rule_delay` [B, write, use ui] Add the rule step 'Atraso de tempo' (Regras) to an automation. UI only.
+- `automations.add_rule_percentage_split` [B, write, use ui] Add the rule step 'Divisão percentual' (Regras) to an automation. UI only.
+- `automations.add_rule_wait_for_event` [B, write, use ui] Add the rule step 'Espere até que um evento aconteça' (Regras) to an automation. UI only.
+- `automations.configure_reentry_and_exit` [B, write, use ui] Set whether contacts can re-enter an automation, and the exit and reset conditions.
+- `automations.configure_trigger_birthday` [B, write, use ui] Add the trigger 'Aniversário' (Contatos) to an automation. UI only.
+- `automations.configure_trigger_call_ended` [B, write, use ui] Add the trigger 'Chamada encerrada' (Telefone) to an automation. UI only.
+- `automations.configure_trigger_contact_added_manually` [B, write, use ui] Add the trigger 'Contato adicionado manualmente' (Contatos) to an automation. UI only.
+- `automations.configure_trigger_contact_added_to_list` [A, write, use ui, verified via ui] Set the automation entry trigger "Contato adicionado à lista" (contact added to list) on a draft automation.
+- `automations.configure_trigger_contact_in_segment` [B, write, use ui] Add the trigger 'O contato está em um segmento' (Contatos) to an automation. UI only.
+- `automations.configure_trigger_contact_matches_filters` [B, write, use ui] Add the trigger 'O contato atende a filtros personalizados' (Contatos) to an automation. UI only.
+- `automations.configure_trigger_contact_removed_from_list` [B, write, use ui] Add the trigger 'Contato removido da lista' (Contatos) to an automation. UI only.
+- `automations.configure_trigger_coupon_sent` [B, write, use ui] Add the trigger 'Unique coupon sent' (Coupon) to an automation. UI only.
+- `automations.configure_trigger_custom_event` [B, write, use ui] Add the trigger 'Evento personalizado' (Personalizado) to an automation. UI only.
+- `automations.configure_trigger_deal_created` [B, write, use ui] Add the trigger 'Oportunidade criada' (Oportunidades) to an automation. UI only.
+- `automations.configure_trigger_deal_stage_updated` [B, write, use ui] Add the trigger 'Etapa da oportunidade atualizada' (Oportunidades) to an automation. UI only.
+- `automations.configure_trigger_email_link_clicked` [B, write, use ui] Add the trigger 'Link clicado em um e-mail' (E-mail) to an automation. UI only.
+- `automations.configure_trigger_email_opened` [B, write, use ui] Add the trigger 'E-mail aberto' (E-mail) to an automation. UI only.
+- `automations.configure_trigger_email_unsubscribed` [B, write, use ui] Add the trigger 'Cancelamento da assinatura de e-mails' (E-mail) to an automation. UI only.
+- `automations.configure_trigger_form_submitted` [B, write, use ui] Add the trigger 'Formulário enviado' (Formulários) to an automation. UI only.
+- `automations.configure_trigger_meeting_canceled` [B, write, use ui] Add the trigger 'Reunião cancelada' (Meetings) to an automation. UI only.
+- `automations.configure_trigger_meeting_scheduled` [B, write, use ui] Add the trigger 'Reunião agendada' (Meetings) to an automation. UI only.
+- `automations.configure_trigger_meeting_started` [B, write, use ui] Add the trigger 'Reunião iniciada' (Meetings) to an automation. UI only.
+- `automations.configure_trigger_task_completed` [B, write, blocked on Free, use ui] Add the trigger 'Tarefa concluída' (Oportunidades) to an automation. UI only.
+- `automations.configure_trigger_task_created` [B, write, blocked on Free, use ui] Add the trigger 'Tarefa criada' (Oportunidades) to an automation. UI only.
+- `automations.configure_trigger_web_page_visited` [B, write, use ui] Add the trigger 'Página da web visitada' (Website) to an automation. UI only.
+- `automations.configure_trigger_whatsapp_reply_received` [B, write, use ui] Add the trigger 'Resposta do WhatsApp recebida' (WhatsApp) to an automation. UI only.
+- `automations.create_automation` [A, write, use ui, verified via ui] Create a new, inactive automation (workflow) from scratch in the visual editor. UI only, the public API has no automation endpoints.
+- `automations.create_automation_from_prebuilt` [B, write, use ui] Start an automation from a pre-built one (dialog 'Criar campanha' > 'Automatizada'): welcome message, abandoned cart and others.
+- `automations.delete_automation` [B, destructive, needs human OK, use ui] Delete an automation from the list.
+- `automations.duplicate_automation` [A, write, use ui, verified via ui] Duplicate an automation. It happens at once, with no dialog and no confirmation.
+- `automations.generate_automation_from_prompt` [B, write, use ui] Describe an automation in one sentence and let AI build it (dialog 'Criar uma campanha' > 'Automatizada').
+- `automations.get_automation_activity` [A, read, use ui, verified via ui] Read the per-step contact counts of an automation for a date range.
+- `automations.list_automation_logs` [B, read, use ui] Read scenario logs and the contacts currently in a scenario.
+- `automations.list_automation_messages` [B, read, use ui] List the e-mail messages used by 'Enviar um e-mail' steps across automations.
+- `automations.list_automations` [A, read, use ui, verified via ui] List automations with status and run counters. UI only: the public REST API has no automation endpoints.
+- `automations.rename_automation` [A, write, use ui, verified via ui] Rename an automation from the list.
+- `automations.test_automation` [B, external_effect, needs human OK, use ui] Run a test of the automation for a contact. May act on a real contact.
+- `automations.update_automation_description` [B, write, use ui] Edit the description of an automation.
+
+## contacts
+- `contacts.add_contact_to_list` [A, write, use api, verified via ui (api route NOT run)] Add existing contacts to a list.
+- `contacts.add_contacts_to_automation` [B, external_effect, needs human OK, use ui] Enrol the selected contacts in an automation ('Mais ações > Adicionar à automação'; also on the contact page).
+- `contacts.configure_apple_mpp_filter` [B, write, use ui] Include or exclude Apple Mail Privacy Protection opens in segments (card 'Aberturas da Apple MPP em segmentos').
+- `contacts.configure_contact_columns` [B, write, use ui] Choose which columns the contacts table shows ('Personalizar colunas').
+- `contacts.configure_lead_scoring` [B, write, blocked on Free, use ui] Set up lead scoring ('Pontuações'). Blocked on the Free plan: the contact card and the settings card are locked.
+- `contacts.configure_list_settings` [B, write, use ui] Set per-list sender name, sender address, reply-to, header, footer, description and exclusion rules.
+- `contacts.configure_pixel_consent` [B, write, needs human OK, use ui] Track opens and clicks only for contacts who consented (card 'Consentimento de rastreamento por pixel por contato').
+- `contacts.configure_unengaged_contacts` [B, write, use ui] Define unengaged contacts so they can be excluded from campaigns (Configurações > Contatos > Contatos não engajados).
+- `contacts.copy_sms_number_to_whatsapp` [B, write, use ui] Copy the SMS number to the WhatsApp field for the selected contacts ('Mais ações > Copie o número de SMS para o WhatsApp').
+- `contacts.create_attribute` [B, write, use api] Create a custom contact attribute (name, category and type such as date or text).
+- `contacts.create_consent_group` [B, write, use api] Create consent group (POST /contacts/consent-groups).
+- `contacts.create_contact` [A, write, use api, verified via ui (api route NOT run)] Create a contact from an e-mail, phone number or external ID, optionally into lists.
+- `contacts.create_contact_call` [B, external_effect, needs human OK, blocked on Free, use ui] Call one contact from the contact page (action bar 'Ligar'). Needs the Telefone package; not pressed.
+- `contacts.create_doi_contact` [B, external_effect, needs human OK, use api] Create Contact via DOI (Double-Opt-In) Flow.
+- `contacts.create_folder` [B, write, use api] Create a folder that groups contact lists.
+- `contacts.create_list` [A, write, use api, verified via ui (api route NOT run)] Create a contact list inside an existing folder.
+- `contacts.create_lists_from_segment` [B, write, blocked on Free, use ui] Split a segment into lists (row menu 'Dividir em listas'). Blocked on the Free plan.
+- `contacts.create_saved_view` [B, write, use ui] Save the current contact filters and columns as a view (tab '+' next to 'Todos os contatos').
+- `contacts.create_segment` [A, write, use ui, verified via ui] Create a dynamic segment (saved filter over contacts) in a segment folder. UI only, the public API cannot create segments.
+- `contacts.delete_attribute` [B, destructive, needs human OK, use api] Delete a contact attribute (destructive; confirm first).
+- `contacts.delete_consent_group` [B, destructive, needs human OK, use api] Delete consent group (DELETE /contacts/consent-groups/{id}).
+- `contacts.delete_contact` [B, destructive, needs human OK, use api] Delete a contact and its history for good (destructive; confirm first).
+- `contacts.delete_folder` [B, destructive, needs human OK, use api] Delete a folder (and all its lists).
+- `contacts.delete_list` [B, destructive, needs human OK, use api] Delete a contact list (destructive; confirm first). Its contacts are expected to stay in the account.
+- `contacts.delete_segment` [B, destructive, needs human OK, use ui] Delete a saved segment. UI only; the delete was not executed.
+- `contacts.duplicate_list` [A, write, use ui, verified via ui] Duplicate a list into a folder under a new name. UI only. Runs asynchronously.
+- `contacts.duplicate_segment` [A, write, use ui, verified via ui] Duplicate a segment with its filters into a folder. UI only.
+- `contacts.export_contacts` [B, write, use api] Export contacts (all, or a list or segment) to a file you can download.
+- `contacts.get_consent_group` [B, read, use api] Get consent group (GET /contacts/consent-groups/{id}).
+- `contacts.get_contact` [A, read, use api, verified via ui (api route NOT run)] Read one contact: attributes, list memberships, subscription status and recent activity.
+- `contacts.get_contact_campaign_stats` [B, read, use api] Get email campaigns' statistics for a contact.
+- `contacts.get_folder` [B, read, use api] Returns a folder's details.
+- `contacts.get_list` [B, read, use api] Get a list's details.
+- `contacts.import_contacts` [B, write, use api] Import contacts from a file or a JSON body into chosen lists; runs asynchronously.
+- `contacts.list_attributes` [A, read, use api, verified via ui (api route NOT run)] List the contact attributes of the account with their categories and types.
+- `contacts.list_consent_groups` [B, read, use api] List consent groups (GET /contacts/consent-groups).
+- `contacts.list_contacts` [A, read, use api, verified via ui (api route NOT run)] List contacts, with filters for list, segment and modification date, and paging.
+- `contacts.list_folder_lists` [B, read, use api] Get lists in a folder.
+- `contacts.list_folders` [A, read, use api, verified via ui (api route NOT run)] List the folders that group contact lists (system folders included).
+- `contacts.list_list_contacts` [B, read, use api] Get contacts in a list.
+- `contacts.list_lists` [A, read, use api, verified via ui (api route NOT run)] List contact lists with their folder, counts and paging.
+- `contacts.list_segments` [A, read, use api, verified via ui (api route NOT run)] List the saved segments. The API reads segments but cannot create them.
+- `contacts.move_segment` [B, write, use ui] Move a segment to another segment folder.
+- `contacts.recalculate_lists` [B, write, use ui] Recount the contacts of the lists ('Recalcular agora' on the Listas page). Not pressed.
+- `contacts.recalculate_segment` [B, write, use ui] Recompute a segment's contact count on demand (menu entry 'Atualizar dados').
+- `contacts.remove_attribute_option` [B, destructive, needs human OK, use api] Remove attribute option (DELETE /contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption}).
+- `contacts.remove_contact_from_list` [B, write, use api] Delete a contact from a list.
+- `contacts.rename_segment` [A, write, use ui, verified via ui] Rename a segment. UI only: the public API cannot update segments.
+- `contacts.send_contact_email` [B, external_effect, needs human OK, use ui] Write to one contact from the contact page (action bar 'E-mail'). A real message; button seen, not pressed.
+- `contacts.send_contact_sms` [B, external_effect, needs human OK, use ui] Text one contact from the contact page (action bar 'SMS'). A real message; button seen, not pressed.
+- `contacts.update_attribute` [B, write, use api] Change the values or the calculation of an existing contact attribute.
+- `contacts.update_consent_group` [B, write, use api] Update consent group (PUT /contacts/consent-groups/{id}).
+- `contacts.update_contact` [A, write, use api, verified via ui (api route NOT run)] Change a contact's attributes, list memberships or subscription status (blocklist flags change consent).
+- `contacts.update_contact_owner` [B, write, use ui] Assign the selected contacts to a user ('Mais ações > Atribuir').
+- `contacts.update_contact_subscription` [A, write, needs human OK, use ui, verified via ui] Subscribe a contact to, or put it on the blocklist for, campaigns or transactional e-mail.
+- `contacts.update_contacts_blocklist` [B, write, needs human OK, use ui] Put the selected contacts on the blocklist ('Lista bloqueada' in the selection bar). Stops their e-mail and SMS.
+- `contacts.update_folder` [B, write, use api] Rename a folder of contact lists.
+- `contacts.update_list` [A, write, use api, verified via ui (api route NOT run)] Rename a contact list or move it to another folder.
+- `contacts.update_selected_contacts` [B, write, use ui] Edit an attribute for the selected contacts ('Mais ações > Modificar').
+
+## content
+- `content.activate_email_template` [A, write, use ui, verified via ui] Activate an e-mail template so that Automações and Transacional can use it.
+- `content.create_email_template` [A, write, use api, verified via ui (api route NOT run)] Create a reusable e-mail template (Marketing > Modelos). Saved inactive by default; content can be added later.
+- `content.create_media_folder` [B, write, use ui] Create a folder in the media library (Biblioteca > Multimédia).
+- `content.create_push_template` [B, write, blocked on Free, use ui] Create a push notification template ('Modelo push' under Modelos > Criar modelo). Blocked on the Free plan.
+- `content.create_subscription_form` [B, write, use ui] Create a sign-up form (full page / embedded, or pop-up). UI only. The editor itself was not explored.
+- `content.create_template_folder` [B, write, blocked on Free, use ui] Create a folder for e-mail templates. Blocked on the Free plan ('Criar pasta' on Modelos carries a crown).
+- `content.deactivate_email_template` [A, write, use ui, verified via ui] Deactivate an e-mail template. It can no longer be used in Automações and Transacional.
+- `content.delete_email_template` [B, destructive, needs human OK, use ui] Delete an e-mail template. Only inactive templates offer the option.
+- `content.duplicate_email_template` [A, write, use ui, verified via ui] Duplicate an e-mail template. It acts at once, with no dialog.
+- `content.generate_image_with_ai` [B, write, use ui] Generate an image with AI in the media library (Biblioteca > Multimédia).
+- `content.import_image_from_url` [B, write, use ui] Import an image into the media library from a URL (Biblioteca > Multimédia).
+- `content.list_email_templates` [A, read, use ui, verified via ui] List marketing e-mail templates with status and last edit time.
+- `content.list_forms` [A, read, use ui, verified via ui] List sign-up, unsubscribe and profile-update forms. UI only: there is no public API for forms.
+- `content.preview_email_template` [A, read, use ui, verified via ui] Preview a template as a chosen recipient. Does not send anything unless the third tab is used.
+- `content.update_email_template_content` [A, write, use ui, verified via ui] Add or replace the body (design) of an e-mail template with custom HTML.
+- `content.upload_gallery_image` [B, write, use api] Upload an image to your account's image gallery.
+
+## conversations
+- `conversations.configure_ai_chatbot` [B, write, use ui] Configure the AI chatbot (inbox settings > 'Chatbot e automação' > 'Chatbot de IA').
+- `conversations.configure_assignment_rules` [B, write, use ui] Set the conversation assignment rules (inbox settings > 'Equipe' > 'Regras de atribuição').
+- `conversations.configure_chat_widget` [B, write, use ui] Set up the chat widget channel ('Widget do chat' under Canais).
+- `conversations.configure_conversation_notifications` [B, write, use ui] Edit the user's inbox notifications (inbox settings > 'Pessoal' > 'Notificações').
+- `conversations.connect_inbox_channel` [B, write, needs human OK, use ui] Connect a channel to the Conversas inbox: chat widget and e-mail are open, Facebook, Instagram, WhatsApp and SMS are crown-gated.
+- `conversations.create_agent_group` [B, write, use ui] Create an agent group (inbox settings > 'Equipe' > 'Grupos').
+- `conversations.create_chatbot_scenario` [B, write, use ui] Create a chatbot scenario (inbox settings > 'Chatbot e automação' > 'Cenários do chatbot').
+- `conversations.create_saved_reply` [B, write, blocked on Free, use ui] Create a saved reply for the inbox ('Respostas salvas'). Blocked on the Free plan.
+- `conversations.delete_automated_message` [B, destructive, needs human OK, use api] Delete an automated message.
+- `conversations.delete_message` [B, destructive, needs human OK, use api] Delete a message sent by an agent.
+- `conversations.get_automated_message` [B, read, use api] Get an automated message.
+- `conversations.get_message` [B, read, use api] Get a message.
+- `conversations.list_conversations` [A, read, use ui, verified via ui] List chat conversations in the inbox by view and status. UI only; the public API cannot list them.
+- `conversations.send_automated_message` [B, external_effect, needs human OK, use api] Send an automated message to a visitor.
+- `conversations.send_visitor_message` [B, external_effect, needs human OK, use api] Send a message as an agent.
+- `conversations.update_agent_status` [B, write, use api] Sets agent’s status to online for 2-3 minutes.
+- `conversations.update_automated_message` [B, write, use api] Update an automated message.
+- `conversations.update_message` [B, write, use api] Update a message sent by an agent.
+- `conversations.update_visitor_group` [B, write, use api] Update visitor group (PUT /conversations/visitorGroup).
+
+## crm
+- `crm.activate_sales_crm` [B, write, needs human OK, use ui] Activate the sales CRM so that Oportunidades and Tarefas work ('Começar grátis' on /crm/onboarding).
+- `crm.create_attribute` [B, write, use api] Create attribute (POST /crm/attributes).
+- `crm.create_company` [B, write, use api] Create a company in the CRM, optionally linked to contacts and deals.
+- `crm.create_deal` [B, write, use api] Create a deal in the CRM pipeline; the CRM must be activated on the account first.
+- `crm.create_file` [B, write, use api] Upload a file to attach to a CRM contact, company or deal.
+- `crm.create_note` [B, write, use api] Create a note linked to CRM contacts, companies or deals.
+- `crm.create_task` [B, write, use api] Create a CRM task (type, due date, assignee) linked to contacts, companies or deals.
+- `crm.delete_company` [B, destructive, needs human OK, use api] Delete a CRM company (destructive; confirm first).
+- `crm.delete_deal` [B, destructive, needs human OK, use api] Delete a CRM deal (destructive; confirm first).
+- `crm.delete_file` [B, destructive, needs human OK, use api] Delete a CRM file (destructive; confirm first).
+- `crm.delete_note` [B, destructive, needs human OK, use api] Delete a CRM note (destructive; confirm first).
+- `crm.delete_task` [B, destructive, needs human OK, use api] Delete a CRM task (destructive; confirm first).
+- `crm.get_company` [B, read, use api] Get a company.
+- `crm.get_deal` [B, read, use api] Get a deal.
+- `crm.get_default_pipeline` [B, read, use api] Get pipeline stages.
+- `crm.get_file` [B, read, use api] Download a file.
+- `crm.get_file_data` [B, read, use api] Get file details.
+- `crm.get_note` [B, read, use api] Get a note.
+- `crm.get_pipeline` [B, read, use api] Get a pipeline.
+- `crm.get_task` [B, read, use api] Get a task.
+- `crm.import_companies` [B, write, use api] Import companies (POST /companies/import).
+- `crm.import_deals` [B, write, use api] Import deals(creation and updation).
+- `crm.list_companies` [B, read, use api] Get all companies.
+- `crm.list_company_attributes` [B, read, use api] List company attributes (GET /crm/attributes/companies).
+- `crm.list_deal_attributes` [B, read, use api] Get deal attributes.
+- `crm.list_deals` [B, read, use api] Get all deals.
+- `crm.list_files` [B, read, use api] Get all files.
+- `crm.list_notes` [B, read, use api] Get all notes.
+- `crm.list_pipelines` [B, read, use api] Get all pipelines.
+- `crm.list_task_types` [B, read, use api] Get all task types.
+- `crm.list_tasks` [B, read, use api] Get all tasks.
+- `crm.update_company` [B, write, use api] Change the attributes of a CRM company.
+- `crm.update_company_links` [B, write, use api] Link and Unlink company with contacts and deals.
+- `crm.update_deal` [B, write, use api] Change the attributes or pipeline stage of a CRM deal.
+- `crm.update_deal_links` [B, write, use api] Link and Unlink a deal with contacts and companies.
+- `crm.update_note` [B, write, use api] Change the text or links of a CRM note.
+- `crm.update_task` [B, write, use api] Change the fields or the done state of a CRM task.
+
+## custom_objects
+- `custom_objects.delete_object_records` [B, destructive, needs human OK, blocked on Free, use api] Delete object records (POST /objects/{object_type}/batch/delete).
+- `custom_objects.list_associated_records` [B, read, blocked on Free, use api] List associated records (GET /objects/{object_type}/associated-records).
+- `custom_objects.list_object_records` [B, read, blocked on Free, use api] List object records (GET /objects/{object_type}/records).
+- `custom_objects.update_object_records` [B, write, blocked on Free, use api] Update object records (POST /objects/{object_type}/batch/upsert).
+
+## ecommerce
+- `ecommerce.activate_ecommerce` [B, write, use api] Activate the eCommerce app.
+- `ecommerce.configure_display_currency` [B, write, use api] Set the ISO 4217 compliant display currency code for your Brevo account.
+- `ecommerce.create_categories` [B, write, use api] Create categories in batch.
+- `ecommerce.create_category` [B, write, use api] Create or update a product category in the e-commerce catalogue.
+- `ecommerce.create_coupon_collection` [B, write, use api] Create а coupon collection.
+- `ecommerce.create_coupons` [B, write, use api] Create coupons for a coupon collection.
+- `ecommerce.create_order` [B, external_effect, needs human OK, use api] Managing the status of the order.
+- `ecommerce.create_orders` [B, external_effect, needs human OK, use api] Create orders in batch from your shop's data (order events can trigger automations).
+- `ecommerce.create_payment_request` [B, external_effect, needs human OK, use api] Create a payment request for a contact; the contact can be notified by e-mail.
+- `ecommerce.create_product` [B, write, use api] Create or update one product in the e-commerce catalogue.
+- `ecommerce.create_product_alert` [B, write, use api] Create product alert (POST /products/{id}/alerts/{type}).
+- `ecommerce.create_products` [B, write, use api] Create or update products in the e-commerce catalogue in batch.
+- `ecommerce.delete_payment_request` [B, destructive, needs human OK, use api] Delete a payment request (destructive; confirm first).
+- `ecommerce.get_attribution_metrics` [B, read, use api] Get detailed attribution metrics for a single Brevo campaign.
+- `ecommerce.get_category` [B, read, use api] Get a category details.
+- `ecommerce.get_coupon_collection` [B, read, use api] Get a coupon collection by id.
+- `ecommerce.get_display_currency` [B, read, use api] Get the ISO 4217 compliant display currency code for your Brevo account.
+- `ecommerce.get_payment_request` [B, read, use api] Get payment request details.
+- `ecommerce.get_product` [B, read, use api] Get a product's details.
+- `ecommerce.install_plugin` [B, write, needs human OK, use ui] Connect an online store by installing its Brevo plug-in ('Instalar plug-in' per platform on /ecommerce).
+- `ecommerce.list_attribution_metrics` [B, read, use api] Get attribution metrics for one or more Brevo campaigns.
+- `ecommerce.list_attribution_products` [B, read, use api] Get attributed product sales for a single Brevo campaign.
+- `ecommerce.list_categories` [B, read, use api] Return all your categories.
+- `ecommerce.list_coupon_collections` [B, read, use api] Get all your coupon collections.
+- `ecommerce.list_orders` [B, read, use api] Get order details.
+- `ecommerce.list_products` [B, read, use api] Return all your products.
+- `ecommerce.update_coupon_collection` [B, write, use api] Update a coupon collection by id.
+
+## email_campaigns
+- `email_campaigns.add_campaign_tag` [B, write, blocked on Free, use ui] Tag an e-mail campaign (row menu 'Atribuir etiqueta', also a 'Tags' field in the setup form). Blocked on Free.
+- `email_campaigns.add_campaign_to_folder` [B, write, blocked on Free, use ui] Move an e-mail campaign into a folder (row menu 'Adicionar à pasta'). Blocked on the Free plan.
+- `email_campaigns.configure_default_settings` [B, write, use ui] Edit the default campaign preferences and the contact info shown in campaigns (card 'Configurações padrão').
+- `email_campaigns.configure_google_analytics` [B, write, use ui] Track web traffic from campaigns with Google Analytics (card 'Google Analytics').
+- `email_campaigns.configure_test_list` [B, write, use ui] Choose the contacts that get test versions of a campaign (card 'Lista de teste').
+- `email_campaigns.configure_unsubscribe_page` [B, write, needs human OK, use ui] Customise the unsubscribe page (card 'Páginas de cancelamento de inscrição').
+- `email_campaigns.create_ab_test_campaign` [B, write, blocked on Free, use ui] Create an A/B test e-mail campaign (tab 'Teste A/B' of the campaign setup form). Blocked on the Free plan.
+- `email_campaigns.create_campaign` [A, write, use api, verified via ui (api route NOT run)] Create a regular e-mail campaign as a draft (name first, then sender, recipients, subject, content). Creating does not send.
+- `email_campaigns.create_campaign_folder` [B, write, blocked on Free, use ui] Create a folder for e-mail campaigns. Blocked on the Free plan: 'Criar pasta' opens an upgrade dialog.
+- `email_campaigns.delete_campaign` [B, destructive, needs human OK, use api] Delete an e-mail campaign (destructive; confirm first).
+- `email_campaigns.duplicate_campaign` [A, write, use ui, verified via ui] Duplicate an e-mail campaign, choosing which parts to keep. The copy is a draft.
+- `email_campaigns.export_recipients` [B, write, use api] Export the recipients of an email campaign.
+- `email_campaigns.generate_campaign_with_ai` [B, write, use ui] Generate an e-mail campaign with AI (button 'Gerar campanha com IA' on Campanhas). Button seen, not pressed.
+- `email_campaigns.get_ab_test_result` [B, read, use api] Get an A/B test email campaign results.
+- `email_campaigns.get_campaign` [B, read, use api] Get an email campaign report.
+- `email_campaigns.get_shared_url` [B, read, use api] Get a shared template url.
+- `email_campaigns.list_campaigns` [A, read, use api, verified via ui (api route NOT run)] Return all your created email campaigns.
+- `email_campaigns.schedule_campaign` [B, external_effect, needs human OK, use ui] Schedule a prepared e-mail campaign to be sent to real recipients at a chosen date and time.
+- `email_campaigns.send_campaign_now` [B, external_effect, needs human OK, use api] Send a prepared e-mail campaign immediately to real recipients. Irreversible once sent.
+- `email_campaigns.send_report` [B, external_effect, needs human OK, use api] Send the report of a campaign.
+- `email_campaigns.send_test_email` [B, external_effect, needs human OK, use api] Send an email campaign to your test list.
+- `email_campaigns.update_campaign` [B, external_effect, needs human OK, use api] Edit an e-mail campaign; with a schedule field and recipients set it schedules a real send.
+- `email_campaigns.update_campaign_status` [B, external_effect, needs human OK, use api] Update an email campaign status.
+
+## integrations
+- `integrations.create_data_feed` [B, write, blocked on Free, use ui] Create a data feed (Configurações > Gestão de dados > Feeds de dados). Blocked on the Free plan.
+- `integrations.create_event` [B, write, use api] Record a custom event for a contact (track API); events can trigger automations.
+- `integrations.create_events` [B, write, use api] Create events (POST /events/batch).
+- `integrations.create_external_feed` [B, write, use api] Create an external feed (a URL whose content can be inserted into campaigns).
+- `integrations.create_inbound_webhook` [B, write, blocked on Free, use ui] Create an inbound webhook ('Webhook de entrada'). Blocked on the Free plan; only the outbound type can be created.
+- `integrations.create_webhook` [B, external_effect, needs human OK, use api] Create an outbound webhook that posts event payloads to a URL you control. Inbound webhooks are plan-gated.
+- `integrations.delete_external_feed` [B, destructive, needs human OK, use api] Delete an external feed (destructive; confirm first).
+- `integrations.delete_webhook` [B, destructive, needs human OK, use api] Delete an outbound webhook (destructive; confirm first).
+- `integrations.export_webhook_history` [B, write, use api] Export all webhook events.
+- `integrations.get_external_feed` [B, read, use api] Get an external feed by UUID.
+- `integrations.get_webhook` [B, read, use api] Get a webhook details.
+- `integrations.install_integration` [B, write, needs human OK, use ui] Install or connect one integration from the marketplace. No integration was opened, so the flow is unknown.
+- `integrations.list_events` [B, read, use api] List events (GET /events).
+- `integrations.list_external_feeds` [B, read, use api] Fetch all external feeds.
+- `integrations.list_integrations` [B, read, use ui] Browse the integration marketplace (/app-store): 144 integrations, filters by creator and 20 categories.
+- `integrations.list_webhooks` [B, read, use api] Get all webhooks.
+- `integrations.update_external_feed` [B, write, use api] Change an external feed's URL, authentication or headers.
+- `integrations.update_webhook` [B, external_effect, needs human OK, use api] Change a webhook's URL or events; a new URL starts receiving contact data.
+
+## landing_pages
+- `landing_pages.create_landing_page` [B, write, needs human OK, blocked on Free, use ui] Create a landing page. Blocked on the Free plan: the UI shows an upgrade dialog and the editor was never seen.
+
+## loyalty
+- `loyalty.add_contact_to_tier` [B, write, blocked on Free, use api] Add contact to tier (POST /loyalty/tier/programs/{pid}/contacts/{cid}/tiers/{tid}).
+- `loyalty.add_reward_to_contact` [B, write, blocked on Free, use api] Add reward to contact (POST /loyalty/offer/programs/{pid}/rewards/attribute).
+- `loyalty.add_subscription_members` [B, write, blocked on Free, use api] Add subscription members (POST /loyalty/config/programs/{pid}/subscription-members).
+- `loyalty.cancel_transaction` [B, write, needs human OK, blocked on Free, use api] Cancel transaction (POST /loyalty/balance/programs/{pid}/transactions/{tid}/cancel).
+- `loyalty.complete_reward_redemption` [B, write, needs human OK, blocked on Free, use api] Complete reward redemption (POST /loyalty/offer/programs/{pid}/rewards/redeem/{tid}/complete).
+- `loyalty.complete_transaction` [B, write, needs human OK, blocked on Free, use api] Complete transaction (POST /loyalty/balance/programs/{pid}/transactions/{tid}/complete).
+- `loyalty.configure_program` [B, write, blocked on Free, use api] Configure program (PATCH /loyalty/config/programs/{pid}).
+- `loyalty.create_balance_definition` [B, write, blocked on Free, use api] Create balance definition (POST /loyalty/balance/programs/{pid}/balance-definitions).
+- `loyalty.create_balance_limit` [B, write, blocked on Free, use api] Create balance limit (POST /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits).
+- `loyalty.create_offer` [B, write, blocked on Free, use api] Create offer (POST /loyalty/offer/programs/{pid}/offers).
+- `loyalty.create_order` [B, write, blocked on Free, use api] Create order (POST /loyalty/balance/programs/{pid}/create-order).
+- `loyalty.create_program` [B, write, blocked on Free, use api] Create program (POST /loyalty/config/programs).
+- `loyalty.create_subscription` [B, write, blocked on Free, use api] Create subscription (POST /loyalty/config/programs/{pid}/subscriptions).
+- `loyalty.create_subscription_balance` [B, write, blocked on Free, use api] Create subscription balance (POST /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances).
+- `loyalty.create_tier` [B, write, blocked on Free, use api] Create tier (POST /loyalty/tier/programs/{pid}/tier-groups/{gid}/tiers).
+- `loyalty.create_tier_group` [B, write, blocked on Free, use api] Create tier group (POST /loyalty/tier/programs/{pid}/tier-groups).
+- `loyalty.create_transaction` [B, write, needs human OK, blocked on Free, use api] Create transaction (POST /loyalty/balance/programs/{pid}/transactions).
+- `loyalty.delete_balance_definition` [B, destructive, needs human OK, blocked on Free, use api] Delete balance definition (DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid}).
+- `loyalty.delete_balance_limit` [B, destructive, needs human OK, blocked on Free, use api] Delete balance limit (DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}).
+- `loyalty.delete_program` [B, destructive, needs human OK, blocked on Free, use api] Delete program (DELETE /loyalty/config/programs/{pid}).
+- `loyalty.delete_tier` [B, destructive, needs human OK, blocked on Free, use api] Delete tier (DELETE /loyalty/tier/programs/{pid}/tiers/{tid}).
+- `loyalty.delete_tier_group` [B, destructive, needs human OK, blocked on Free, use api] Delete tier group (DELETE /loyalty/tier/programs/{pid}/tier-groups/{gid}).
+- `loyalty.get_active_balance` [B, read, blocked on Free, use api] Get active balance (GET /loyalty/balance/programs/{pid}/active-balance).
+- `loyalty.get_balance_definition` [B, read, blocked on Free, use api] Get balance definition (GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}).
+- `loyalty.get_balance_limit` [B, read, blocked on Free, use api] Get balance limit (GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}).
+- `loyalty.get_code_pool_count` [B, read, blocked on Free, use api] Get code pool count (GET /loyalty/offer/programs/{pid}/code-pools/{cpid}/codes-count).
+- `loyalty.get_program` [B, read, blocked on Free, use api] Get program (GET /loyalty/config/programs/{pid}).
+- `loyalty.get_program_account_info` [B, read, blocked on Free, use api] Get program account info (GET /loyalty/config/programs/{pid}/account-info).
+- `loyalty.get_reward` [B, read, blocked on Free, use api] Get reward (GET /loyalty/offer/programs/{pid}/rewards/{rid}).
+- `loyalty.get_tier_group` [B, read, blocked on Free, use api] Get tier group (GET /loyalty/tier/programs/{pid}/tier-groups/{gid}).
+- `loyalty.get_wallet_pass_install_url` [B, read, blocked on Free, use api] Get wallet pass install url (GET /wallet/passes/{passId}/installUrl/{contactId}).
+- `loyalty.list_balance_definitions` [B, read, blocked on Free, use api] List balance definitions (GET /loyalty/balance/programs/{pid}/balance-definitions).
+- `loyalty.list_contact_balances` [B, read, blocked on Free, use api] List contact balances (GET /loyalty/balance/programs/{pid}/contact-balances).
+- `loyalty.list_offers` [B, read, blocked on Free, use api] List offers (GET /loyalty/offer/programs/{pid}/offers).
+- `loyalty.list_programs` [B, read, blocked on Free, use api] List programs (GET /loyalty/config/programs).
+- `loyalty.list_subscription_balances` [B, read, blocked on Free, use api] List subscription balances (GET /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances).
+- `loyalty.list_tier_groups` [B, read, blocked on Free, use api] List tier groups (GET /loyalty/tier/programs/{pid}/tier-groups).
+- `loyalty.list_tiers` [B, read, blocked on Free, use api] List tiers (GET /loyalty/tier/programs/{pid}/tiers).
+- `loyalty.list_transactions` [B, read, blocked on Free, use api] List transactions (GET /loyalty/balance/programs/{pid}/transaction-history).
+- `loyalty.list_vouchers` [B, read, blocked on Free, use api] List vouchers (GET /loyalty/offer/programs/{pid}/vouchers).
+- `loyalty.publish_program` [B, external_effect, needs human OK, blocked on Free, use api] Publish program (POST /loyalty/config/programs/{pid}/publish).
+- `loyalty.redeem_reward` [B, write, needs human OK, blocked on Free, use api] Redeem reward (POST /loyalty/offer/programs/{pid}/rewards/redeem).
+- `loyalty.redeem_wallet_pass` [B, write, needs human OK, blocked on Free, use api] Redeem wallet pass (POST /wallet/passes/{installationId}/redeem).
+- `loyalty.remove_contact` [B, destructive, needs human OK, blocked on Free, use api] Remove contact (DELETE /loyalty/config/programs/{pid}/contact/{cid}).
+- `loyalty.remove_reward` [B, destructive, needs human OK, blocked on Free, use api] Remove reward (DELETE /loyalty/offer/programs/{pid}/rewards/revoke).
+- `loyalty.remove_subscription_members` [B, destructive, needs human OK, blocked on Free, use api] Remove subscription members (DELETE /loyalty/config/programs/{pid}/subscription-members).
+- `loyalty.update_balance_definition` [B, write, blocked on Free, use api] Update balance definition (PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}).
+- `loyalty.update_balance_limit` [B, write, blocked on Free, use api] Update balance limit (PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}).
+- `loyalty.update_program` [B, write, blocked on Free, use api] Update program (PUT /loyalty/config/programs/{pid}).
+- `loyalty.update_tier` [B, write, blocked on Free, use api] Update tier (PUT /loyalty/tier/programs/{pid}/tiers/{tid}).
+- `loyalty.update_tier_group` [B, write, blocked on Free, use api] Update tier group (PUT /loyalty/tier/programs/{pid}/tier-groups/{gid}).
+- `loyalty.verify_reward` [B, read, blocked on Free, use api] Verify reward (POST /loyalty/offer/programs/{pid}/rewards/validate).
+
+## meetings
+- `meetings.activate_meetings` [B, write, needs human OK, use ui] Start with Brevo Reuniões, booking links for 15, 30 or 60 minute meetings ('Comece com o Brevo Reuniões').
+
+## phone
+- `phone.purchase_package` [B, external_effect, needs human OK, blocked on Free, use ui] Buy the Telefone package ('Adicionar pacote'). Calls need the Sales Advanced module; not pressed.
+
+## push_popups
+- `push_popups.configure_push_settings` [B, write, use ui] Edit push subscription prompts and pressure settings (card 'Push' on /campaign-settings).
+- `push_popups.create_popup_campaign` [B, external_effect, needs human OK, blocked on Free, use ui] Create an on-site pop-up campaign. Blocked on the Free plan: the 'Pop-up' card opens an upgrade panel.
+- `push_popups.create_push_campaign` [B, external_effect, needs human OK, blocked on Free, use ui] Create a push campaign. Blocked on the Free plan: the 'Push' card opens an upgrade panel.
+
+## reporting
+- `reporting.get_email_aggregate_report` [B, read, use api] Get your transactional email activity aggregated over a period of time.
+- `reporting.get_marketing_statistics` [A, read, use ui, verified via ui] Read aggregate marketing statistics for e-mail and SMS campaigns over a date range (UI page, CSV export per table).
+- `reporting.get_sms_aggregate_report` [B, read, use api] Get your SMS activity aggregated over a period of time.
+- `reporting.list_email_daily_reports` [B, read, use api] Get your transactional email activity aggregated per day.
+- `reporting.list_email_events` [B, read, use api] Get all your transactional email activity (unaggregated events).
+- `reporting.list_sms_daily_reports` [B, read, use api] Get your SMS activity aggregated per day.
+- `reporting.list_sms_events` [B, read, use api] Get all your SMS activity (unaggregated events).
+- `reporting.list_whatsapp_events` [B, read, use api] Get all your WhatsApp activity (unaggregated events).
+
+## sms_whatsapp
+- `sms_whatsapp.connect_whatsapp_account` [B, write, needs human OK, use ui] Manage or buy a WhatsApp Business account (card 'WhatsApp' on /campaign-settings). Not opened.
+- `sms_whatsapp.create_sms_campaign` [A, write, use api, verified via ui (api route NOT run)] Create an SMS campaign as a draft (name first, then content, sender ID, recipients). Creating does not send.
+- `sms_whatsapp.create_sms_sender_id` [B, write, needs human OK, use ui] Request an SMS sender ID (card 'ID do remetente SMS' on /campaign-settings). The request goes to Brevo; not run.
+- `sms_whatsapp.create_whatsapp_campaign` [B, external_effect, needs human OK, blocked on Free, use api] Create and Send a WhatsApp campaign.
+- `sms_whatsapp.create_whatsapp_template` [B, write, use api] Create whatsapp template (POST /whatsappCampaigns/template).
+- `sms_whatsapp.delete_sms_campaign` [B, destructive, needs human OK, use api] Delete an SMS campaign (destructive; confirm first).
+- `sms_whatsapp.delete_whatsapp_campaign` [B, destructive, needs human OK, use api] Delete a WhatsApp campaign.
+- `sms_whatsapp.export_sms_recipients` [B, write, use api] Export an SMS campaign's recipients.
+- `sms_whatsapp.get_sms_campaign` [B, read, use api] Get an SMS campaign.
+- `sms_whatsapp.get_whatsapp_campaign` [B, read, use api] Get a WhatsApp campaign.
+- `sms_whatsapp.get_whatsapp_config` [B, read, use api] Get your WhatsApp API account information.
+- `sms_whatsapp.list_sms_campaigns` [B, read, use api] Returns the information for all your created SMS campaigns.
+- `sms_whatsapp.list_whatsapp_campaigns` [B, read, use api] Return all your created WhatsApp campaigns.
+- `sms_whatsapp.list_whatsapp_templates` [B, read, use api] Return all your created WhatsApp templates.
+- `sms_whatsapp.schedule_sms_campaign` [B, external_effect, needs human OK, use ui] Schedule an SMS campaign to be sent to real recipients ('Enviar agora ou mais tarde'). Not executed.
+- `sms_whatsapp.send_sms_campaign` [B, external_effect, needs human OK, use api] Send your SMS campaign immediately.
+- `sms_whatsapp.send_sms_report` [B, external_effect, needs human OK, use api] Send an SMS campaign's report.
+- `sms_whatsapp.send_test_sms` [B, external_effect, needs human OK, use api] Send a test SMS of a campaign to the numbers you give (uses SMS credits).
+- `sms_whatsapp.send_transactional_sms` [B, external_effect, needs human OK, use api] Send transactional sms (POST /transactionalSMS/send).
+- `sms_whatsapp.send_whatsapp_message` [B, external_effect, needs human OK, use api] Send a WhatsApp message to a contact's number.
+- `sms_whatsapp.send_whatsapp_template_approval` [B, external_effect, needs human OK, use api] Send your WhatsApp template for approval.
+- `sms_whatsapp.update_sms_campaign` [B, external_effect, needs human OK, use api] Edit an SMS campaign; with a schedule field set it schedules a real send.
+- `sms_whatsapp.update_sms_campaign_status` [B, external_effect, needs human OK, use api] Update a campaign's status.
+- `sms_whatsapp.update_whatsapp_campaign` [B, external_effect, needs human OK, use api] Update a WhatsApp campaign.
+
+## transactional
+- `transactional.add_blocked_domain` [B, write, use api] Add a new domain to the list of blocked domains.
+- `transactional.configure_email_tracking` [B, write, use ui] Set what is tracked for transactional e-mail: opens, clicks, bounces (card 'Rastreamento').
+- `transactional.configure_retention_rules` [B, write, needs human OK, use ui] Set how long transactional logs and previews are kept (card 'Regras de retenção'), for e-mail and for SMS.
+- `transactional.delete_email_log` [B, destructive, needs human OK, use api] Delete an SMTP transactional log.
+- `transactional.delete_hardbounces` [B, destructive, needs human OK, use api] Delete hard-bounce records so those addresses can be e-mailed again (confirm first).
+- `transactional.delete_scheduled_email` [B, destructive, needs human OK, use api] Delete scheduled emails by batchId or messageId.
+- `transactional.delete_template` [B, destructive, needs human OK, use api] Delete an inactive email template.
+- `transactional.get_email_content` [B, read, use api] Get the personalized content of a sent transactional email.
+- `transactional.get_inbound_attachment` [B, read, use api] Retrieve inbound attachment with download token.
+- `transactional.get_inbound_event` [B, read, use api] Fetch all events history for one particular received email.
+- `transactional.get_scheduled_email` [B, read, use api] Fetch scheduled emails by batchId.
+- `transactional.get_template` [A, read, use api, verified via ui (api route NOT run)] Returns the template information.
+- `transactional.get_template_preview` [B, read, use api] Get template preview (POST /smtp/template/preview).
+- `transactional.list_blocked_contacts` [B, read, use api] Get the list of blocked or unsubscribed transactional contacts.
+- `transactional.list_blocked_domains` [B, read, use api] Get the list of blocked domains.
+- `transactional.list_emails` [B, read, use api] Get the list of transactional emails on the basis of allowed filters.
+- `transactional.list_inbound_events` [B, read, use api] Get the list of all the events for the received emails.
+- `transactional.list_templates` [A, read, use api, verified via ui (api route NOT run)] Get the list of email templates.
+- `transactional.remove_blocked_contact` [B, write, needs human OK, use api] Unblock or resubscribe a transactional contact.
+- `transactional.remove_blocked_domain` [B, write, needs human OK, use api] Unblock an existing domain from the list of blocked domains.
+- `transactional.send_email` [B, external_effect, needs human OK, use api] Send a transactional email.
+- `transactional.send_test_template` [B, external_effect, needs human OK, use api] Send a template to your test list.
+- `transactional.update_template` [A, write, use api, verified via ui (api route NOT run)] Change a transactional e-mail template (name, subject, sender, body or active state).

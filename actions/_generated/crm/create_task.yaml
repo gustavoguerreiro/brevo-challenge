@@ -1,0 +1,132 @@
+id: crm.create_task
+domain: crm
+summary: Create a CRM task (type, due date, assignee) linked to contacts, companies or deals.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Needs the CRM to be activated first (observed).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of task
+      x-in: body
+    duration:
+      type: integer
+      format: int64
+      description: Duration of task in milliseconds [1 minute = 60000 ms]
+      minimum: 0
+      x-in: body
+    taskTypeId:
+      type: string
+      description: Id for type of task e.g Call / Email / Meeting etc.
+      x-in: body
+    date:
+      type: string
+      format: date-time
+      description: Task due date and time
+      x-in: body
+    notes:
+      type: string
+      description: Notes added to a task
+      x-in: body
+    done:
+      type: boolean
+      description: Task marked as done
+      x-in: body
+    assignToId:
+      type: string
+      description: To assign a task to a user you can use either the account email or ID.
+      x-in: body
+    contactsIds:
+      type: array
+      description: Contact ids for contacts linked to this task
+      items:
+        type: integer
+      x-in: body
+    dealsIds:
+      type: array
+      description: Deal ids for deals a task is linked to
+      items:
+        type: string
+      x-in: body
+    companiesIds:
+      type: array
+      description: Companies ids for companies a task is linked to
+      items:
+        type: string
+      x-in: body
+    reminder:
+      type: object
+      required:
+      - types
+      - unit
+      - value
+      properties:
+        value:
+          type: integer
+          description: Value of time unit before reminder is to be sent
+        unit:
+          type: string
+          description: Unit of time before reminder is to be sent
+          enum:
+          - minutes
+          - hours
+          - weeks
+          - days
+        types:
+          type: array
+          description: Type of task reminder e.g email, push
+          items:
+            type: string
+      description: Task reminder date/time for a task
+      x-in: body
+  required:
+  - date
+  - name
+  - taskTypeId
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      description: Unique task id
+  description: Task Details
+side_effects:
+- 'Expected (from the API docs, not verified): Can fire automations triggered by ''Tarefa criada''.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /crm/tasks
+    auth: api-key header (never store the value).
+  ui:
+    entry: /tasks
+    steps:
+    - From a contact page press 'Tarefa' in the action bar, or open CRM > Tarefas (/tasks), which needs the CRM
+      to be activated first. NOT EXECUTED.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Entry points seen; not pressed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not
+    executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Can fire automations triggered
+  by ''Tarefa criada''.'
+ui_label_pt: Contato > Tarefa / CRM > Tarefas

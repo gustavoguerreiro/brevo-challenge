@@ -1,0 +1,33 @@
+id: email_campaigns.configure_google_analytics
+domain: email_campaigns
+summary: Track web traffic from campaigns with Google Analytics (card 'Google Analytics').
+ui_label_pt: Campanhas > Google Analytics
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaign-settings
+    steps:
+    - Open /campaign-settings and press the button of the card 'Google Analytics'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Card and description seen only.

@@ -1,0 +1,13 @@
+id: account.list_activity_logs
+ui_label_pt: Configurações > Usuários > Logs de atividades
+ui:
+  entry: /settings/users
+  steps:
+    - "Open the settings gear > Usuários and the tab 'Logs de atividades'."
+    - "The tab was named in the crawl; its table was not read."
+provenance:
+  sources: [ui]
+  verification: documented_only
+  verified_at: "2026-10-22"
+  evidence: evidence/ui.settings_pages_read.json
+  notes: "Tab name seen only. The API action was not run."

@@ -1,0 +1,14 @@
+id: reporting.list_sms_events
+ui_label_pt: Transacional > SMS > Logs
+ui:
+  entry: /transactional/sms/logs
+  steps:
+    - "Open Transacional > SMS > Logs (/transactional/sms/logs)."
+    - "Buttons 'Atualizar' and 'Download'; filter 'Remetente (De)' with a 'prefix' mode and 'Mais filtros'."
+    - "The test account showed '0 logs' (nothing was sent), so the columns of a populated table were not seen."
+provenance:
+  sources: [ui]
+  verification: documented_only
+  verified_at: "2026-10-22"
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: "UI page opened and read while empty. The action itself (API) was not run."

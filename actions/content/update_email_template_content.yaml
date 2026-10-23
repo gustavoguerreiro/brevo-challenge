@@ -1,0 +1,53 @@
+id: content.update_email_template_content
+domain: content
+summary: Add or replace the body (design) of an e-mail template with custom HTML.
+ui_label_pt: Adicionar conteúdo > Código HTML personalizado
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  - html
+  properties:
+    template_id:
+      type: integer
+    html:
+      type: string
+      description: Full HTML document. Unsubscribe link and personalisation tags were not checked.
+side_effects:
+- 'Expected (not verified: the template had no body before): the new body replaces any existing body.'
+postcondition_check: Back on the edit page the card 'Conteúdo' shows the rendered text and the last-edit time on
+  the list changes.
+errors: []
+limits: []
+depends_on:
+- content.create_email_template
+related:
+- transactional.update_template
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/email/edit/<template_id>
+    steps:
+    - Open /templates/email/edit/<id> (pencil on the list row).
+    - 'In the card ''Conteúdo'' press ''Adicionar conteúdo'' (or ''Editar'' when a body exists). In the dialog ''Criar
+      um e-mail'' open ''Criar do zero'' and choose ''Código HTML personalizado'' (alternatives: ''Editor de arrastar
+      e soltar'', ''Editor simples'', or a saved or ready-made template from the left list).'
+    - The page /editor/classic/html/<id> has one plain text area. Click it (by element reference, a blind coordinate
+      click did not focus it), replace the text with the HTML and press 'Salvar e Sair' (top right).
+    - The editor page can scroll after typing; scroll to the top before pressing the button.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Executed with a one-line body on the copy of the test template. The drag-and-drop and simple editors were
+    not used.

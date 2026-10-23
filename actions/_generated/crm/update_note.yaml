@@ -1,0 +1,71 @@
+id: crm.update_note
+domain: crm
+summary: Change the text or links of a CRM note.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Note ID to update
+    text:
+      type: string
+      description: Text content of a note
+      minLength: 1
+      maxLength: 3000
+      x-in: body
+    contactIds:
+      type: array
+      description: Contact Ids linked to a note
+      items:
+        type: integer
+      x-in: body
+    dealIds:
+      type: array
+      description: Deal Ids linked to a note
+      items:
+        type: string
+      x-in: body
+    companyIds:
+      type: array
+      description: Company Ids linked to a note
+      items:
+        type: string
+      x-in: body
+  required:
+  - id
+  - text
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Returned when item not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+- condition: 'HTTP 415: Format is not supported'
+  recovery: Inspect the response body and correct the request.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PATCH
+    path: /crm/notes/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

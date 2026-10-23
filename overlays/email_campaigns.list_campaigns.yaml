@@ -1,0 +1,18 @@
+id: email_campaigns.list_campaigns
+plan_availability:
+  free: available
+ui_label_pt: Marketing > Campanhas
+ui:
+  entry: /campaigns/listing
+  steps:
+  - 'Open Marketing > Campanhas. Filter by search and status; each row shows status, last edit, #id and the result
+    columns.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_via:
+  - ui
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.read_pages.json
+  notes: Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).

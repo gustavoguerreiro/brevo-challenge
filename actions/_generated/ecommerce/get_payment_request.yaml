@@ -1,0 +1,118 @@
+id: ecommerce.get_payment_request
+domain: ecommerce
+summary: Get payment request details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Id of the payment Request
+  required:
+  - id
+outputs:
+  type: object
+  required:
+  - cart
+  - notification
+  - reference
+  - status
+  properties:
+    reference:
+      type: string
+      description: Reference of the payment request, it will appear on the payment page.
+    status:
+      type: string
+      description: Status of the payment request.
+      enum:
+      - created
+      - sent
+      - reminderSent - paid
+    configuration:
+      required:
+      - customSuccessUrl
+      properties:
+        customSuccessUrl:
+          type: string
+          format: url
+          description: Absolute URL of the custom success page.
+      description: Optional. Redirect contact to a custom success page once payment is successful. If empty the
+        default Brevo page will be displayed once a payment is validated
+    contactId:
+      type: integer
+      format: int64
+      description: Brevo ID of the contact requested to pay.
+    numberOfRemindersSent:
+      type: integer
+      format: int64
+      description: number of reminders sent.
+    cart:
+      type: object
+      required:
+      - currency
+      - specificAmount
+      properties:
+        currency:
+          type: string
+          description: Currency code for the payment amount.
+          enum:
+          - EUR
+        specificAmount:
+          type: integer
+          format: int64
+          description: Payment amount, in cents. e.g. if you want to request €12.00, then the amount in cents is
+            1200.
+      description: Specify the payment currency and amount.
+    notification:
+      type: object
+      required:
+      - channel
+      - text
+      properties:
+        channel:
+          type: string
+          description: Channel used to send the notifications.
+          enum:
+          - email
+        text:
+          type: string
+          description: Use this field if you want to give more context to your contact about the payment request.
+      description: Optional. Use this object if you want to let Brevo send an email to the contact, with the payment
+        request URL. If empty, no notifications (message and reminders) will be sent.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Bad request.'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 401: Unauthorized.'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+- condition: 'HTTP 403: Permission denied. Either you don''t have access to Brevo Payments or your Brevo Payments
+    account is not validated.'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+- condition: 'HTTP 404: Payment request not found.'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /payments/requests/{id}
+    auth: api-key header (never store the value).
+    operation_id: getPaymentRequest
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

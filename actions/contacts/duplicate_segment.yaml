@@ -1,0 +1,56 @@
+id: contacts.duplicate_segment
+domain: contacts
+summary: Duplicate a segment with its filters into a folder. UI only.
+ui_label_pt: Duplicar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - segment_id
+  - new_name
+  properties:
+    segment_id:
+      type: integer
+    new_name:
+      type: string
+      maxLength: 50
+    target_folder:
+      type: string
+      default: My segments
+outputs:
+  type: object
+  properties:
+    segment_id:
+      type: integer
+      description: The new ID is visible in the table.
+side_effects:
+- 'Observed: a new segment row appears with the copy''s name. No other effect was seen.'
+postcondition_check: Toast 'Segmento "<name>" duplicado'; the table gains a row with a new ID and the same contact
+  count.
+errors: []
+limits:
+- Name max 50 characters.
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - Open the Ações menu of the segment row and choose 'Duplicar'.
+    - In the side panel 'Duplicar segmento' edit 'Nome' (prefilled 'Duplicado de <name>', max 50) and confirm 'Pasta
+      de destino'.
+    - Press 'Duplicar segmento'.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  verified_via:
+  - ui
+  notes: Executed once; the copy got ID 2 with the same filter.

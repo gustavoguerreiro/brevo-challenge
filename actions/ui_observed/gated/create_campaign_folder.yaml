@@ -1,0 +1,39 @@
+id: email_campaigns.create_campaign_folder
+domain: email_campaigns
+summary: 'Create a folder for e-mail campaigns. Blocked on the Free plan: ''Criar pasta'' opens an upgrade dialog.'
+ui_label_pt: Campanhas > Criar pasta
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Folder name. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - On Marketing > Campanhas press 'Criar pasta' (crown).
+    - 'On the Free plan an upgrade panel or dialog opens instead (dialog ''Mantenha-se organizado com pastas'',
+      button ''Atualizar''). Stop here: nothing beyond it was seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Upgrade dialog confirmed live.

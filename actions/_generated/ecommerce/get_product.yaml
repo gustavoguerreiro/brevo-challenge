@@ -1,0 +1,113 @@
+id: ecommerce.get_product
+domain: ecommerce
+summary: Get a product's details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Product ID
+  required:
+  - id
+outputs:
+  type: object
+  required:
+  - createdAt
+  - id
+  - modifiedAt
+  - name
+  - s3ThumbAnalytics
+  - s3ThumbEditor
+  properties:
+    id:
+      type: string
+      format: string
+      description: Product ID for which you requested the details
+    name:
+      type: string
+      format: string
+      description: Name of the product for which you requested the details
+    createdAt:
+      type: string
+      description: Creation UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    modifiedAt:
+      type: string
+      description: Last modification UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    url:
+      type: string
+      format: string
+      description: URL to the product
+    imageUrl:
+      type: string
+      format: string
+      description: Absolute URL to the cover image of the product
+    sku:
+      type: string
+      format: string
+      description: Product identifier from the shop
+    price:
+      type: number
+      format: float
+      description: Price of the product
+    categories:
+      type: array
+      description: Category ID-s of the product
+      items:
+        type: string
+    parentId:
+      type: string
+      format: string
+      description: Parent product id of the product
+    s3Original:
+      type: string
+      format: string
+      description: S3 url of original image
+    s3ThumbAnalytics:
+      type: string
+      format: string
+      description: S3 thumbnail url of original image in 120x120 dimension for analytics section
+    metaInfo:
+      type: object
+      description: Meta data of product such as description, vendor, producer, stock level, etc.
+      properties: {}
+    s3ThumbEditor:
+      type: string
+      format: string
+      description: S3 thumbnail url of original image in 600x400 dimension for editor section
+    isDeleted:
+      type: boolean
+      format: string
+      description: product deleted from the shop's database
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Product''s id not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /products/{id}
+    auth: api-key header (never store the value).
+    operation_id: getProductInfo
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,17 @@
+id: contacts.delete_list
+plan_availability:
+  free: available
+ui_label_pt: Excluir lista
+ui:
+  entry: /contact/list-listing
+  steps:
+  - Open the Ações menu of the list row and choose 'Excluir lista' (red entry).
+  - 'Confirm in the dialog. NOT EXECUTED: deletion was not allowed in this test, so the dialog and its wording were
+    not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.create_list.json
+  notes: Only the menu entry was observed.

@@ -1,0 +1,106 @@
+id: contacts.create_segment
+domain: contacts
+summary: Create a dynamic segment (saved filter over contacts) in a segment folder. UI only, the public API cannot
+  create segments.
+ui_label_pt: Criar um segmento
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+  note: The row action 'Dividir em listas' (split into lists) is crown-gated.
+preconditions:
+- At least one filter condition must be set before 'Salvar como segmento' is useful (the builder shows a live contact
+  count).
+- Name is required (max 50 characters).
+- A segment folder is required; the default 'My segments' exists in a new account.
+inputs:
+  type: object
+  required:
+  - name
+  - filters
+  properties:
+    name:
+      type: string
+      maxLength: 50
+      description: UI label 'Nome'.
+    folder:
+      type: string
+      default: My segments
+      description: UI label 'Pasta'.
+    filters:
+      type: array
+      description: 'OR-groups. Each group is a list of AND-conditions (UI: ''E'' inside a group, ''Ou'' between
+        groups).'
+      items:
+        type: array
+        items:
+          type: object
+          required:
+          - category
+          - attribute
+          - operator
+          - values
+          properties:
+            category:
+              type: string
+              enum:
+              - Atributos de contato
+              - Eventos de contato
+              - Objetos associados
+            attribute:
+              type: string
+              description: For example 'E-mail (endereço)'.
+            operator:
+              type: string
+              description: 'Text attributes: É igual a, Não é igual a, Contém, Não contém, Começa com, Não começa
+                com, Termina com, Não termina com. Operators for number, date and event filters were not recorded.'
+            values:
+              type: array
+              maxItems: 50
+              items:
+                type: string
+              description: Multi-tag input, up to 50 values.
+outputs:
+  type: object
+  properties:
+    segment_id:
+      type: integer
+      description: 'Shown in the list as #<id>. The first segment got ID 1.'
+side_effects:
+- 'Expected (not verified): segments recompute, so the contact count can change when contacts change.'
+- 'Expected (not verified: the segment was never used): a segment can be an automation trigger (''O contato está
+  em um segmento'') and a campaign audience.'
+postcondition_check: Toast 'Segmentos salvos com sucesso!', URL becomes /contact/segment/id/<id>, and the row appears
+  in /contact/segment with the folder and a contact count. Reopen the segment to confirm the saved filter.
+errors: []
+limits:
+- Name max 50 characters.
+- Up to 50 values per filter condition.
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment/templates
+    steps:
+    - Go to CRM > Contatos > Segmentos and press the button 'Criar um segmento'.
+    - 'On the template page choose to start from scratch, or pick a template (tabs: Marketing por e-mail, Marketing
+      por SMS, Dados demográficos, Vendas). The builder opens at /contact/segment/id/new.'
+    - Press the filter button, choose a category (Atributos de contato), choose the attribute, then set the operator
+      and type the value(s), confirming each with Enter.
+    - Optionally add AND conditions with the button 'E' or an OR group with 'Ou'.
+    - Press 'Salvar como segmento'. In the dialog 'Criar segmento' fill 'Nome', confirm 'Pasta', and confirm.
+    internal_service: segments-api/segment (path seen in resource timing; evidence only). The public API only has
+      GET /contacts/segments.
+provenance:
+  sources:
+  - ui
+  - network
+  - help_center
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.create_segment.json
+  notes: Executed with one text filter (E-mail contains 'zz_test'); the saved segment was reopened and showed 1
+    matching contact. Other attribute types and event filters are not verified.

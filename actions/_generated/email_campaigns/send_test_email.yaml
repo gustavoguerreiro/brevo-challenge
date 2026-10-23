@@ -1,0 +1,58 @@
+id: email_campaigns.send_test_email
+domain: email_campaigns
+summary: Send an email campaign to your test list.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the campaign
+    emailTo:
+      type: array
+      description: List of the email addresses of the recipients whom you wish to send the test mail. If left empty,
+        the test mail will be sent to your entire test list. You can not send more than 50 test emails per day.
+      items:
+        type: string
+        format: email
+        description: Email addres of the recipient
+      x-in: body
+  required:
+  - campaignId
+side_effects:
+- 'Expected (from the API docs, not verified): A test copy of the campaign is e-mailed to the given addresses.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: 'HTTP 400: Test email could not be sent to the following email addresses'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /emailCampaigns/{campaignId}/sendTest
+    auth: api-key header (never store the value).
+    operation_id: sendTestEmail
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Sends the campaign to test
+  addresses only.'

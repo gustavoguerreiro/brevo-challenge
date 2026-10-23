@@ -1,0 +1,17 @@
+id: account.create_sender
+plan_availability:
+  free: available
+ui_label_pt: Remetentes > Adicionar remetente
+ui:
+  entry: /senders/add
+  steps:
+  - Open Configurações > Remetentes, domínios e IPs dedicados (/senders/list) and press 'Adicionar remetente'.
+  - 'Fill ''Nome do remetente*'' and ''E-mail do remetente*'' (format name@domain). The button stays disabled until
+    both are filled. NOT EXECUTED: submitting sends a verification e-mail to that address.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Form observed in an earlier pass (inventory/ui_crawl_pass3_crm_marketing.md).

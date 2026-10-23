@@ -1,0 +1,56 @@
+id: custom_objects.list_object_records
+domain: custom_objects
+summary: List object records (GET /objects/{object_type}/records).
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Custom objects redirect to an upgrade page in the UI on Free (observed). The API calls were not tried; they
+    are expected to fail on Free.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'object_type' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    object_type:
+      description: Type not captured.
+      x-in: path
+    limit:
+      description: Type not captured.
+      x-in: query
+    page_num:
+      description: Type not captured.
+      x-in: query
+    sort:
+      description: Type not captured.
+      x-in: query
+    association:
+      description: Type not captured.
+      x-in: query
+  required:
+  - limit
+  - object_type
+  - page_num
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /objects/{object_type}/records
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

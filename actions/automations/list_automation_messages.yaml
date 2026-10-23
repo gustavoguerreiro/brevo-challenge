@@ -1,0 +1,39 @@
+id: automations.list_automation_messages
+domain: automations
+summary: List the e-mail messages used by 'Enviar um e-mail' steps across automations.
+ui_label_pt: Automações > Mensagens
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    automation_id:
+      type: integer
+    status:
+      type: string
+side_effects:
+- None; read only.
+postcondition_check: A list of messages. The test account showed the empty state 'Suas mensagens de automação, em
+  um só lugar'.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/messages
+    steps:
+    - Open Automações > Mensagens (/automation/messages).
+    - 'Sort (''Ordenar por: Mais recente primeiro'') and filter by ''Automação'' and ''Status da automação''. Messages
+      can be viewed, edited and shared; updating one syncs every step that uses it.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Empty state only.

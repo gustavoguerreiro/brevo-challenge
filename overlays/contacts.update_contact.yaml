@@ -1,0 +1,32 @@
+id: contacts.update_contact
+plan_availability:
+  free: available
+ui_label_pt: Informações / Preferences (página do contato)
+side_effects:
+- 'Expected (not verified): changing list membership or subscription can fire automations and changes who receives
+  campaigns.'
+- 'Observed: choosing ''Colocado em lista bloqueada'' gave a confirmation toast and no dialog; it was reverted with
+  ''Inscrito'' in the same dropdown, and the contact history keeps both events.'
+- 'Expected (no campaign was sent to test it): a blocklisted contact receives no campaign e-mails.'
+postcondition_check: 'UI attribute edit: toast ''Atributo atualizado'' and the new value in the card; subscription:
+  toast ''As inscrições do contato foram atualizadas.''. API: HTTP 204.'
+ui:
+  entry: /contact/index/<contact_id>
+  steps:
+  - 'Attribute: on tab ''Visão geral'', card ''Informações'', click the value of a field (placeholder shows the
+    attribute name), type, press Enter. It saves at once. The gear icon chooses which fields the card shows.'
+  - 'Subscription: tab ''Preferences'' > ''Campanhas e automações'' > dropdown ''Campanhas'' (Inscrito | Colocado
+    em lista bloqueada); ''Transacional'' has its own dropdown and a pencil ''Remetentes'' to restrict which senders
+    may e-mail the contact. The change applies immediately, with no confirmation dialog.'
+  - 'Lists: see contacts.add_contact_to_list (tab ''Listas'' > ''Administrar listas'').'
+  internal_service: contacts-api/contact/backend/contacts/update (a GET request)
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_contact.json
+  notes: Executed for one attribute and the campaign subscription of the test contact.

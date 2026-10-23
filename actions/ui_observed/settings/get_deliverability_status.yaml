@@ -1,0 +1,35 @@
+id: account.get_deliverability_status
+domain: account
+summary: Read the sending status and deliverability score (Centro de entregabilidade). Explains the 'sending restricted'
+  banner.
+ui_label_pt: Centro de entregabilidade
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /compliance
+    steps:
+    - Open the settings gear > Centro de entregabilidade (/compliance).
+    - 'Cards: ''Status de envio de e-mails'' (the test account showed ''Envio restrito'' with a link to contact
+      support) and ''Pontuação de capacidade de entrega'' (none yet).'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: A restricted status means marketing e-mail cannot go out; do not look for a workaround.

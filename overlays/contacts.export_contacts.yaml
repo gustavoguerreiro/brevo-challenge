@@ -1,0 +1,17 @@
+id: contacts.export_contacts
+plan_availability:
+  free: available
+ui_label_pt: Mais ações > Exportar
+ui:
+  entry: /contact/list
+  steps:
+  - 'Open CRM > Contatos, tick one or more rows, press ''Mais ações'' and choose ''Exportar''. NOT EXECUTED: the
+    dialog was not seen. Other entries of that menu: Modificar, Atribuir, Copie o número de SMS para o WhatsApp,
+    Adicionar à automação, Excluir definitivamente.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Menu entry only. Marketing > Estatísticas also has 'Exportar (arquivo .csv)' for campaign tables.

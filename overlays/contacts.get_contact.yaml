@@ -1,0 +1,23 @@
+id: contacts.get_contact
+plan_availability:
+  free: available
+ui_label_pt: Página do contato
+ui:
+  entry: /contact/index/<contact_id>
+  steps:
+  - Open CRM > Contatos and click a contact, or go to the URL with the numeric ID.
+  - 'Tabs: Visão geral (Preferences, Informações, Pontuações [locked], Campanhas stats, Histórico recente, Empresas,
+    Oportunidades), Histórico, Listas, Preferences.'
+  - 'Action bar: Anotação, E-mail, Ligar, SMS, Tarefa, Mais (Reunião, Oportunidade, Arquivo, Adicionar à automação,
+    Excluir definitivamente).'
+  internal_service: contacts-api/contact/backend/contacts/<id>/header, /activities, /calc-attributes
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_contact.json
+  notes: Read in the UI.

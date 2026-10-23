@@ -1,0 +1,77 @@
+id: account.create_sub_account
+domain: account
+summary: Create a new sub-account under a master account.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    companyName:
+      type: string
+      description: Set the name of the sub-account company
+      x-in: body
+    email:
+      type: string
+      description: Email address for the organization
+      x-in: body
+    language:
+      type: string
+      description: Set the language of the sub-account
+      enum:
+      - en
+      - fr
+      - it
+      - es
+      - pt
+      - de
+      x-in: body
+    timezone:
+      type: string
+      description: Set the timezone of the sub-account
+      x-in: body
+    groupIds:
+      type: array
+      description: Set the group(s) for the sub-account
+      items:
+        type: string
+      x-in: body
+  required:
+  - companyName
+  - email
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: ID of the sub-account created
+side_effects:
+- 'Expected (from the API docs, not verified): May incur plan costs.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /corporate/subAccount
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): May incur plan costs.'

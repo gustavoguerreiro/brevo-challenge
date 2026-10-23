@@ -1,0 +1,50 @@
+id: content.duplicate_email_template
+domain: content
+summary: Duplicate an e-mail template. It acts at once, with no dialog.
+ui_label_pt: Duplicar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  properties:
+    template_id:
+      type: integer
+      description: Template to copy.
+outputs:
+  type: object
+  properties:
+    template_id:
+      type: integer
+      description: Id of the copy, read from the list.
+side_effects:
+- 'Observed: the copy appears at once as ''<name>_copy'' with a new id, inactive, and no dialog is shown.'
+- 'Expected (not verified: the source template had no body, subject or sender to compare): the copy keeps subject,
+  sender and body.'
+postcondition_check: A new row '<name>_copy' appears at the top of the list without a reload.
+errors: []
+limits: []
+depends_on:
+- content.list_email_templates
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - Open Marketing > Modelos and the three-dot menu of the row.
+    - Choose 'Duplicar'. No dialog appears. The copy is listed first, named '<name>_copy', with the next free id
+      and status Inativo; toast 'O modelo <name> está duplicado.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Executed on the test template (ID 2 -> ID 3). A second click would create another copy.

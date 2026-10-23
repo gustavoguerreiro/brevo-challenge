@@ -1,0 +1,110 @@
+id: contacts.create_attribute
+domain: contacts
+summary: Create a custom contact attribute (name, category and type such as date or text).
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- 'Path value ''attributeCategory'' must be one of: normal, transactional, category, calculated, global.'
+- Path value 'attributeName' is the name of the new record; it must not exist yet.
+inputs:
+  type: object
+  properties:
+    attributeCategory:
+      type: string
+      enum:
+      - normal
+      - transactional
+      - category
+      - calculated
+      - global
+      description: Category of the attribute
+    attributeName:
+      type: string
+      description: Name of the attribute
+    value:
+      type: string
+      description: Value of the attribute. Use only if the attribute's category is 'calculated' or 'global'
+      x-in: body
+    isRecurring:
+      type: boolean
+      description: Type of the attribute. Use only if the attribute's category is 'calculated' or 'global'
+      x-in: body
+    enumeration:
+      type: array
+      description: List of values and labels that the attribute can take. Use only if the attribute's category is
+        "category". For example, [{"value":1, "label":"male"}, {"value":2, "label":"female"}]
+      items:
+        type: object
+        required:
+        - label
+        - value
+        properties:
+          value:
+            type: integer
+            description: Id of the value
+          label:
+            type: string
+            description: Label of the value
+      x-in: body
+    multiCategoryOptions:
+      type: array
+      description: 'List of options you want to add for multiple-choice attribute. **Use only if the attribute''s
+        category is "normal" and attribute''s type is "multiple-choice".** For example: **["USA","INDIA"]**'
+      items:
+        type: string
+      x-in: body
+    type:
+      type: string
+      description: Type of the attribute. Use only if the attribute's category is 'normal', 'category' or 'transactional'
+        ( type 'boolean' and 'multiple-choice' is only available if the category is 'normal' attribute, type 'id'
+        is only available if the …
+      enum:
+      - text
+      - date
+      - float
+      - boolean
+      - id
+      - category
+      - multiple-choice
+      x-in: body
+  required:
+  - attributeCategory
+  - attributeName
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/attributes/{attributeCategory}/{attributeName}
+    auth: api-key header (never store the value).
+    operation_id: createAttribute
+  ui:
+    entry: /objects/settings/contact
+    steps:
+    - Open Configurações > CRM > Contatos > Atributos de contato (/objects/settings/contact) and press the create
+      button.
+    - 'Dialog: pick the type, fill ''Nome'' (up to 50 characters); an advanced section holds ''ID do atributo''.
+      NOT EXECUTED: attribute creation was not covered by the test-data permission.'
+    - 'Attribute ids are localised: in this pt-BR account the first and last name attributes are NOME and SOBRENOME.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Dialog observed in an earlier pass (inventory/ui_crawl_pass4_settings_detail.md). Transactional attributes
+    live on a legacy page, my.brevo.com/lists/add-attributes. Generated from the Brevo public API spec (SDK snapshot,
+    Feb 2025). Not executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+ui_label_pt: Atributos de contato > Criar um atributo

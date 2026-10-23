@@ -1,0 +1,60 @@
+id: contacts.update_contact_subscription
+domain: contacts
+summary: Subscribe a contact to, or put it on the blocklist for, campaigns or transactional e-mail.
+ui_label_pt: Preferences
+risk: write
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - contact_id
+  - channel
+  - state
+  properties:
+    contact_id:
+      type: integer
+    channel:
+      type: string
+      enum:
+      - campaigns
+      - transactional
+    state:
+      type: string
+      enum:
+      - subscribed
+      - blocklisted
+side_effects:
+- 'Observed: putting the contact back on ''Inscrito'' needed no consent check and no dialog, and the contact history
+  keeps both events (blocked, then subscribed again). Only do it when consent is documented.'
+- 'Expected (no campaign was sent to test it): a blocklisted contact receives no campaigns or automation e-mails.'
+postcondition_check: 'Toast ''As inscrições do contato foram atualizadas.'' and the chip in the dropdown changes
+  (''Inscrito'' or ''Colocado em lista bloqueada''). API equivalent: contacts.update_contact with emailBlacklisted.'
+errors: []
+limits: []
+depends_on:
+- contacts.update_contact
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/index/<contact_id>
+    steps:
+    - Open the contact page and the tab 'Preferences'.
+    - '''Campanhas e automações'' > dropdown ''Campanhas'': ''Inscrito'' (can receive campaigns) or ''Colocado em
+      lista bloqueada'' (cannot).'
+    - '''Transacional'' > dropdown ''E-mails transacionais'' with the same two states, and a pencil next to ''Remetentes''
+      to restrict which senders may e-mail the contact.'
+    - The change applies at once; no confirmation dialog.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.update_contact.json
+  verified_via:
+  - ui
+  notes: Campaign subscription executed both ways on the test contact. The transactional dropdown and the Remetentes
+    pencil were only observed.

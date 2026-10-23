@@ -1,0 +1,35 @@
+id: conversations.create_chatbot_scenario
+domain: conversations
+summary: Create a chatbot scenario (inbox settings > 'Chatbot e automação' > 'Cenários do chatbot').
+ui_label_pt: Conversas > Configurações > Cenários do chatbot
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: https://conversations-app.brevo.com/settings
+    steps:
+    - Open Conversas > Caixa de entrada and its settings (conversations-app.brevo.com/settings), then the entry
+      'Cenários do chatbot'.
+    - 'Groups on that page: Canais, Geral, Chatbot e automação, Equipe, Pessoal. The entry was not opened.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Only the menu entry was seen; fields are unknown.

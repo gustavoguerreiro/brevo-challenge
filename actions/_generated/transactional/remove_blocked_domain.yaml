@@ -1,0 +1,44 @@
+id: transactional.remove_blocked_domain
+domain: transactional
+summary: Unblock an existing domain from the list of blocked domains.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'domain' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    domain:
+      type: string
+      description: The name of the domain to be deleted
+  required:
+  - domain
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); list the parent collection and confirm the item is gone.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Domain not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /smtp/blockedDomains/{domain}
+    auth: api-key header (never store the value).
+    operation_id: deleteBlockedDomain
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

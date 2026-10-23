@@ -1,0 +1,23 @@
+{
+  "action": "forms, media library, marketing statistics, transactional setup, templates shared between sections",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR, Free plan. Read-only except where stated. Nothing was created, uploaded, sent or deleted in this pass.",
+  "observations": [
+    "Marketing > Formulários (/contact/forms-app/subscription): tabs 'Inscrição', 'Cancelamento de assinatura' (/contact/forms-app/unsubscribe, not confirmed) and 'Atualização de perfil' (/contact/forms-app/update). The first two were empty. The third lists one default form 'Atualização padrao do formulário de perfil' (type Atualização de perfil, created 2026-10-22, Enviados 0) with a three-dot menu.",
+    "'Criar um formulário de inscricao' opens /contact/forms-app/subscription/create: 'Que tipo de formulário você quer criar?' with 'Página inteira/incorporada' (default) and 'Pop-up' (crown, plan Professional); field 'Nome do formulário*'; buttons 'Cancelar' and 'Criar formulário'. Cancelar returned to the list and created nothing. The form editor itself was NOT opened.",
+    "Marketing > Estatísticas (/marketing-reports/statistics#from=...&to=...): date range (default last 30 days), summary tiles Enviadas, Destinatários, Aberturas, Cliques, Soft + hard bounces, Respondidos, Taxa de abertura, Taxa de cliques, Cancelamentos de assinatura, Taxa de cancelamento de assinatura; notice 'Aberturas e cliques automatizados incluidos'; tables 'Campanhas de e-mail' and 'Campanhas de SMS', each with 'Exportar (arquivo .csv)'. All zero in the test account.",
+    "Transacional > E-mail has the entries Tempo real (/transactional/email/real-time, a setup wizard 'Configuração' then 'Verificacao' with tabs Configurações de SMTP, Configurações de API, Configurar com Postfix, Configurar com PHP), Estatísticas, Logs, Modelos; Transacional also has SMS.",
+    "Transacional > E-mail > Modelos opens the SAME list as Marketing > Modelos (/templates/listing). There is one pool of e-mail templates, used by campaigns, automations and the transactional API.",
+    "The SMTP setup page shows the host and port of Brevo's relay, an account-specific login, and a masked key ('Open SMTP key settings'). The login was visible in the page text and is deliberately not recorded in this repository.",
+    "Biblioteca > Multimídia (/content-hub, title 'Mídia'): 'Criar pasta', 'Gerar imagem' (AI), 'Adicionar arquivo' with entries 'Carregar' and 'Importar via URL'; search, type filter, sort, grid/list switch; empty in the test account. Nothing was uploaded.",
+    "Análise > Conversões (/conversions/listing) and Analytics studio are crown-gated upsell pages.",
+    "CRM > Empresas (/companies): empty ('0 empresas'). 'Criar empresa' opens the side panel 'Criar uma empresa' with 'Associar empresa a contatos' (contact picker), 'Domínio', 'Nome da empresa*' (the only required field), 'Setor', 'Número de telefone' (country selector, +55 by default), buttons 'Cancelar' and 'Criar' (disabled until the name is filled). Cancelar closed the panel and created nothing.",
+    "Contact page (/contact/index/<id>) action bar, seen earlier in inventory/ui_crawl_pass3_crm_marketing.md: Anotação, E-mail, Ligar, SMS, Tarefa, Mais (Reunião, Oportunidade, Arquivo, Adicionar à automação, Excluir definitivamente). None of them was pressed. CRM > Oportunidades (/crm/deals) and Tarefas (/tasks) need the CRM to be activated first (observed earlier in the session)."
+  ],
+  "limitations": [
+    "Form editor, form settings, double opt-in form options and embed code were not opened.",
+    "Folder creation and uploads in the media library were not run.",
+    "The SMTP key settings and API key pages were not opened."
+  ],
+  "test_data_left_in_account": "none from this pass"
+}

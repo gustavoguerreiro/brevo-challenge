@@ -1,0 +1,102 @@
+id: integrations.create_external_feed
+domain: integrations
+summary: Create an external feed (a URL whose content can be inserted into campaigns).
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of the feed
+      x-in: body
+    url:
+      type: string
+      format: url
+      description: URL of the feed
+      x-in: body
+    authType:
+      type: string
+      description: 'Auth type of the feed: * `basic` * `token` * `noAuth`'
+      enum:
+      - basic
+      - token
+      - noAuth
+      default: noAuth
+      x-in: body
+    username:
+      type: string
+      description: Username for authType `basic`
+      x-in: body
+    password:
+      type: string
+      description: Password for authType `basic`
+      x-in: body
+    token:
+      type: string
+      description: Token for authType `token`
+      x-in: body
+    headers:
+      type: array
+      description: Custom headers for the feed
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: Name of the header
+          value:
+            type: string
+            description: Value of the header
+      x-in: body
+    maxRetries:
+      type: integer
+      description: Maximum number of retries on the feed url
+      minimum: 0
+      maximum: 5
+      x-in: body
+    cache:
+      type: boolean
+      description: Toggle caching of feed url response
+      default: false
+      x-in: body
+  required:
+  - name
+  - url
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      format: uuidv4
+      description: ID of the object created
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /feeds
+    auth: api-key header (never store the value).
+    operation_id: createExternalFeed
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,125 @@
+id: content.create_email_template
+domain: content
+summary: Create a reusable e-mail template (Marketing > Modelos). Saved inactive by default; content can be added
+  later.
+ui_label_pt: Criar modelo > Modelo de e-mail
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+  note: Folders and tags for templates are crown (plan-gated) features on Free.
+preconditions:
+- 'UI: no content is required to save an inactive template (verified: saved with an empty body).'
+- 'API: sender, subject and templateName are required, plus one of htmlContent (more than 10 characters) or htmlUrl.'
+- Sender e-mail is preset to the account e-mail. If the sender domain is not authenticated, Brevo replaces it with
+  @brevosend.com (warning shown).
+inputs:
+  type: object
+  required:
+  - template_name
+  - subject
+  - sender
+  x-api-requires-one-of:
+  - html_content
+  - html_url
+  properties:
+    template_name:
+      type: string
+      description: 'UI: the pencil next to ''Novo modelo''. API: templateName.'
+    subject:
+      type: string
+      description: 'UI label ''Linha de assunto''. API: subject.'
+    sender:
+      type: object
+      description: 'UI: ''E-mail do remetente'' and ''Nome do remetente'' (preset to the account e-mail and account
+        name). API: sender, give either email or id, not both.'
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        id:
+          type: integer
+    preheader:
+      type: string
+      description: UI label 'Pré-visualização do texto' (keep under 35 characters). Not an API field of this operation.
+    html_content:
+      type: string
+      description: API htmlContent. Required by the API when html_url is absent. In the UI the content is built
+        in the editor ('Adicionar conteúdo'), not pasted into a field.
+    html_url:
+      type: string
+      format: uri
+      description: API htmlUrl.
+    reply_to:
+      type: string
+      format: email
+      description: API replyTo.
+    to_field:
+      type: string
+      description: API toField, e.g. '{FNAME} {LNAME}'.
+    tag:
+      type: string
+      description: API tag.
+    is_active:
+      type: boolean
+      description: 'API isActive. UI: ''Salvar'' keeps the template inactive, ''Salvar e ativar'' activates it (not
+        verified).'
+outputs:
+  type: object
+  properties:
+    template_id:
+      type: integer
+      description: 'UI: shown as #<id> in the listing and in the URL /templates/email/edit/<id>. API: id in the
+        201 response.'
+side_effects:
+- 'Observed: adds a template to Marketing > Modelos, inactive while it has no design. Nothing was sent.'
+- 'Observed (dialog text): a deactivated template cannot be used in Automações and Transacional.'
+- 'Expected (not verified): an active template can be picked in campaigns and used for transactional sends.'
+postcondition_check: 'Toast ''Modelo salvo com sucesso!''. The template is listed in /templates/listing with its
+  name, #<id>, and status Inativo.'
+errors:
+- condition: 'API: htmlContent and htmlUrl both missing, or htmlContent shorter than 10 characters'
+  symptom: HTTP 400 (documented, not reproduced).
+  recovery: Send an HTML body of more than 10 characters or a reachable htmlUrl.
+- condition: Sender domain not authenticated
+  symptom: Warning under the sender field in the UI; sends use @brevosend.com.
+  recovery: Authenticate the domain under Remetentes, domínio, IPs (see account actions) or accept the substitution.
+limits:
+- 'UI template name: the pencil edit accepts free text. The length limit was not observed.'
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smtp/templates
+    operation_id: createSmtpTemplate
+    auth: api-key header (never store the value).
+  ui:
+    entry: /templates/listing
+    steps:
+    - Go to Marketing > Modelos and press 'Criar modelo'.
+    - In the dialog 'Qual modelo você deseja criar?' choose 'Modelo de e-mail' (the WhatsApp option is a separate
+      flow; push is plan-gated).
+    - The editor opens at /templates/email/create with the default name 'Novo modelo' and status Inativa.
+    - 'Press the pencil, type the name, confirm with the check mark. The URL changes to /templates/email/edit/<id>:
+      the template already exists as a draft at this point.'
+    - Fill 'Linha de assunto'. Check 'E-mail do remetente' and 'Nome do remetente' (preset).
+    - 'Optional: press ''Adicionar conteúdo'' to build the body (not exercised).'
+    - Open the 'Salvar' menu and choose 'Salvar' (stays inactive) or 'Salvar e ativar' (not exercised).
+    internal_service: email-campaigns-backend/email-template/api/templates (path seen in resource timing)
+provenance:
+  sources:
+  - ui
+  - network
+  - api_docs
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/content.create_email_template.json
+  notes: 'UI path executed: created ZZ_TEST_template_1 (ID 2, inactive) with no body. The API path is documented
+    only (no API key in the account). That the UI and /smtp/templates use the same template store is inferred from
+    Brevo''s docs and was not checked.'

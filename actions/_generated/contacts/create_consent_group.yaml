@@ -1,0 +1,50 @@
+id: contacts.create_consent_group
+domain: contacts
+summary: Create consent group (POST /contacts/consent-groups).
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      description: Type not captured.
+      x-in: body
+    description:
+      description: Type not captured.
+      x-in: body
+    signupMode:
+      description: Type not captured.
+      x-in: body
+    listIds:
+      description: Type not captured.
+      x-in: body
+  required:
+  - name
+  - signupMode
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/consent-groups
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

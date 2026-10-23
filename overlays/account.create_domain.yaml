@@ -1,0 +1,16 @@
+id: account.create_domain
+plan_availability:
+  free: available
+ui_label_pt: Domínios > Adicionar um domínio
+ui:
+  entry: /senders/domain/list
+  steps:
+  - 'Open Remetentes, domínios e IPs dedicados, tab ''Domínios''. The empty state says ''Configurar seu domínio''
+    with the button ''Adicionar um domínio''. NOT EXECUTED: the dialog and the DNS records it shows were not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Empty state and button observed.

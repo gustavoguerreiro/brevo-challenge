@@ -1,0 +1,72 @@
+id: account.list_user_invitations
+domain: account
+summary: Get the list of all your users.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: object
+  properties:
+    users:
+      type: array
+      description: Get invited users list
+      items:
+        type: object
+        required:
+        - email
+        - feature_access
+        - is_owner
+        - status
+        properties:
+          email:
+            type: string
+            description: Email address of the user.
+          is_owner:
+            type: string
+            description: Flag for indicating is user owner of the organization.
+          status:
+            type: string
+            description: Status of the invited user.
+          feature_access:
+            type: object
+            properties:
+              marketing:
+                format: string
+                description: Marketing features accessiblity.
+              conversations:
+                format: string
+                description: Conversations features accessiblity.
+              crm:
+                format: string
+                description: CRM features accessiblity.
+            description: Feature accessiblity given to the user.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /organization/invited/users
+    auth: api-key header (never store the value).
+    operation_id: getInvitedUsersList
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

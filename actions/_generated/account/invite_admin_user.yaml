@@ -1,0 +1,122 @@
+id: account.invite_admin_user
+domain: account
+summary: Send invitation to an admin user.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+      x-in: body
+    all_features_access:
+      type: boolean
+      description: All access to the features
+      x-in: body
+    groupIds:
+      type: array
+      description: Ids of Group
+      items:
+        type: string
+        description: Group Id
+      x-in: body
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - my_plan
+            - api
+            - user_management
+            - app_management
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - all
+              - none
+        description: Privileges given to the user
+      x-in: body
+  required:
+  - all_features_access
+  - email
+  - privileges
+outputs:
+  type: object
+  required:
+  - all_features_access
+  - email
+  - privileges
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+    all_features_access:
+      type: boolean
+      description: All access to the features
+    groupIds:
+      type: array
+      description: Ids of Group
+      items:
+        type: string
+        description: Group Id
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - my_plan
+            - api
+            - user_management
+            - app_management
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - all
+              - none
+        description: Privileges given to the user
+side_effects:
+- 'Expected (from the API docs, not verified): An invitation e-mail goes to the invited address.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 400: Bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /corporate/user/invitation/send
+    auth: api-key header (never store the value).
+    operation_id: inviteAdminUser
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

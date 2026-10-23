@@ -1,0 +1,41 @@
+id: automations.delete_automation
+domain: automations
+summary: Delete an automation from the list.
+ui_label_pt: Excluir
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+      description: Automation to delete.
+side_effects:
+- 'Expected (not observed): Contacts currently inside the automation are removed from it, its statistics and logs
+  are lost.'
+postcondition_check: The row disappears from every tab.
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Open Automações > Cenários and the three-dot menu of the row.
+    - Choose 'Excluir' (red entry, last in the menu).
+    - 'Confirm in the dialog. NOT EXECUTED: deletion was out of scope, so the dialog was not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Menu entry only.

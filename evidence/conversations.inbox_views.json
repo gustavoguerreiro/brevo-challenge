@@ -1,0 +1,16 @@
+{
+  "action": "conversations.list_conversations (UI inbox views)",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR, Free plan. Read only. No conversation was opened, answered, assigned or closed.",
+  "observations": [
+    "The inbox lives on its own host, conversations-app.brevo.com, reached from Conversas > Caixa de entrada.",
+    "Views in the left list: Minhas mensagens (/conversations/myopen, empty: 'Vocês estão todos atualizados!'), Não atribuídas (/conversations/unassigned, 1 conversation: a system 'Welcome Bot' message), Todas as mensagens. 'Visitantes online' and 'Estatísticas' carry the crown (paid).",
+    "Top of the list: an availability selector ('Online' with a warning icon), a status filter ('Abertas'), a sort button and a search icon.",
+    "Settings of the inbox were read separately (see inventory/ui_crawl_pass4_settings_detail.md)."
+  ],
+  "limitations": [
+    "No conversation was opened, so the reply box, assignment, snooze and close controls were not seen.",
+    "'Todas as mensagens' was not opened in this pass."
+  ],
+  "test_data_left_in_account": "none"
+}

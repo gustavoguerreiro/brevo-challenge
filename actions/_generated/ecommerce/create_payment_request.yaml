@@ -1,0 +1,118 @@
+id: ecommerce.create_payment_request
+domain: ecommerce
+summary: Create a payment request for a contact; the contact can be notified by e-mail.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    reference:
+      type: string
+      description: Reference of the payment request, it will appear on the payment page.
+      x-in: body
+    cart:
+      type: object
+      required:
+      - currency
+      - specificAmount
+      properties:
+        currency:
+          type: string
+          description: Currency code for the payment amount.
+          enum:
+          - EUR
+        specificAmount:
+          type: integer
+          format: int64
+          description: Payment amount, in cents. e.g. if you want to request €12.00, then the amount in cents is
+            1200.
+      description: Specify the payment currency and amount.
+      x-in: body
+    contactId:
+      type: integer
+      format: int64
+      description: Brevo ID of the contact requested to pay.
+      x-in: body
+    description:
+      type: string
+      description: description of payment request.
+      x-in: body
+    notification:
+      type: object
+      required:
+      - channel
+      - text
+      properties:
+        channel:
+          type: string
+          description: Channel used to send the notifications.
+          enum:
+          - email
+        text:
+          type: string
+          description: Use this field if you want to give more context to your contact about the payment request.
+      description: Optional. Use this object if you want to let Brevo send an email to the contact, with the payment
+        request URL. If empty, no notifications (message and reminders) will be sent.
+      x-in: body
+    configuration:
+      required:
+      - customSuccessUrl
+      properties:
+        customSuccessUrl:
+          type: string
+          format: url
+          description: Absolute URL of the custom success page.
+      description: Optional. Redirect contact to a custom success page once payment is successful. If empty the
+        default Brevo page will be displayed once a payment is validated
+      x-in: body
+  required:
+  - cart
+  - contactId
+  - reference
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      description: ID of the object created
+    url:
+      type: string
+      description: URL of the payment request created
+side_effects:
+- 'Expected (from the API docs, not verified): A payment request goes to the customer.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Bad request.'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 401: Unauthorized.'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+- condition: 'HTTP 403: Permission denied. Either you don''t have access to Brevo Payments or your Brevo Payments
+    account is not validated.'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /payments/requests
+    auth: api-key header (never store the value).
+    operation_id: createPaymentRequest
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Sends a payment request to
+  a customer.'

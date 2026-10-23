@@ -1,0 +1,122 @@
+id: contacts.add_contact_to_list
+domain: contacts
+summary: Add existing contacts to a list.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'listId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    listId:
+      type: integer
+      format: int64
+      description: Id of the list
+    emails:
+      type: array
+      description: Mandatory if IDs are not passed, ignored otherwise. Emails to add to a list. You can pass a maximum
+        of 150 emails for addition in one request. If you need to add the emails in bulk, please prefer /contacts/import
+        api.
+      items:
+        type: string
+        format: email
+        description: Emails addresses OR IDs of the contacts
+      maxItems: 150
+      minItems: 1
+      x-in: body
+    ids:
+      type: array
+      description: Mandatory if Emails are not passed, ignored otherwise. Emails to add to a list. You can pass
+        a maximum of 150 emails for addition in one request. If you need to add the emails in bulk, please prefer
+        /contacts/import api.
+      items:
+        type: integer
+        format: int64
+        description: IDs of the contacts
+      maxItems: 150
+      minItems: 1
+      x-in: body
+  required:
+  - listId
+outputs:
+  type: object
+  required:
+  - contacts
+  properties:
+    contacts:
+      type: object
+      properties:
+        success:
+          type: array
+          items:
+            type: string
+            format: email
+            description: Email addresses which are successfully imported
+        failure:
+          type: array
+          items:
+            type: string
+            format: email
+            description: Email addresses which can not be imported, could be already in/out list and/or doesn't
+              exist
+        total:
+          type: integer
+          format: int64
+          description: Displays the count of total number of contacts removed from list when user opts for "all"
+            option.
+        processId:
+          type: integer
+          format: int64
+          description: Id of the process created to remove contacts from list when user opts for "all" option.
+side_effects:
+- 'Expected (from the API docs, not verified): Can enrol the contact in automations triggered by ''Contato adicionado
+  à lista''.'
+- 'Expected (not verified: no automation was active): adding a contact can start automations whose trigger is ''Contato
+  adicionado à lista'' (only for additions after the automation was activated).'
+postcondition_check: 'UI: toast ''A lista foi atualizada para o contato'', the contact tab ''Listas'' shows a counter
+  and the list row. API: HTTP 201 with the contacts that were added.'
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: List ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/lists/{listId}/contacts/add
+    auth: api-key header (never store the value).
+    operation_id: addContactToList
+  ui:
+    entry: /contact/index/<contact_id>
+    steps:
+    - Open the contact page and the tab 'Listas', press 'Adicionar à lista' (or 'Administrar listas' when it already
+      has lists).
+    - In the side panel 'Administrar listas' open the dropdown 'Adicionar um contato a uma lista', pick the folder,
+      tick the list(s).
+    - Click outside the dropdown to close it; the panel summarises 'Adicionado em N lista'. Press 'Salvar alterações'.
+    - 'Bulk alternative (observed, not run): in CRM > Contatos select rows and press ''Adicionar a uma(s) lista(s)''
+      in the selection bar.'
+    internal_service: contacts-api/contact/backend/contacts/lists
+provenance:
+  sources:
+  - api_docs
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Executed from the contact page with the test contact and test list ID 6. The bulk bar variant was only
+    observed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no
+    API key. Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_contact.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Can fire automations triggered
+  by ''Contato adicionado à lista''.'
+ui_label_pt: Administrar listas / Adicionar a uma(s) lista(s)

@@ -1,0 +1,295 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brevo-catalog/action.schema.json",
+  "title": "Brevo business action",
+  "description": "One user-level action in Brevo, described so an AI agent can choose it, call it, and check that it worked.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "domain",
+    "summary",
+    "risk",
+    "reversible",
+    "requires_human_confirmation",
+    "plan_availability",
+    "preconditions",
+    "inputs",
+    "side_effects",
+    "errors",
+    "execution",
+    "provenance",
+    "postcondition_check"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z_]+\\.(create|get|list|search|update|delete|duplicate|import|export|send|schedule|pause|resume|activate|deactivate|connect|configure|move|rename|add|remove|enable|disable|recalculate|verify|upload|invite|publish|redeem|complete|cancel|preview|install|test|copy|purchase|generate)_[a-z0-9_]+$",
+      "description": "<domain>.<verb>_<entity>. The verb comes from a closed set so agents can predict names."
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "contacts",
+        "email_campaigns",
+        "automations",
+        "transactional",
+        "account",
+        "sms_whatsapp",
+        "crm",
+        "content",
+        "conversations",
+        "reporting",
+        "ecommerce",
+        "loyalty",
+        "custom_objects",
+        "analytics",
+        "phone",
+        "meetings",
+        "integrations",
+        "landing_pages",
+        "push_popups"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 140
+    },
+    "description": {
+      "type": "string"
+    },
+    "ui_label_pt": {
+      "type": "string",
+      "description": "Label of the control in the pt-BR UI used to observe this action."
+    },
+    "risk": {
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "destructive",
+        "external_effect"
+      ],
+      "description": "external_effect means it can reach real recipients or third parties (sending, publishing, billing)."
+    },
+    "reversible": {
+      "type": "boolean"
+    },
+    "requires_human_confirmation": {
+      "type": "boolean"
+    },
+    "plan_availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "free"
+      ],
+      "properties": {
+        "free": {
+          "enum": [
+            "available",
+            "limited",
+            "blocked",
+            "unknown"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "description": "JSON Schema (type: object) of the parameters an agent must supply."
+    },
+    "outputs": {
+      "type": "object",
+      "description": "JSON Schema of what the action returns or produces."
+    },
+    "side_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "postcondition_check": {
+      "type": "string",
+      "description": "How to confirm the action worked. Required: an agent must not claim success without a read-back."
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "condition",
+          "recovery"
+        ],
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "symptom": {
+            "type": "string"
+          },
+          "recovery": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ids of actions that can create or prepare what this one needs (for example the list a contact is added to). Run one of them only if the needed object does not exist yet; it is not a fixed sequence and never implies the other action ran."
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preferred"
+      ],
+      "properties": {
+        "preferred": {
+          "enum": [
+            "api",
+            "ui"
+          ]
+        },
+        "api": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "method",
+            "path"
+          ],
+          "properties": {
+            "method": {
+              "enum": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+              ]
+            },
+            "path": {
+              "type": "string"
+            },
+            "operation_id": {
+              "type": "string"
+            },
+            "base_url": {
+              "type": "string",
+              "default": "https://api.brevo.com/v3"
+            },
+            "auth": {
+              "type": "string",
+              "description": "Describe the credential needed. Never include a value."
+            }
+          }
+        },
+        "ui": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "entry",
+            "steps"
+          ],
+          "properties": {
+            "entry": {
+              "type": "string",
+              "description": "Path or deep link, relative to https://app.brevo.com."
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Steps written with semantic locators (role + visible label), not CSS selectors."
+            },
+            "internal_service": {
+              "type": "string",
+              "description": "Internal service endpoint seen in the web app. Evidence only, not a stable contract."
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sources",
+        "verification",
+        "verified_at"
+      ],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ui",
+              "network",
+              "api_docs",
+              "help_center"
+            ]
+          },
+          "minItems": 1
+        },
+        "verification": {
+          "enum": [
+            "executed_verified",
+            "observed_not_executed",
+            "documented_only",
+            "inferred"
+          ],
+          "description": "executed_verified: run on the account and the result checked. observed_not_executed: seen in the UI (dialog fields, menu entry) but not run. documented_only: from public docs. inferred: derived; treat with caution."
+        },
+        "verified_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "evidence": {
+          "type": "string",
+          "description": "Path to an evidence file."
+        },
+        "notes": {
+          "type": "string"
+        },
+        "verified_via": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "ui",
+              "api"
+            ]
+          },
+          "minItems": 1,
+          "description": "Which execution path was actually run to verify the action. Required when verification is executed_verified. The other path, if any, is documented only."
+        }
+      }
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ids of actions that reach the same capability by another door (for example the template actions of content.* and transactional.*, which share one pool). Not a dependency."
+    }
+  }
+}

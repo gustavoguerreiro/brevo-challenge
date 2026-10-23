@@ -1,0 +1,48 @@
+id: transactional.list_blocked_domains
+domain: transactional
+summary: Get the list of blocked domains.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: object
+  required:
+  - domains
+  properties:
+    domains:
+      type: array
+      description: List of all blocked domains
+      items:
+        type: string
+        description: name of blocked domain
+  description: list of blocked domains
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/blockedDomains
+    auth: api-key header (never store the value).
+    operation_id: getBlockedDomains
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

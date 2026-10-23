@@ -1,0 +1,47 @@
+id: contacts.add_contacts_to_automation
+domain: contacts
+summary: Enrol the selected contacts in an automation ('Mais ações > Adicionar à automação'; also on the contact
+  page).
+ui_label_pt: Contatos > Mais ações > Adicionar à automação
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- Check that the automation is not active, or that the person accepts the messages it will send.
+inputs:
+  type: object
+  properties:
+    contact_ids:
+      type: array
+      items:
+        type: integer
+      description: Selected rows.
+    automation_id:
+      type: integer
+      description: Target automation.
+  required:
+  - contact_ids
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run. Expected: the contact is listed under ''Contatos no cenário'' of that automation
+  (/automation/logs/scenarios) once the automation processes it; if the automation is inactive nothing should happen.'
+errors: []
+limits: []
+depends_on:
+- automations.create_automation
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - Tick rows (or open a contact page) and choose 'Adicionar à automação' (seen in both places, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: 'Entry seen; the dialog was not opened. Treated as external_effect: if the automation is active, enrolled
+    contacts receive its messages.'

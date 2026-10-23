@@ -1,0 +1,149 @@
+id: transactional.list_templates
+domain: transactional
+summary: Get the list of email templates.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    templateStatus:
+      type: boolean
+      description: Filter on the status of the template. Active = true, inactive = false
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document in the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    count:
+      type: integer
+      format: int64
+      description: Count of transactional email templates
+    templates:
+      type: array
+      items:
+        type: object
+        required:
+        - createdAt
+        - htmlContent
+        - id
+        - isActive
+        - modifiedAt
+        - name
+        - replyTo
+        - sender
+        - subject
+        - tag
+        - testSent
+        - toField
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: ID of the template
+          name:
+            type: string
+            description: Name of the template
+          subject:
+            type: string
+            description: Subject of the template
+          isActive:
+            type: boolean
+            description: Status of template (true=active, false=inactive)
+          testSent:
+            type: boolean
+            description: Status of test sending for the template (true=test email has been sent, false=test email
+              has not been sent)
+          sender:
+            type: object
+            properties:
+              name:
+                type: string
+                description: From email for the template
+              email:
+                type: string
+                format: email
+                description: From email for the template
+              id:
+                type: string
+                description: Sender id of the template
+          replyTo:
+            type: string
+            format: email
+            description: Email defined as the "Reply to" for the template
+          toField:
+            type: string
+            description: Customisation of the "to" field for the template
+          tag:
+            type: string
+            description: Tag of the template
+          htmlContent:
+            type: string
+            description: HTML content of the template
+          createdAt:
+            type: string
+            description: Creation UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)
+          modifiedAt:
+            type: string
+            description: Last modification UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)
+          doiTemplate:
+            type: boolean
+            description: It is true if template is a valid Double opt-in (DOI) template, otherwise it is false.
+              This field will be available only in case of single template detail call.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/templates
+    auth: api-key header (never store the value).
+    operation_id: getSmtpTemplates
+  ui:
+    entry: /templates/listing
+    steps:
+    - 'Open Marketing > Modelos, or Transacional > E-mail > Modelos: both open the same list (one pool of e-mail
+      templates).'
+    - 'Filter with ''Buscar modelos'' and the status filter. Each row shows the name, #id, last edit and status
+      (Ativo / Inativo).'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'The UI list is the same for marketing and transactional use. That the API returns exactly the same objects
+    was not tested (no API key). Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed:
+    the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.misc_pages_pass5.json
+related:
+- content.list_email_templates
+ui_label_pt: Transacional > E-mail > Modelos

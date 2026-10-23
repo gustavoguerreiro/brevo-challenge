@@ -1,0 +1,29 @@
+{
+  "action": "content.create_email_template",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR. Nothing was sent.",
+  "steps_run": [
+    "Opened Marketing > Modelos (/templates/listing, empty), pressed 'Criar modelo'",
+    "Dialog 'Qual modelo você deseja criar?': chose 'Modelo de e-mail' (others: Modelo do WhatsApp, Modelo push [crown])",
+    "Landed on /templates/email/create, default name 'Novo modelo', status Inativa",
+    "Clicked the pencil, replaced the name with ZZ_TEST_template_1 and confirmed with the check mark; the URL changed to /templates/email/edit/2 at this point",
+    "Typed the subject 'ZZ_TEST template subject' (sender and sender name were preset: the account e-mail and the account name)",
+    "Opened the 'Salvar' menu (options: Salvar, Salvar e ativar) and chose 'Salvar'"
+  ],
+  "results": [
+    "Toast 'Modelo salvo com sucesso!'",
+    "Listing shows ZZ_TEST_template_1, #2, 'Última edição feita em 22 de out. de 2026 5:05 PM', status Inativo",
+    "Row menu: Pré-visualização, Duplicar, Ativar, Excluir"
+  ],
+  "observations": [
+    "No content was added (the 'Adicionar conteúdo' step was skipped) and the save still succeeded, so content is not required to save an inactive template.",
+    "Warning shown under the sender: the domain is not authenticated and Brevo replaces it with @brevosend.com.",
+    "The record already existed as a draft (edit/2) before 'Salvar' was pressed, so the ID may be allocated when the name is confirmed."
+  ],
+  "limitations": [
+    "Template content (drag-and-drop, simple or HTML editor) was not built.",
+    "'Salvar e ativar' was not used, so what activation changes is not verified.",
+    "The save request body was not captured."
+  ],
+  "test_data_left_in_account": "e-mail template ZZ_TEST_template_1 (ID 2, inactive), to be removed by the account owner"
+}

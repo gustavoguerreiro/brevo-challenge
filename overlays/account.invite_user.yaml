@@ -1,0 +1,20 @@
+id: account.invite_user
+plan_availability:
+  free: blocked
+  note: The 'Adicionar usuários' button carries a lock icon on the Free plan and the licence counters read 1/1 (observed
+    in the UI). The API call was not tried.
+ui_label_pt: Configurações > Usuários > Adicionar usuários
+ui:
+  entry: /settings/users
+  steps:
+  - 'Open Configurações > Organização > Usuários (/settings/users). Tabs: Usuários, Usuário parceiro, Logs de atividades.'
+  - Licence counters read Marketing 1/1 and Sales 1/1, each with 'Adicionar licenças' (crown).
+  - 'The button ''Adicionar usuários'' shows a lock icon on the Free plan. NOT EXECUTED: it was not pressed and
+    no invitation was sent.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Plan gating seen in the UI (inventory/ui_crawl_pass2_settings.md); invitation not sent.

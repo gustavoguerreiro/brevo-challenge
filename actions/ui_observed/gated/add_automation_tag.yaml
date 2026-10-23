@@ -1,0 +1,41 @@
+id: automations.add_automation_tag
+domain: automations
+summary: Tag an automation (row menu 'Atribuir uma tag'). Blocked on the Free plan.
+ui_label_pt: Automações > Ações > Atribuir uma tag
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    automation_id:
+      type: integer
+      description: Automation to tag.
+    tag:
+      type: string
+      description: Tag name.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - 'Open the row menu of an automation: ''Atribuir uma tag'' carries a crown.'
+    - Not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Crown seen in the row menu.

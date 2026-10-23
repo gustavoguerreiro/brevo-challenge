@@ -1,0 +1,43 @@
+id: transactional.delete_email_log
+domain: transactional
+summary: Delete an SMTP transactional log.
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'identifier' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    identifier:
+      type: string
+      description: MessageId or Email of the transactional log(s) to delete
+  required:
+  - identifier
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Message ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /smtp/log/{identifier}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

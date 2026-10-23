@@ -1,0 +1,74 @@
+id: ecommerce.get_category
+domain: ecommerce
+summary: Get a category details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Category ID
+  required:
+  - id
+outputs:
+  type: object
+  required:
+  - createdAt
+  - id
+  - modifiedAt
+  - name
+  properties:
+    id:
+      type: string
+      format: string
+      description: Category ID for which you requested the details
+    name:
+      type: string
+      format: string
+      description: Name of the category for which you requested the details
+    createdAt:
+      type: string
+      description: Creation UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    modifiedAt:
+      type: string
+      description: Last modification UTC date-time of the category (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    url:
+      type: string
+      format: string
+      description: URL to the category
+    isDeleted:
+      type: boolean
+      format: string
+      description: category deleted from the shop's database
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Category id not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /categories/{id}
+    auth: api-key header (never store the value).
+    operation_id: getCategoryInfo
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

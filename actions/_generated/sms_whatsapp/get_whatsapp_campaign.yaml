@@ -1,0 +1,164 @@
+id: sms_whatsapp.get_whatsapp_campaign
+domain: sms_whatsapp
+summary: Get a WhatsApp campaign.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the campaign
+  required:
+  - campaignId
+outputs:
+  type: object
+  required:
+  - campaignName
+  - campaignStatus
+  - createdAt
+  - id
+  - modifiedAt
+  - senderNumber
+  - template
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: ID of the WhatsApp Campaign
+    campaignName:
+      type: string
+      description: Name of the WhatsApp Campaign
+    campaignStatus:
+      type: string
+      description: Status of the WhatsApp Campaign
+      enum:
+      - draft
+      - scheduled
+      - pending
+      - approved
+      - running
+      - suspended
+      - rejected
+      - sent
+    scheduledAt:
+      type: string
+      description: UTC date-time on which WhatsApp campaign is scheduled. Should be in YYYY-MM-DDTHH:mm:ss.SSSZ
+        format
+    senderNumber:
+      type: string
+      description: Sender of the WhatsApp Campaign
+    stats:
+      type: object
+      required:
+      - delivered
+      - not_sent
+      - read
+      - sent
+      - unsubscribe
+      properties:
+        sent:
+          type: integer
+        delivered:
+          type: integer
+        read:
+          type: integer
+        unsubscribe:
+          type: integer
+        not_sent:
+          type: integer
+    template:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the template
+        category:
+          type: string
+          description: description of the template
+        language:
+          type: string
+          description: language of the template
+        contains_button:
+          type: boolean
+        display_header:
+          type: boolean
+        header_type:
+          type: string
+          description: type of header
+        components:
+          type: array
+          description: array of component item objects
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              text:
+                type: string
+        header_variables:
+          type: array
+          description: array of variables item object
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              default:
+                type: string
+              datatype:
+                type: string
+        body_variables:
+          type: array
+          description: array of variables item variables
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              default:
+                type: string
+              datatype:
+                type: string
+        button_type:
+          type: string
+        hide_footer:
+          type: boolean
+    createdAt:
+      type: string
+      description: Creation UTC date-time of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    modifiedAt:
+      type: string
+      description: UTC date-time of last modification of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign Id not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /whatsappCampaigns/{campaignId}
+    auth: api-key header (never store the value).
+    operation_id: getWhatsAppCampaign
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

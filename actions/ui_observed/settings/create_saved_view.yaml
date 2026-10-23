@@ -1,0 +1,36 @@
+id: contacts.create_saved_view
+domain: contacts
+summary: Save the current contact filters and columns as a view (tab '+' next to 'Todos os contatos').
+ui_label_pt: Contatos > +
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: View name. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - On CRM > Contatos press the tab '+' next to 'Todos os contatos' (save a new view); the gear sets view options.
+    - Not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Tab and gear seen; the saving dialog was not opened.

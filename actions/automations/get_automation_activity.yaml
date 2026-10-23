@@ -1,0 +1,49 @@
+id: automations.get_automation_activity
+domain: automations
+summary: Read the per-step contact counts of an automation for a date range.
+ui_label_pt: Ver relatório / Atividade
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+    start_date:
+      type: string
+      format: date
+    end_date:
+      type: string
+      format: date
+side_effects:
+- None; read only.
+postcondition_check: Cards show 'Total de contatos' per step ('Nenhum dados ainda' for an automation that never
+  ran).
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/stats/<automation_id>
+    steps:
+    - From the list press the activity icon of the row (or the menu entry 'Ver relatório'), or open the tab 'Atividade'
+      in the editor (/automation/stats/<id>).
+    - Choose the period ('Período'), press the refresh icon (toast 'As estatísticas foram atualizadas.'). Each step
+      card shows 'Total de contatos'; 'Ver relatório completo' opens the full report.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  verified_via:
+  - ui
+  notes: Opened on the inactive test automation, so no real numbers were seen.

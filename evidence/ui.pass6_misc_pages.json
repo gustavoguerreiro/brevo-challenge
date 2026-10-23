@@ -1,0 +1,28 @@
+{
+ "action": "SMS campaign draft, API key form, contact bulk bar, transactional logs and onboarding pages",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR. DOM text and clicks; screenshots were unreliable in this pass. Self-reported.",
+ "executed": {
+  "SMS campaign draft": [
+   "Criar campanha > SMS opened /sms-campaign/campaign-setup?source=outbound-modal: title 'Como criar uma campanha de SMS', field 'Nome da campanha' (0/128), after typing the name two more fields appeared: 'Tags' and 'Pasta' (both crown-gated), buttons 'Cancelar' and 'Criar uma campanha'",
+   "Typed ZZ_TEST_sms_1 and pressed 'Criar uma campanha': landed on /sms-campaign/edit/5 with status Rascunho (ID 5; e-mail and SMS campaigns share one id sequence: 1, 4, 5)",
+   "Editor: a banner 'Você precisa configurar SMS antes de poder enviar uma campanha de SMS' with a button 'Configurar SMS'; header buttons 'Enviar um SMS de teste' and 'Enviar agora ou mais tarde'; sections 'Conteúdo da mensagem' (button 'Criar'), 'Remetente' (field 'ID do remetente*', Cancelar/Salvar), 'Destinatários' ('Enviar para' lists or segments, 'Não enviar para contatos não engajados', 'Opções avançadas' with 'Não enviar para' and 'Adicionar filtros', 'Total de destinatários')",
+   "'Criar' opened /sms-campaign/design/5: text area with buttons 'Add emoji', 'Add variable', 'Write with AI', 'Add link'; image drop zone (JPG, PNG or GIF, max 850 kb); counter '1 SMS 0/160'; options 'Gerencie a conformidade nos EUA' and 'Caracteres especiais'; button 'Salvar'. Left without saving"
+  ]
+ },
+ "read_only": {
+  "API key form": "Settings > SMTP & API > 'Chaves API e MCP' > 'Gerar chave API' opened /settings/keys/api/new, title 'Gere nova chave API': 'Nome da chave*' (0/128), 'Vencimento' (default 1 year, shown as a date), a note that keys also expire after 90 days of inactivity, 'Acesso' with 'Total' (all current and future resources) or 'Restrito' (recommended), and per-resource permission rows: E-mails transacionais, SMS transacionais, WhatsApp transacional, campanha de e-mail, Campanhas de SMS, Campanhas de WhatsApp, contato, oportunidade, Conversas, E-commerce, fidelização, Eventos, Objetos, Conta, Webhooks, Organização, Wallet, Brevo Functions, each with a choice such as Nenhum / Lidas / Leitura e gravação / Todos. Buttons 'Cancelar' and 'Criar'. Nothing was created.",
+  "Contacts bulk bar": "Ticking one contact row shows 'Adicionar a uma(s) lista(s)', 'Lista bloqueada' and 'Mais ações' (Modificar, Atribuir, Copie o número de SMS para o WhatsApp, Adicionar à automação, Exportar, Excluir definitivamente). Nothing was pressed; the row was unticked again.",
+  "Transactional logs": "/transactional/email/logs: buttons 'Atualizar' and 'Baixar CSV', filter 'Destinatário (Para)' with a 'prefix' mode, 'Mais filtros', '0 logs'. /transactional/sms/logs: 'Atualizar', 'Download', filter 'Remetente (De)', 'Mais filtros', '0 logs'.",
+  "Transactional statistics": "/transactional/email/statistics showed the SMTP set-up wizard (steps Configuração and Verificação, tabs 'Configurações de SMTP' and 'Configurações de API') because nothing has been sent. Credential values on that page were not recorded.",
+  "Telefone": "/phone/onboarding: 'Primeiros passos com o Telefone', 'Disponível no módulo Sales Advanced', button 'Adicionar pacote'; the page lists number selection, call data, advanced call features (welcome message, menu, working hours, voicemail with transcription, number assignment), call analytics and an AI follow-up e-mail from a call transcript.",
+  "Reuniões": "/meetings/offer/all redirects to /meetings/onboarding: booking links for 15, 30 or 60 minute meetings, optional payment before confirmation, Brevo, Google Meet or Zoom; one button 'Comece com o Brevo Reuniões' (not pressed).",
+  "E-commerce": "/ecommerce: 'Conecte sua loja à Brevo', platform choices WooCommerce, Shopify, PrestaShop, Shopware 6, Magento, BigCommerce, Shopware 5, nopCommerce, JTL-Shop, each with 'Instalar plug-in' and 'Ver guia de configuração' (nothing pressed)."
+ },
+ "limitations": [
+  "Request bodies were not captured",
+  "The SMS draft was created although SMS credits are 0, so sending would not be possible; it was never scheduled or sent",
+  "The final state of the API key form's per-resource choices (which option is the default) was not read"
+ ],
+ "test_data_left_in_account": "SMS campaign draft ID 5 ZZ_TEST_sms_1"
+}

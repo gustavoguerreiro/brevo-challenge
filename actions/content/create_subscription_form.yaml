@@ -1,0 +1,47 @@
+id: content.create_subscription_form
+domain: content
+summary: Create a sign-up form (full page / embedded, or pop-up). UI only. The editor itself was not explored.
+ui_label_pt: Criar um formulário de inscrição
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+preconditions: []
+inputs:
+  type: object
+  required:
+  - name
+  properties:
+    name:
+      type: string
+    kind:
+      type: string
+      enum:
+      - full_page_or_embedded
+      - popup
+      default: full_page_or_embedded
+side_effects:
+- 'Expected (not observed): Creates a form record. A published form can collect real contacts into lists.'
+postcondition_check: 'Not observed. Expected: a new row in the Inscrição tab.'
+errors: []
+limits: []
+depends_on:
+- content.list_forms
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/forms-app/subscription/create
+    steps:
+    - Open Marketing > Formulários and press 'Criar um formulário de inscrição' (/contact/forms-app/subscription/create).
+    - 'Choose ''Que tipo de formulário você quer criar?'': ''Página inteira/incorporada'' (default) or ''Pop-up''
+      (crown, plan Professional).'
+    - 'Type ''Nome do formulário*'' and press ''Criar formulário'' (or ''Cancelar''). The editor that follows was
+      NOT observed: fields, list to add contacts to, double opt-in and embed code are unknown.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Only the first screen was observed; Cancelar left no record. Form creation was outside the test-data permission.

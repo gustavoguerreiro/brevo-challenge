@@ -1,0 +1,78 @@
+id: crm.create_note
+domain: crm
+summary: Create a note linked to CRM contacts, companies or deals.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Not checked whether notes need the CRM to be activated.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    text:
+      type: string
+      description: Text content of a note
+      minLength: 1
+      maxLength: 3000
+      x-in: body
+    contactIds:
+      type: array
+      description: Contact Ids linked to a note
+      items:
+        type: integer
+      x-in: body
+    dealIds:
+      type: array
+      description: Deal Ids linked to a note
+      items:
+        type: string
+      x-in: body
+    companyIds:
+      type: array
+      description: Company Ids linked to a note
+      items:
+        type: string
+      x-in: body
+  required:
+  - text
+outputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Unique note Id
+  description: Updated Note ID
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 415: Format is not supported'
+  recovery: Inspect the response body and correct the request.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /crm/notes
+    auth: api-key header (never store the value).
+  ui:
+    entry: /contact/index/<contact_id>
+    steps:
+    - 'Open the contact page and press ''Anotação'' in the action bar (first button). NOT EXECUTED: the editor and
+      its fields were not opened.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Action bar button seen; not pressed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025).
+    Not executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+ui_label_pt: Contato > Anotação

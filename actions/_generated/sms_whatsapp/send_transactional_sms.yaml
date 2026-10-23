@@ -1,0 +1,70 @@
+id: sms_whatsapp.send_transactional_sms
+domain: sms_whatsapp
+summary: Send transactional sms (POST /transactionalSMS/send).
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    organisationPrefix:
+      description: Type not captured.
+      x-in: body
+    recipient:
+      description: Type not captured.
+      x-in: body
+    sender:
+      description: Type not captured.
+      x-in: body
+    tag:
+      description: Type not captured.
+      x-in: body
+    type:
+      description: Type not captured.
+      x-in: body
+    unicodeEnabled:
+      description: Type not captured.
+      x-in: body
+    webUrl:
+      description: Type not captured.
+      x-in: body
+    params:
+      description: Type not captured.
+      x-in: body
+    templateId:
+      description: Type not captured.
+      x-in: body
+    content:
+      description: Type not captured.
+      x-in: body
+  required:
+  - recipient
+  - sender
+side_effects:
+- 'Expected (from the API docs, not verified): Sends a real SMS and consumes SMS credits.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /transactionalSMS/send
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

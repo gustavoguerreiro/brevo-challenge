@@ -1,0 +1,51 @@
+id: automations.duplicate_automation
+domain: automations
+summary: Duplicate an automation. It happens at once, with no dialog and no confirmation.
+ui_label_pt: Duplicar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+      description: Automation to copy.
+outputs:
+  type: object
+  properties:
+    automation_id:
+      type: integer
+      description: New ID visible in the list.
+side_effects:
+- 'Observed: after a reload the copy ''[COPY]<name>'' is listed in the Desativada tab; no dialog was visible.'
+- 'Expected (not verified: the copy was never opened): the copy keeps the steps and settings, and steps that refer
+  to lists keep pointing at the same lists.'
+postcondition_check: After a reload, the list has one more row '[COPY]<name>' in the Desativada tab.
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Open Automações > Cenários and the three-dot menu of the row.
+    - 'Choose ''Duplicar'' (first entry). There is no dialog: the copy is created immediately.'
+    - 'Reload the list: the copy appears first, named ''[COPY]<original name>'', status Desativada, with a new ID.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  verified_via:
+  - ui
+  notes: Executed once on the test automation; the copy got ID 2 and was inactive. The list did not refresh by itself,
+    so reload.

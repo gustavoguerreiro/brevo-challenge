@@ -1,0 +1,251 @@
+id: contacts.get_contact_campaign_stats
+domain: contacts
+summary: Get email campaigns' statistics for a contact.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'identifier' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    identifier:
+      type: string
+      description: Email (urlencoded) OR ID of the contact
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the statistic events specific to
+        campaigns. Must be lower than equal to endDate
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the statistic events specific to
+        campaigns. Must be greater than equal to startDate. Maximum difference between startDate and endDate should
+        not be greater than 90 days
+  required:
+  - identifier
+outputs:
+  type: object
+  properties:
+    messagesSent:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - eventTime
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+    hardBounces:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - eventTime
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+    softBounces:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - eventTime
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+    complaints:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - eventTime
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+    unsubscriptions:
+      type: object
+      required:
+      - adminUnsubscription
+      - userUnsubscription
+      properties:
+        userUnsubscription:
+          type: array
+          description: Contact has unsubscribed via the unsubscription link in the email
+          items:
+            type: object
+            required:
+            - campaignId
+            - eventTime
+            properties:
+              campaignId:
+                type: integer
+                format: int64
+                description: ID of the campaign which generated the event
+              eventTime:
+                type: string
+                description: UTC date-time of the event
+              ip:
+                type: string
+                description: IP from which the user has unsubscribed
+        adminUnsubscription:
+          type: array
+          description: Contact has been unsubscribed from the administrator
+          items:
+            type: object
+            required:
+            - eventTime
+            properties:
+              eventTime:
+                type: string
+                description: UTC date-time of the event
+              ip:
+                type: string
+                description: IP from which the user has been unsubscribed
+    opened:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - count
+        - eventTime
+        - ip
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          count:
+            type: integer
+            format: int64
+            description: Number of openings of the campaign
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+          ip:
+            type: string
+            description: IP from which the user has opened the campaign
+    clicked:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - links
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          links:
+            type: array
+            items:
+              type: object
+              required:
+              - count
+              - eventTime
+              - ip
+              - url
+              properties:
+                count:
+                  type: integer
+                  format: int64
+                  description: Number of clicks on this link for the campaign
+                eventTime:
+                  type: string
+                  description: UTC date-time of the event
+                ip:
+                  type: string
+                  description: IP from which the user has clicked on the link
+                url:
+                  type: string
+                  description: URL of the clicked link
+    transacAttributes:
+      type: array
+      items:
+        type: object
+        required:
+        - orderDate
+        - orderId
+        - orderPrice
+        properties:
+          orderDate:
+            type: string
+            format: date
+            description: Date of the order
+          orderPrice:
+            type: number
+            format: float
+            description: Price of the order
+          orderId:
+            type: integer
+            format: int64
+            description: ID of the order
+    delivered:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignId
+        - eventTime
+        properties:
+          campaignId:
+            type: integer
+            format: int64
+            description: ID of the campaign which generated the event
+          eventTime:
+            type: string
+            description: UTC date-time of the event
+  description: Campaign Statistics for the contact
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Contact''s email not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /contacts/{identifier}/campaignStats
+    auth: api-key header (never store the value).
+    operation_id: getContactStats
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

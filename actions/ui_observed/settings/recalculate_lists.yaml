@@ -1,0 +1,33 @@
+id: contacts.recalculate_lists
+domain: contacts
+summary: Recount the contacts of the lists ('Recalcular agora' on the Listas page). Not pressed.
+ui_label_pt: Listas > Recalcular agora
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list-listing
+    steps:
+    - On CRM > Contatos > Listas press 'Recalcular agora' (seen, not pressed).
+    - 'Expected: counts refresh; not observed.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Button seen; contacts.recalculate_segment (the segment menu entry) gave no visible feedback when clicked.

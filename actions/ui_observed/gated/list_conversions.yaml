@@ -1,0 +1,37 @@
+id: analytics.list_conversions
+domain: analytics
+summary: 'Open the Conversões section (Análise > Conversões). Blocked on the Free plan: an upgrade dialog opens.'
+ui_label_pt: Análise > Conversões
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /conversions/listing
+    steps:
+    - In the left menu open Análise > Conversões (crown).
+    - 'On the Free plan an upgrade panel or dialog opens instead (dialog ''Faça mais com a Brevo'' saying the option
+      is not available in the current plan, button ''Atualizar seu plano''). Stop here: nothing beyond it was seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Dialog confirmed live. What the section lists after an upgrade is unknown (the name suggests conversion
+    tracking).

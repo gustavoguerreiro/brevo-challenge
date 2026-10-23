@@ -1,0 +1,50 @@
+id: loyalty.cancel_transaction
+domain: loyalty
+summary: Cancel transaction (POST /loyalty/balance/programs/{pid}/transactions/{tid}/cancel).
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: The Loyalty module is gated to an Enterprise plan in the UI (observed). The API calls were not tried; they
+    are expected to fail on Free.
+preconditions:
+- An API key (header api-key) that can access this account.
+- The request body schema was not captured here. Read it from the live spec (developers.brevo.com/openapi/<area>.json)
+  before calling.
+- Path value 'pid' must identify an existing record.
+- Path value 'tid' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    pid:
+      description: Type not captured.
+      x-in: path
+    tid:
+      description: Type not captured.
+      x-in: path
+  required:
+  - pid
+  - tid
+  x-body-not-captured: true
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /loyalty/balance/programs/{pid}/transactions/{tid}/cancel
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

@@ -1,0 +1,105 @@
+id: account.create_domain
+domain: account
+summary: Add a sending domain to the account; authenticating it is a separate step.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Domain name
+      x-in: body
+  required:
+  - name
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: ID of the Domain created
+    domain_name:
+      type: string
+      description: Domain
+    domain_provider:
+      type: string
+      description: Domain Provider
+    message:
+      type: string
+      description: Success message
+    dns_records:
+      type: object
+      properties:
+        dkim_record:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+        brevo_code:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+        dmarc_record:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /senders/domains
+    auth: api-key header (never store the value).
+    operation_id: createDomain
+  ui:
+    entry: /senders/domain/list
+    steps:
+    - 'Open Remetentes, domínios e IPs dedicados, tab ''Domínios''. The empty state says ''Configurar seu domínio''
+      with the button ''Adicionar um domínio''. NOT EXECUTED: the dialog and the DNS records it shows were not seen.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Empty state and button observed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not
+    executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Registers a sender domain;
+  DNS records must then be added at the DNS host.'
+ui_label_pt: Domínios > Adicionar um domínio

@@ -1,0 +1,85 @@
+id: account.get_sub_account_group
+domain: account
+summary: GET a group details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Id of the group of sub-organization
+  required:
+  - id
+outputs:
+  type: object
+  properties:
+    group:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Group id
+        groupName:
+          type: string
+          description: Name of the group
+        createdAt:
+          type: string
+          description: Group creation date
+    sub-accounts:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: Id of the sub-account organzation
+          companyName:
+            type: string
+            description: Name of the sub-account organzation
+          createdAt:
+            type: string
+            description: Creation date of the sub-account organzation
+    users:
+      type: array
+      items:
+        type: object
+        properties:
+          email:
+            type: string
+            description: Email address of the user
+          lastName:
+            type: string
+            description: Last name of the user
+          firstName:
+            type: string
+            description: First name of the user
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /corporate/group/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,35 @@
+id: contacts.configure_pixel_consent
+domain: contacts
+summary: Track opens and clicks only for contacts who consented (card 'Consentimento de rastreamento por pixel por
+  contato').
+ui_label_pt: Consentimento de rastreamento por pixel
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/settings
+    steps:
+    - Open Settings > CRM > Contatos and the card 'Consentimento de rastreamento por pixel por contato'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: 'Card and one-line description seen only. This is a privacy setting: ask first.'

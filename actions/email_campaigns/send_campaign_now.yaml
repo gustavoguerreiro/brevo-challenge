@@ -1,0 +1,69 @@
+id: email_campaigns.send_campaign_now
+domain: email_campaigns
+summary: Send a prepared e-mail campaign immediately to real recipients. Irreversible once sent.
+ui_label_pt: Programar
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: Capped at 300 e-mails per day. In the observed account marketing e-mail sending is suspended.
+preconditions:
+- The campaign exists and has sender, recipients, subject and content.
+- The sender is verified. Phone verification may be required for a first campaign (banner seen).
+- The account is not suspended for marketing e-mails (red banner seen in Automations).
+- A human must confirm the audience size and the content before this runs.
+inputs:
+  type: object
+  required:
+  - campaign_id
+  properties:
+    campaign_id:
+      type: integer
+outputs:
+  type: object
+  properties:
+    status:
+      type: string
+      description: 'Expected: sent. Not observed.'
+side_effects:
+- 'Expected (not observed): Real e-mails reach every recipient in the selected lists and segments.'
+- 'Expected (not observed): Consumes the daily allowance (300 on Free).'
+- 'Expected (not observed): Opens, clicks, bounces and unsubscribes start to accrue and can fire automations and
+  webhooks.'
+postcondition_check: 'Not observed. Expected: campaign status leaves Rascunho in /campaigns/listing and statistics
+  appear under Marketing > Estatísticas.'
+errors:
+- condition: Insufficient credits or daily cap reached
+  symptom: API sendNow documents HTTP 402.
+  recovery: Wait for the daily reset or buy credits.
+- condition: Campaign missing required parts
+  symptom: API sendNow documents HTTP 400.
+  recovery: Complete sender, recipients, subject and content, then retry.
+limits:
+- 300 e-mails per day on Free.
+depends_on:
+- email_campaigns.create_campaign
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /emailCampaigns/{campaignId}/sendNow
+    operation_id: sendEmailCampaignNow
+    auth: api-key header (never store the value).
+  ui:
+    entry: /marketing-campaign/edit/<id>
+    steps:
+    - Open the campaign editor and make sure every section is complete.
+    - Press the header button 'Programar' (button seen, not pressed).
+    - 'Choose send now and confirm. NOT EXECUTED: the dialog was never opened, so the exact wording and the choices
+      it offers are unknown. To send later use email_campaigns.schedule_campaign.'
+provenance:
+  sources:
+  - ui
+  - api_docs
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/email_campaigns.create_campaign.json
+  notes: 'Deliberately not executed: it would send real e-mail. Only the button label ''Programar'' and the API
+    response codes (204, 400, 402, 404) are known. Sending later is a separate action (email_campaigns.schedule_campaign).'

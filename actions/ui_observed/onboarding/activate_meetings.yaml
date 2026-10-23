@@ -1,0 +1,35 @@
+id: meetings.activate_meetings
+domain: meetings
+summary: Start with Brevo Reuniões, booking links for 15, 30 or 60 minute meetings ('Comece com o Brevo Reuniões').
+ui_label_pt: Reuniões > Comece com o Brevo Reuniões
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /meetings/onboarding
+    steps:
+    - Open Conversas > Reuniões (/meetings/offer/all redirects to /meetings/onboarding).
+    - The page promises booking links, optional payment before confirmation, and Brevo, Google Meet or Zoom. Press
+      'Comece com o Brevo Reuniões' (seen, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Onboarding page read; nothing beyond it was seen, so the real features are unknown.

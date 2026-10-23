@@ -1,0 +1,19 @@
+id: transactional.get_template
+plan_availability:
+  free: available
+ui_label_pt: Editor de modelos
+ui:
+  entry: /templates/email/edit/<template_id>
+  steps:
+  - Open the pencil on the list row. The page shows name, status, 'Conteúdo' card (rendered body, button 'Editar'),
+    E-mail do remetente, Nome do remetente, Linha de assunto, Pré-visualização do texto and 'Mostrar configuracoes
+    avançadas'.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: Read in the UI. The sender e-mail shown there is the account owner's address; do not copy it into logs.
+  verified_via:
+  - ui

@@ -1,0 +1,21 @@
+id: contacts.list_segments
+plan_availability:
+  free: available
+ui_label_pt: Segmentos
+ui:
+  entry: /contact/segment
+  steps:
+  - Open CRM > Contatos > Segmentos.
+  - 'Columns: Segmento, ID, Pasta, Contatos, Última edição, Ações. Search box ''Pesquise um nome ou ID de segmento''.
+    Folder dropdown ''Todas as pastas (N segmentos)''.'
+  internal_service: segments-api/segment/listing and segment/folder/listing
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.segment_row_actions.json
+  notes: Read in the UI many times.

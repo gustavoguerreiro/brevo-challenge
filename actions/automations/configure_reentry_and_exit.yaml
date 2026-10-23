@@ -1,0 +1,52 @@
+id: automations.configure_reentry_and_exit
+domain: automations
+summary: Set whether contacts can re-enter an automation, and the exit and reset conditions.
+ui_label_pt: Entrada e saída do público
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+    allow_reentry:
+      type: boolean
+      default: false
+    reentry_wait:
+      type: string
+      description: Wait time before checking triggers again (format not seen).
+    exit_conditions:
+      type: array
+      items:
+        type: string
+side_effects:
+- 'Expected (not observed): Re-entry changes who can be processed more than once, which can resend messages.'
+postcondition_check: 'Not observed. Expected: reopen the page and see the saved toggles.'
+errors: []
+limits: []
+depends_on:
+- automations.create_automation
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/settings/<automation_id>
+    steps:
+    - Open the editor and the left-rail tab 'Configurações' (/automation/settings/<id>).
+    - '''Reentrada de contato após a saída'': toggle ''Permitir a reentrada de contatos após a saída'' and, when
+      on, ''Configurar tempo de espera''.'
+    - '''Condições de saída'': ''Adicionar condição de saída'' (a menu). ''Condições de reinicialização'' is the
+      third block.'
+    - Press 'Salvar condições' (enabled after a change). NOT EXECUTED.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Page opened and read; nothing was changed.

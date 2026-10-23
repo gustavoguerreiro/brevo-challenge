@@ -1,0 +1,100 @@
+id: ecommerce.list_attribution_metrics
+domain: ecommerce
+summary: Get attribution metrics for one or more Brevo campaigns.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    periodFrom:
+      type: string
+      format: date-time
+      description: When getting metrics for a specific period, define the starting datetime in RFC3339 format
+    periodTo:
+      type: string
+      format: date-time
+      description: When getting metrics for a specific period, define the end datetime in RFC3339 format
+    emailCampaignId[]:
+      type: array
+      items:
+        type: number
+        format: integer
+      description: The email campaign id(s) to get metrics for
+outputs:
+  type: object
+  required:
+  - results
+  - totals
+  properties:
+    results:
+      type: array
+      description: List of conversion attribution metrics
+      items:
+        type: object
+        required:
+        - averageBasket
+        - conversionSource
+        - id
+        - ordersCount
+        - revenue
+        properties:
+          id:
+            type: number
+            format: integer
+          conversionSource:
+            type: string
+            enum:
+            - email_campaign
+          ordersCount:
+            type: number
+            format: integer
+          revenue:
+            type: number
+            format: float
+          averageBasket:
+            type: number
+            format: float
+    totals:
+      type: object
+      required:
+      - averageBasket
+      - ordersCount
+      - revenue
+      properties:
+        ordersCount:
+          type: number
+          format: integer
+        revenue:
+          type: number
+          format: float
+        averageBasket:
+          type: number
+          format: float
+      description: Attribution list aggregated totals
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /ecommerce/attribution/metrics
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

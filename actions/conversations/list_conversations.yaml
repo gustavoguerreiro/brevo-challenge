@@ -1,0 +1,51 @@
+id: conversations.list_conversations
+domain: conversations
+summary: List chat conversations in the inbox by view and status. UI only; the public API cannot list them.
+ui_label_pt: Conversas > Caixa de entrada
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    view:
+      type: string
+      enum:
+      - mine
+      - unassigned
+      - all
+      default: mine
+    status:
+      type: string
+      default: open
+side_effects:
+- 'Observed: only the list views were read. Expected (not tried): opening a conversation may mark it as read.'
+postcondition_check: The list shows conversations, or 'Vocês estão todos atualizados!' when there are none.
+errors: []
+limits:
+- Opening a conversation can mark it as read; avoid it when only counting.
+- Only two of the three views (Minhas mensagens, Não atribuídas) were opened; Todas as mensagens was not, and no
+  conversation was opened.
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: https://conversations-app.brevo.com/conversations/myopen
+    steps:
+    - Open Conversas > Caixa de entrada (host conversations-app.brevo.com).
+    - 'Pick the view: Minhas mensagens (/conversations/myopen), Não atribuídas (/conversations/unassigned), Todas
+      as mensagens. ''Visitantes online'' and ''Estatísticas'' are paid.'
+    - Use the status filter ('Abertas'), the sort button and the search icon. A conversation opens in the right
+      pane (not exercised).
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/conversations.inbox_views.json
+  verified_via:
+  - ui
+  notes: Two of the three views were opened; no conversation was opened.

@@ -1,0 +1,88 @@
+id: transactional.get_email_content
+domain: transactional
+summary: Get the personalized content of a sent transactional email.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'uuid' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    uuid:
+      type: string
+      description: Unique id of the transactional email that has been sent to a particular contact
+  required:
+  - uuid
+outputs:
+  type: object
+  required:
+  - attachmentCount
+  - body
+  - date
+  - email
+  - events
+  - subject
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address to which transactional email has been sent
+    subject:
+      type: string
+      description: Subject of the sent email
+    templateId:
+      type: integer
+      format: int64
+      description: Id of the template
+    date:
+      type: string
+      description: Date on which transactional email was sent
+    events:
+      type: array
+      description: Series of events which occurred on the transactional email
+      items:
+        type: object
+        required:
+        - name
+        - time
+        properties:
+          name:
+            type: string
+            description: Name of the event that occurred on the sent email
+          time:
+            type: string
+            description: Time at which the event occurred
+    body:
+      type: string
+      description: Actual content of the transactional email that has been sent
+    attachmentCount:
+      type: integer
+      format: int64
+      description: Count of the attachments that were sent in the email
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/emails/{uuid}
+    auth: api-key header (never store the value).
+    operation_id: getTransacEmailContent
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

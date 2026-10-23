@@ -1,0 +1,200 @@
+id: account.invite_user
+domain: account
+summary: Invite a person to the account with chosen permissions; an invitation e-mail goes out. Locked on Free.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: The 'Adicionar usuários' button carries a lock icon on the Free plan and the licence counters read 1/1 (observed
+    in the UI). The API call was not tried.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+      x-in: body
+    all_features_access:
+      type: boolean
+      description: All access to the features
+      x-in: body
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - email_campaigns
+            - sms_campaigns
+            - contacts
+            - templates
+            - workflows
+            - facebook_ads
+            - landing_pages
+            - transactional_emails
+            - smtp_api
+            - user_management
+            - sales_platform
+            - phone
+            - conversations
+            - senders_domains_dedicated_ips
+            - push_notifications
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - create_edit_delete
+              - send_schedule_suspend
+              - view
+              - import
+              - export
+              - list_and_attributes
+              - forms
+              - activate_deactivate
+              - activate_deactivate_pause
+              - settings
+              - schedule_pause
+              - all
+              - logs
+              - access
+              - assign
+              - configure
+              - manage_owned_deals_tasks
+              - manage_others_deals_tasks
+              - manage_owned_companies
+              - manage_others_companies
+              - reports
+              - senders_management
+              - domains_management
+              - dedicated_ips_management
+              - send
+              - smtp
+              - api_keys
+              - authorized_ips
+              - none
+        description: Privileges given to the user
+      x-in: body
+  required:
+  - all_features_access
+  - email
+  - privileges
+outputs:
+  type: object
+  required:
+  - all_features_access
+  - email
+  - privileges
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+    all_features_access:
+      type: boolean
+      description: All access to the features
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - email_campaigns
+            - sms_campaigns
+            - contacts
+            - templates
+            - workflows
+            - facebook_ads
+            - landing_pages
+            - transactional_emails
+            - smtp_api
+            - user_management
+            - sales_platform
+            - phone
+            - conversations
+            - senders_domains_dedicated_ips
+            - push_notifications
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - create_edit_delete
+              - send_schedule_suspend
+              - view
+              - import
+              - export
+              - list_and_attributes
+              - forms
+              - activate_deactivate
+              - activate_deactivate_pause
+              - settings
+              - schedule_pause
+              - all
+              - logs
+              - access
+              - assign
+              - configure
+              - manage_owned_deals_tasks
+              - manage_others_deals_tasks
+              - manage_owned_companies
+              - manage_others_companies
+              - reports
+              - senders_management
+              - domains_management
+              - dedicated_ips_management
+              - send
+              - smtp
+              - api_keys
+              - authorized_ips
+              - none
+        description: Privileges given to the user
+side_effects:
+- 'Expected (from the API docs, not verified): An invitation e-mail goes to the invited address.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 400: Bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /organization/user/invitation/send
+    auth: api-key header (never store the value).
+    operation_id: inviteuser
+  ui:
+    entry: /settings/users
+    steps:
+    - 'Open Configurações > Organização > Usuários (/settings/users). Tabs: Usuários, Usuário parceiro, Logs de
+      atividades.'
+    - Licence counters read Marketing 1/1 and Sales 1/1, each with 'Adicionar licenças' (crown).
+    - 'The button ''Adicionar usuários'' shows a lock icon on the Free plan. NOT EXECUTED: it was not pressed and
+      no invitation was sent.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Plan gating seen in the UI (inventory/ui_crawl_pass2_settings.md); invitation not sent. Generated from
+    the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in
+    the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Sends an invitation e-mail.
+  Free plan has 1 user seat.'
+ui_label_pt: Configurações > Usuários > Adicionar usuários

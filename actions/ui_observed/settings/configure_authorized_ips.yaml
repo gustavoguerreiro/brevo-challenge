@@ -1,0 +1,35 @@
+id: account.configure_authorized_ips
+domain: account
+summary: Restrict API and SMTP keys to authorised IPs (Segurança > IPs autorizados; banner 'Ativar para chaves ...').
+ui_label_pt: Segurança > IPs autorizados
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /security/two-factor-authentication
+    steps:
+    - Open Settings > Segurança and the tab 'IPs autorizados'. The SMTP & API pages also show a banner to block
+      unauthorised IPs with buttons such as 'Ativar para chaves SMTP'.
+    - Not changed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Tabs and banner seen; the fields were not opened. A wrong setting can lock out every key.

@@ -1,0 +1,100 @@
+id: account.list_senders
+domain: account
+summary: Get the list of all your senders.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    ip:
+      type: string
+      description: Filter your senders for a specific ip (available for dedicated IP usage only)
+    domain:
+      type: string
+      description: Filter your senders for a specific domain
+outputs:
+  type: object
+  properties:
+    senders:
+      type: array
+      description: List of the senders available in your account
+      items:
+        type: object
+        required:
+        - active
+        - email
+        - id
+        - name
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: Id of the sender
+          name:
+            type: string
+            description: From Name associated to the sender
+          email:
+            type: string
+            description: From Email associated to the sender
+          active:
+            type: boolean
+            description: Status of sender (true=activated, false=deactivated)
+          ips:
+            type: array
+            description: List of dedicated IP(s) available in the account. This data is displayed only for dedicated
+              IPs
+            items:
+              type: object
+              required:
+              - domain
+              - ip
+              - weight
+              properties:
+                ip:
+                  type: string
+                  description: Dedicated IP available in your account
+                domain:
+                  type: string
+                  description: Domain of the IP
+                weight:
+                  type: integer
+                  format: int64
+                  description: Weight of the IP for this sender
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /senders
+    auth: api-key header (never store the value).
+    operation_id: getSenders
+  ui:
+    entry: /senders/list
+    steps:
+    - Open Configurações > Remetentes, domínios e IPs dedicados (/senders/list), tab 'Remetentes'. Each row shows
+      state, tags and links Editar, Endereço IP, Assinatura DKIM, DMARC.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).
+    The sender address is deliberately not recorded. Generated from the Brevo public API spec (SDK snapshot, Feb
+    2025). Not executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.read_pages.json
+ui_label_pt: Remetentes

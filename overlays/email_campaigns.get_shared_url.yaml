@@ -1,0 +1,16 @@
+id: email_campaigns.get_shared_url
+plan_availability:
+  free: available
+ui_label_pt: Compartilhar modelo
+ui:
+  entry: /campaigns/listing
+  steps:
+  - 'Open Marketing > Campanhas and the row menu; choose ''Compartilhar modelo''. NOT EXECUTED: the resulting dialog
+    and link were not opened. A shared link may be reachable by anyone who has it.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: Menu entry only. The same word 'Compartilhar' also appears on template rows that have a design.

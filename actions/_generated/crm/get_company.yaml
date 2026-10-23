@@ -1,0 +1,63 @@
+id: crm.get_company
+domain: crm
+summary: Get a company.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+  required:
+  - id
+outputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Unique company id
+    attributes:
+      type: object
+      description: Company attributes with values
+      properties: {}
+    linkedContactsIds:
+      type: array
+      description: Contact ids for contacts linked to this company
+      items:
+        type: integer
+    linkedDealsIds:
+      type: array
+      description: Deals ids for companies linked to this company
+      items:
+        type: string
+  description: Company Details
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Returned when company id is invalid'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Returned when item not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /companies/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

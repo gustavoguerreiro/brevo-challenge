@@ -1,0 +1,57 @@
+id: conversations.update_agent_status
+domain: conversations
+summary: Sets agent’s status to online for 2-3 minutes.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    agentId:
+      type: string
+      description: agent ID. It can be found on agent’s page or received <a href="https://developers.brevo.com/docs/conversations-webhooks">from
+        a webhook</a>. Alternatively, you can use `agentEmail` + `agentName` + `receivedFrom` instead (all 3 fields
+        …
+      x-in: body
+    receivedFrom:
+      type: string
+      description: mark your messages to distinguish messages created by you from the others.
+      x-in: body
+    agentEmail:
+      type: string
+      format: email
+      description: agent email. When sending online pings from a standalone system, it’s hard to maintain a 1-to-1
+        relationship between the users of both systems. In this case, an agent can be specified by their email address.
+        If there’s no agent with the …
+      x-in: body
+    agentName:
+      type: string
+      description: agent name.
+      x-in: body
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /conversations/agentOnlinePing
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

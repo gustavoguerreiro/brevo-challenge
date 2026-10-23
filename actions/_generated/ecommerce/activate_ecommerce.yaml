@@ -1,0 +1,37 @@
+id: ecommerce.activate_ecommerce
+domain: ecommerce
+summary: Activate the eCommerce app.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 401: unauthorized'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+- condition: 'HTTP 404: api-key not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /ecommerce/activate
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

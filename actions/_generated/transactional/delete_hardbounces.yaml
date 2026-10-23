@@ -1,0 +1,51 @@
+id: transactional.delete_hardbounces
+domain: transactional
+summary: Delete hard-bounce records so those addresses can be e-mailed again (confirm first).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    startDate:
+      type: string
+      description: Starting date (YYYY-MM-DD) of the time period for deletion. The hardbounces occurred after this
+        date will be deleted. Must be less than or equal to the endDate
+      x-in: body
+    endDate:
+      type: string
+      description: Ending date (YYYY-MM-DD) of the time period for deletion. The hardbounces until this date will
+        be deleted. Must be greater than or equal to the startDate
+      x-in: body
+    contactEmail:
+      type: string
+      format: email
+      description: Target a specific email address
+      x-in: body
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smtp/deleteHardbounces
+    auth: api-key header (never store the value).
+    operation_id: deleteHardbounces
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

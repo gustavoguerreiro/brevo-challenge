@@ -1,0 +1,32 @@
+{
+  "action": "content.* template lifecycle and email_campaigns.duplicate_campaign",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR, Free plan. Nothing was sent. No test e-mail was requested.",
+  "steps_run": [
+    "Marketing > Modelos (/templates/listing). Row menu of an inactive template without design: Pré-visualização, Duplicar, Ativar, Excluir.",
+    "Duplicar on ZZ_TEST_template_1 (#2): no dialog. Toast 'O modelo ZZ_TEST_template_1 está duplicado. Ver modelo'. New row ZZ_TEST_template_1_copy, #3, Inativo, appears at once (no reload needed).",
+    "Pré-visualização on the copy (no design yet): red toast 'Para pré-visualizar, crie um design.'",
+    "Ativar on the copy (no design yet): red toast 'Adicione um design ao seu modelo antes de ativá-lo.' Status stays Inativo.",
+    "Opened /templates/email/edit/3, pressed 'Adicionar conteúdo'. Dialog 'Criar um e-mail': 'Criar do zero' menu with Editor de arrastar e soltar, Editor simples, Código HTML personalizado; left list: Seus e-mails (Campanhas de e-mail), Modelos (Seus modelos, Modelos básicos, Prontos para uso).",
+    "Chose 'Código HTML personalizado': page /editor/classic/html/3 with one plain text area. Typed <html><body><p>ZZ_TEST body</p></body></html> and pressed 'Salvar e Sair'.",
+    "Back on /templates/email/edit/3 the card 'Conteúdo' shows the rendered text and an 'Editar' button; 'Última edição' on the list moved to the save time.",
+    "Row menu now also has 'Gerar tradução' (crown) and 'Compartilhar'. Pré-visualização opens the dialog 'Pré-visualizar e testar' with tabs 'Pré-visualizar', 'Visualizar em caixa de entrada', 'Enviar e-mail de teste' (not used); right panel: preview as recipient (pick a contact), 'Adicionar dados JSON transacionais', 'Pré-visualização de evento'; desktop/mobile switch. Closed.",
+    "Ativar on the copy: toast 'Seu modelo foi ativado.', status Ativo. The menu then offers Desativar and no longer offers Excluir.",
+    "Desativar: dialog 'Desativar esse modelo?' with text 'Quando um modelo é desativado, você não pode usá-lo em Automações e Transacional.' and buttons 'Manter o modelo ativado' / 'Desativar modelo'. Confirmed: toast 'Seu modelo foi desativado.', status Inativo.",
+    "Marketing > Campanhas (/campaigns/listing). Row menu of the draft: Editar, Pré-visualizar e testar, Duplicar, Adicionar à pasta (crown), Atribuir etiqueta (crown), Compartilhar modelo, Excluir.",
+    "Duplicar on ZZ_TEST_campaign_1 (#1): dialog 'Duplicar campanha?' 'O que você deseja manter na campanha duplicada?' with check boxes Remetente, Destinatários, Assunto, Design, Configurações adicionais (all on). Confirmed with 'Duplicar campanha': toast 'Campanha \"ZZ_TEST_campaign_1\" duplicada. Visualizar campanha'; new row ZZ_TEST_campaign_1_copy, #4, Rascunho."
+  ],
+  "observations": [
+    "Template duplicate acts at once with no dialog and the copy is named '<name>_copy'. Campaign duplicate asks what to keep and names the copy '<name>_copy'. Automation duplicate acts at once and names the copy '[COPY]<name>'. Two naming conventions (automations vs templates and campaigns) and two behaviours (act at once vs ask what to keep).",
+    "A template without a design cannot be previewed or activated. Content is not needed to save it inactive (see content.create_email_template).",
+    "An active template cannot be deleted from the row menu (Excluir is absent); deactivate it first. Deactivated templates cannot be picked in Automações and Transacional.",
+    "Campaign and template ids come from one sequence in this account: templates got #2 and #3, the campaign copy got #4, and the first campaign is #1. Do not assume that ids of one kind are consecutive.",
+    "The listing page shows the account owner's e-mail address as the default sender. It is not recorded here."
+  ],
+  "limitations": [
+    "Drag-and-drop and simple editors were not built. 'Salvar e Sair' in the HTML editor was verified only by the rendered text and the last-edit time.",
+    "Share (Compartilhar / Compartilhar modelo), translation (crown), delete, 'Enviar e-mail de teste' and 'Visualizar em caixa de entrada' were not used.",
+    "Request bodies were not captured."
+  ],
+  "test_data_left_in_account": "e-mail template ZZ_TEST_template_1_copy (ID 3, inactive, tiny HTML body) and e-mail campaign ZZ_TEST_campaign_1_copy (ID 4, draft)"
+}

@@ -1,0 +1,19 @@
+{
+ "action": "contacts.configure_list_settings",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR. The page was opened from the row menu and read as text only. Self-reported; no screenshots (screenshots of that host were blocked).",
+ "steps_run": [
+  "CRM > Contatos > Listas, row menu > 'Configurações das listas'",
+  "The page opened on a legacy host (my.brevo.com/lists/settings/id/<list_id>), titled 'Definições da Lista'",
+  "Read the field labels from the page text: custom sender name, custom sender address, custom reply-to, custom header, custom footer, 'Descrição', 'Remover contatos de outras listas se estiverem nesta lista', 'Remover contatos desta lista se estiverem em outras listas'; buttons 'Voltar' and 'Salvar'"
+ ],
+ "not_executed": [
+  "Salvar (nothing was changed on this page)"
+ ],
+ "limitations": [
+  "Input types are inferred from the labels",
+  "The behaviour of the two exclusion toggles is inferred from their labels, not seen",
+  "Page text only; no request was captured"
+ ],
+ "test_data_left_in_account": "none"
+}

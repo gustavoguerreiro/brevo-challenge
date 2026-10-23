@@ -1,0 +1,34 @@
+id: crm.activate_sales_crm
+domain: crm
+summary: Activate the sales CRM so that Oportunidades and Tarefas work ('Começar grátis' on /crm/onboarding).
+ui_label_pt: Oportunidades > Começar grátis
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+  note: The button is labelled 'free'.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /crm/onboarding
+    steps:
+    - 'Open CRM > Oportunidades or Tarefas: both redirect to /crm/onboarding.'
+    - Press 'Começar grátis' (seen, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Button seen; what activation changes (licence, defaults) was not observed.

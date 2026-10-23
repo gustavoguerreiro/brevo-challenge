@@ -1,0 +1,93 @@
+id: crm.list_companies
+domain: crm
+summary: Get all companies.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    filters:
+      type: string
+      description: Filter by attrbutes. If you have filter for owner on your side please send it as {"attributes.owner":"5b1a17d914b73d35a76ca0c7"}
+    linkedContactsIds:
+      type: integer
+      format: int64
+      description: Filter by linked contacts ids
+    linkedDealsIds:
+      type: string
+      format: objectID
+      description: Filter by linked deals ids
+    page:
+      type: integer
+      format: int64
+      description: Index of the first document of the page
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      description: Sort the results in the ascending/descending order. Default order is **descending** by creation
+        if `sort` is not passed
+    sortBy:
+      type: string
+      description: The field used to sort field names.
+outputs:
+  type: object
+  properties:
+    items:
+      type: array
+      description: List of compaies
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: Unique company id
+          attributes:
+            type: object
+            description: Company attributes with values
+            properties: {}
+          linkedContactsIds:
+            type: array
+            description: Contact ids for contacts linked to this company
+            items:
+              type: integer
+          linkedDealsIds:
+            type: array
+            description: Deals ids for companies linked to this company
+            items:
+              type: string
+        description: Company Details
+  description: List of companies
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Returned when query params are invalid'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /companies
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

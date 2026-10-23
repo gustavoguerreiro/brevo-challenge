@@ -1,0 +1,106 @@
+id: crm.list_notes
+domain: crm
+summary: Get all notes.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    entity:
+      type: string
+      enum:
+      - companies
+      - deals
+      - contacts
+      description: Filter by note entity type
+    entityIds:
+      type: string
+      description: Filter by note entity IDs
+    dateFrom:
+      type: integer
+      description: dateFrom to date range filter type (timestamp in milliseconds)
+    dateTo:
+      type: integer
+      description: dateTo to date range filter type (timestamp in milliseconds)
+    offset:
+      type: integer
+      format: int64
+      description: Index of the first document of the page
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      description: Sort the results in the ascending/descending order. Default order is **descending** by creation
+        if `sort` is not passed
+outputs:
+  type: array
+  description: List of notes
+  items:
+    type: object
+    required:
+    - text
+    properties:
+      id:
+        type: string
+        description: Unique note Id
+      text:
+        type: string
+        description: Text content of a note
+        minLength: 1
+        maxLength: 3000
+      contactIds:
+        type: array
+        description: Contact ids linked to a note
+        items:
+          type: integer
+      dealIds:
+        type: array
+        description: Deal ids linked to a note
+        items:
+          type: string
+      authorId:
+        type: object
+        description: Account details of user which created the note
+        properties: {}
+      createdAt:
+        type: string
+        format: date-time
+        description: Note created date/time
+      updatedAt:
+        type: string
+        format: date-time
+        description: Note updated date/time
+    description: Note Details
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Returned when query params are invalid'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /crm/notes
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

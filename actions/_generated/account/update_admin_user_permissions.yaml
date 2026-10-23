@@ -1,0 +1,50 @@
+id: account.update_admin_user_permissions
+domain: account
+summary: Update admin user permissions (PUT /corporate/user/{email}/permissions).
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'email' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    email:
+      description: Type not captured.
+      x-in: path
+    all_features_access:
+      description: Type not captured.
+      x-in: body
+    privileges:
+      description: Type not captured.
+      x-in: body
+  required:
+  - all_features_access
+  - email
+  - privileges
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /corporate/user/{email}/permissions
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

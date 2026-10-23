@@ -1,0 +1,47 @@
+id: transactional.get_inbound_attachment
+domain: transactional
+summary: Retrieve inbound attachment with download token.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'downloadToken' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    downloadToken:
+      type: string
+      description: Token to fetch a particular attachment
+  required:
+  - downloadToken
+outputs:
+  type: string
+  format: binary
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: attachment not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /inbound/attachments/{downloadToken}
+    auth: api-key header (never store the value).
+    operation_id: getInboundEmailAttachment
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

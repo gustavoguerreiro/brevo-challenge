@@ -1,0 +1,100 @@
+id: contacts.list_attributes
+domain: contacts
+summary: List the contact attributes of the account with their categories and types.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: object
+  required:
+  - attributes
+  properties:
+    attributes:
+      type: array
+      description: Listing of available contact attributes in your account
+      items:
+        type: object
+        required:
+        - category
+        - name
+        properties:
+          name:
+            type: string
+            description: Name of the attribute
+          category:
+            type: string
+            description: Category of the attribute
+            enum:
+            - normal
+            - transactional
+            - category
+            - calculated
+            - global
+          type:
+            type: string
+            description: Type of the attribute
+            enum:
+            - text
+            - date
+            - float
+            - id
+            - boolean
+          enumeration:
+            type: array
+            description: Parameter only available for "category" type attributes.
+            items:
+              type: object
+              required:
+              - label
+              - value
+              properties:
+                value:
+                  type: integer
+                  format: int64
+                  description: ID of Value of the "category" type attribute
+                label:
+                  type: string
+                  description: Label of the "category" type attribute
+          calculatedValue:
+            type: string
+            description: Calculated value formula
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /contacts/attributes
+    auth: api-key header (never store the value).
+    operation_id: getAttributes
+  ui:
+    entry: /objects/settings/contact
+    steps:
+    - Open Configurações > CRM > Contatos and the card 'Atributos de contato' (/contact/settings leads to /objects/settings/contact).
+    - Read the table of attribute ids and types. Ids are localised by account language.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).
+    Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key.
+    Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.read_pages.json
+ui_label_pt: Configurações > CRM > Contatos > Atributos de contato

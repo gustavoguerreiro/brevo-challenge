@@ -1,0 +1,30 @@
+{
+ "action": "settings and admin pages (read only)",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR, Free plan. Pages were opened and read as text; nothing was saved. Details are in inventory/ui_crawl_pass2_settings.md and inventory/ui_crawl_pass4_settings_detail.md. Self-reported; credential values on these pages were not recorded.",
+ "pages": {
+  "/profile/information": "Tabs Informações and Senha. Sections Informações pessoais, Informações da Empresa, Preferências de comunicação.",
+  "/settings/advanced (Geral)": "Time zone, 24h/12h clock, date format; notifications (mute the Brevo activity notice, e-mail when SMS credits fall below a threshold); invoices by e-mail on renewal; allow Brevo support access to the account.",
+  "/settings/localization (Idioma)": "7 interface languages, time zone, button 'Salvar as preferências'.",
+  "conversations-app.brevo.com/individual-email/settings": "'Conectar e-mail individual' (own mailbox, OAuth), list of excluded addresses and domains.",
+  "/settings/users": "Tabs Usuários, Usuário parceiro, Logs de atividades; licence counters; 'Adicionar usuários' is locked on Free; search by e-mail.",
+  "/aura-settings": "Toggles for AI agents: 'Agente de marketing' (on), 'Agente de vendas' (needs a package).",
+  "/security/two-factor-authentication": "Tabs 'Autenticação em dois fatores' (authenticator app or SMS) and 'IPs autorizados'.",
+  "/compliance": "'Status de envio de e-mails' (here 'Envio restrito') and 'Pontuação de capacidade de entrega'.",
+  "/global/utms": "Toggle 'Ativar rastreamento UTM' (applies to campaigns, templates and scenarios; can be overridden).",
+  "/senders/list": "Tabs Remetentes, Domínios, IPs dedicados, Cadência de envio; 'Adicionar remetente'. A card 'Obter um IP dedicado' exists on /campaign-settings.",
+  "/app-store": "Tabs 'Todas as integrações' (144 integrations, filters by creator and 20 categories), 'Minhas integrações', Webhooks.",
+  "/contact/settings": "Cards: Atributos de contato, Atributos de empresas, Pontuações (crown), Webhooks, Contatos não engajados, Aberturas da Apple MPP em segmentos, Consentimento de rastreamento por pixel por contato, Grupos de consentimento.",
+  "/campaign-settings": "Cards: Configurações padrão, Lista de teste, Páginas de cancelamento de inscrição, Google Analytics, Valores globais calculados, Webhooks, Seus remetentes e domínios, Obter um IP dedicado, WhatsApp, Conversões (Professional), Push, ID do remetente SMS.",
+  "conversations-app.brevo.com/settings": "Canais (Widget do chat, E-mail, and crown-gated Facebook, Instagram, WhatsApp, SMS); Geral (Preferências, Respostas salvas [crown], Integrações); Chatbot e automação (Chatbot de IA, Ações e chats direcionados, Formulário de contato, Cenários do chatbot); Equipe (Operadores, Grupos, Regras de atribuição); Pessoal (Perfil de conversa, Disponibilidade, Notificações).",
+  "/transactional/email/settings": "Cards: Configuração (SMTP), Webhook, Contatos bloqueados ou cancelados, Domínios bloqueados, Tags, Regras de retenção, Rastreamento.",
+  "/transactional/sms/settings": "Cards: Configuração (SMS API), Contatos bloqueados ou cancelados, Regras de retenção.",
+  "/crm/onboarding": "/crm/deals and /tasks redirect here; button 'Começar grátis' activates the sales CRM (not pressed)."
+ },
+ "limitations": [
+  "Only the page and card labels were read; the sub-pages behind most cards were not opened",
+  "Field types and defaults in the catalog entries built from these pages are inferred from labels",
+  "Nothing was changed on any of these pages"
+ ],
+ "test_data_left_in_account": "none"
+}

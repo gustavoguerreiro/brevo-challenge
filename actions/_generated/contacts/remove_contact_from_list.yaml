@@ -1,0 +1,102 @@
+id: contacts.remove_contact_from_list
+domain: contacts
+summary: Delete a contact from a list.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'listId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    listId:
+      type: integer
+      format: int64
+      description: Id of the list
+    emails:
+      type: array
+      description: Required if 'all' is false. Emails to remove from a list. You can pass a maximum of 150 emails
+        for removal in one request.
+      items:
+        type: string
+        description: Emails addresses OR IDs of the contacts
+      maxItems: 150
+      minItems: 1
+      x-in: body
+    ids:
+      type: array
+      description: Mandatory if Emails are not passed, ignored otherwise. Emails to add to a list. You can pass
+        a maximum of 150 emails for addition in one request. If you need to add the emails in bulk, please prefer
+        /contacts/import api.
+      items:
+        type: integer
+        format: int64
+        description: IDs of the contacts
+      maxItems: 150
+      minItems: 1
+      x-in: body
+    all:
+      type: boolean
+      description: Required if none of 'emails' or 'ids' are passed. Remove all existing contacts from a list. A
+        process will be created in this scenario. You can fetch the process details to know about the progress
+      x-in: body
+  required:
+  - listId
+outputs:
+  type: object
+  required:
+  - contacts
+  properties:
+    contacts:
+      type: object
+      properties:
+        success:
+          type: array
+          items:
+            type: string
+            format: email
+            description: Email addresses which are successfully imported
+        failure:
+          type: array
+          items:
+            type: string
+            format: email
+            description: Email addresses which can not be imported, could be already in/out list and/or doesn't
+              exist
+        total:
+          type: integer
+          format: int64
+          description: Displays the count of total number of contacts removed from list when user opts for "all"
+            option.
+        processId:
+          type: integer
+          format: int64
+          description: Id of the process created to remove contacts from list when user opts for "all" option.
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); list the parent collection and confirm the item is gone.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: List ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/lists/{listId}/contacts/remove
+    auth: api-key header (never store the value).
+    operation_id: removeContactFromList
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

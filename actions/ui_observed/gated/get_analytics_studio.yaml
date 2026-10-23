@@ -1,0 +1,36 @@
+id: analytics.get_analytics_studio
+domain: analytics
+summary: 'Open Analytics studio (Análise > Analytics studio). Blocked on the Free plan: the page asks for the Professional
+  plan.'
+ui_label_pt: Análise > Analytics studio
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account. The page names the Professional plan.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /analytics
+    steps:
+    - In the left menu open Análise > Analytics studio.
+    - The page is an upsell ('Atualizar', 'Selecione Professional', 'Fale conosco'). Nothing else was seen.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Upsell page seen in the first crawl; not re-read.

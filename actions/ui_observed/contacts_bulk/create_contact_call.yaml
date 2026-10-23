@@ -1,0 +1,41 @@
+id: contacts.create_contact_call
+domain: contacts
+summary: Call one contact from the contact page (action bar 'Ligar'). Needs the Telefone package; not pressed.
+ui_label_pt: Contato > Ligar
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account. Telefone is sold as an add-on module.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    contact_id:
+      type: integer
+      description: Contact.
+  required:
+  - contact_id
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: Not run, and behind an add-on, so nothing is known about the outcome. Look for a call entry
+  in the contact's 'Histórico' tab.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/index/<id>
+    steps:
+    - Open the contact page and press 'Ligar' in the action bar (seen, not pressed). Telefone is an add-on ('Disponível
+      no módulo Sales Advanced').
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Button seen only.

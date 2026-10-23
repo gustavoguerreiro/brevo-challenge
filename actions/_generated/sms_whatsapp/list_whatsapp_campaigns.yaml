@@ -1,0 +1,144 @@
+id: sms_whatsapp.list_whatsapp_campaigns
+domain: sms_whatsapp
+summary: Return all your created WhatsApp campaigns.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    startDate:
+      type: string
+      description: '**Mandatory if endDate is used**. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)
+        to filter the campaigns created. **Prefer to pass your timezone in date-time format for accurate result**'
+    endDate:
+      type: string
+      description: '**Mandatory if startDate is used**. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)
+        to filter the campaigns created. **Prefer to pass your timezone in date-time format for accurate result**'
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document in the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record modification. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    campaigns:
+      type: array
+      items:
+        type: object
+        required:
+        - campaignName
+        - campaignStatus
+        - createdAt
+        - id
+        - modifiedAt
+        - scheduledAt
+        - templateId
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: ID of the WhatsApp Campaign
+          campaignName:
+            type: string
+            description: Name of the WhatsApp Campaign
+          templateId:
+            type: string
+            description: Id of the WhatsApp template
+          campaignStatus:
+            type: string
+            description: Status of the WhatsApp Campaign
+            enum:
+            - draft
+            - scheduled
+            - pending
+            - approved
+            - running
+            - suspended
+            - rejected
+            - sent
+          scheduledAt:
+            type: string
+            description: UTC date-time on which WhatsApp campaign is scheduled. Should be in YYYY-MM-DDTHH:mm:ss.SSSZ
+              format
+          errorReason:
+            type: string
+            description: Error reason in the campaign creation
+          invalidatedContacts:
+            type: integer
+            format: int64
+            description: Count of invalidated contacts
+          readPercentage:
+            type: number
+            format: float
+            description: Read percentage of the the WhatsApp campaign created
+          stats:
+            type: object
+            required:
+            - delivered
+            - not_sent
+            - read
+            - sent
+            - unsubscribe
+            properties:
+              sent:
+                type: integer
+              delivered:
+                type: integer
+              read:
+                type: integer
+              unsubscribe:
+                type: integer
+              not_sent:
+                type: integer
+          createdAt:
+            type: string
+            description: Creation UTC date-time of the WhatsApp campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)
+          modifiedAt:
+            type: string
+            description: UTC date-time of last modification of the whatsapp template (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    count:
+      type: integer
+      format: int64
+      description: Number of WhatsApp campaigns retrived
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /whatsappCampaigns
+    auth: api-key header (never store the value).
+    operation_id: getWhatsAppCampaigns
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

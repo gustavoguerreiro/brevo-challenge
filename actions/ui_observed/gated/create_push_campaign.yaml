@@ -1,0 +1,42 @@
+id: push_popups.create_push_campaign
+domain: push_popups
+summary: 'Create a push campaign. Blocked on the Free plan: the ''Push'' card opens an upgrade panel.'
+ui_label_pt: Criar campanha > Push
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions:
+- A paid plan that includes push.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Campaign name. Assumed; the flow was not seen.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run: the Free plan shows an upgrade panel and nothing past it was seen. On a plan that
+  allows it, expect a new row in /campaigns/listing.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - On Marketing > Campanhas press 'Criar campanha' and pick the card 'Push' (crown).
+    - 'On the Free plan an upgrade panel or dialog opens instead (panel ''Seja o que seus contatos veem primeiro'',
+      button ''Atualizar''). Stop here: nothing beyond it was seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Only the upgrade panel was seen. Treated as external_effect because campaigns reach real subscribers and
+    the flow is unknown.

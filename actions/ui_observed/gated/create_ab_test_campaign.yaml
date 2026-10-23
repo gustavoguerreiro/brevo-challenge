@@ -1,0 +1,48 @@
+id: email_campaigns.create_ab_test_campaign
+domain: email_campaigns
+summary: Create an A/B test e-mail campaign (tab 'Teste A/B' of the campaign setup form). Blocked on the Free plan.
+ui_label_pt: Campanhas > E-mail > Teste A/B
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions:
+- A paid plan that includes A/B tests.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Campaign name.
+    subject_a:
+      type: string
+      description: API subjectA.
+    subject_b:
+      type: string
+      description: API subjectB.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on:
+- email_campaigns.create_campaign
+execution:
+  preferred: ui
+  ui:
+    entry: /marketing-campaign/campaign-setup
+    steps:
+    - 'Start a new e-mail campaign (see email_campaigns.create_campaign) and look at the tabs of the setup form:
+      ''Regular'' and ''Teste A/B'' (crown).'
+    - The tab 'Teste A/B' carries the crown on Free; it was not opened. The API documents abTesting, subjectA, subjectB,
+      splitRule, winnerCriteria and winnerDelay on POST /emailCampaigns.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Only the crown on the tab was seen. The API fields come from the public spec.

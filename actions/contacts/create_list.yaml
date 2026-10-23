@@ -1,0 +1,66 @@
+id: contacts.create_list
+domain: contacts
+summary: Create a contact list inside an existing folder.
+ui_label_pt: Criar uma lista
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- A folder must exist. A new account has one folder, 'Sua primeira pasta' (observed).
+- Name is required (max 255 characters, the UI shows a counter).
+- Folder is required.
+inputs:
+  type: object
+  required:
+  - name
+  - folder_id
+  properties:
+    name:
+      type: string
+      maxLength: 255
+      description: UI label 'Nome da lista'.
+    folder_id:
+      type: integer
+      description: UI label 'Pasta' (dropdown). API field folderId.
+outputs:
+  type: object
+  properties:
+    list_id:
+      type: integer
+      description: 'The UI shows the ID in the list table, e.g. #3.'
+side_effects:
+- 'Expected (not verified: no automation used the list): lists can trigger automations (''Contact added to list'')
+  once contacts are added.'
+postcondition_check: The list appears in CRM > Listas with the given name and folder and 0 contacts; green toast
+  'A lista "<name>" foi criada na pasta "<folder>"'.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/lists
+    operation_id: createList
+    auth: api-key header (never store the value).
+  ui:
+    entry: /contact/list-listing
+    steps:
+    - Go to CRM > Listas and press 'Criar uma lista'; a side panel opens.
+    - Fill the textbox 'Digite um nome de lista'.
+    - Open the 'Pasta' dropdown and choose a folder.
+    - Press 'Criar lista'.
+    internal_service: contacts-api-v2/lists/create (path seen in resource timing)
+provenance:
+  sources:
+  - ui
+  - network
+  - api_docs
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.create_list.json
+  notes: Executed in the UI; created list ZZ_TEST_list_1 got ID 3 in folder 'Sua primeira pasta'.

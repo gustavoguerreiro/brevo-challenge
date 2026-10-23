@@ -1,0 +1,79 @@
+id: crm.create_deal
+domain: crm
+summary: Create a deal in the CRM pipeline; the CRM must be activated on the account first.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Needs the CRM to be activated first (observed).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of deal
+      x-in: body
+    attributes:
+      type: object
+      description: Attributes for deal creation To assign owner of a Deal you can send attributes.deal_owner and
+        utilize the account email or ID. If you want to create a deal on a specific pipeline and stage you can use
+        the following attributes `pipeline` …
+      properties: {}
+      x-in: body
+    linkedContactsIds:
+      type: array
+      description: Contact ids to be linked with deal
+      items:
+        type: integer
+        format: int64
+      x-in: body
+    linkedCompaniesIds:
+      type: array
+      description: Company ids to be linked with deal
+      items:
+        type: string
+        format: objectID
+      x-in: body
+  required:
+  - name
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      description: Unique deal id
+  description: Created deal id
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /crm/deals
+    auth: api-key header (never store the value).
+  ui:
+    entry: /crm/deals
+    steps:
+    - From a contact page open 'Mais' and choose 'Oportunidade', or open CRM > Oportunidades (/crm/deals), which
+      needs the CRM to be activated first. NOT EXECUTED.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Entry points seen; not pressed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not
+    executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+ui_label_pt: Contato > Mais > Oportunidade / CRM > Oportunidades

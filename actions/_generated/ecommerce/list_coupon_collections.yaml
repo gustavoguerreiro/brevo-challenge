@@ -1,0 +1,110 @@
+id: ecommerce.list_coupon_collections
+domain: ecommerce
+summary: Get all your coupon collections.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results by creation time in ascending/descending order
+    sortBy:
+      type: string
+      enum:
+      - createdAt
+      - remainingCoupons
+      - expirationDate
+      default: createdAt
+      description: The field used to sort coupon collections
+outputs:
+  type: object
+  required:
+  - createdAt
+  - defaultCoupon
+  - id
+  - name
+  - remainingCoupons
+  - totalCoupons
+  properties:
+    id:
+      type: string
+      format: uuidv4
+      description: The id of the collection.
+    name:
+      type: string
+      format: uuidv4
+      description: The name of the collection.
+    defaultCoupon:
+      type: string
+      description: The default coupon of the collection.
+    createdAt:
+      type: string
+      format: date-time
+      description: Datetime on which the collection was created.
+    totalCoupons:
+      type: integer
+      format: int64
+      description: Total number of coupons in the collection.
+    remainingCoupons:
+      type: integer
+      format: int64
+      description: Number of coupons that have not been sent yet.
+    expirationDate:
+      type: string
+      format: date-time
+      description: Expiration date for the coupon collection in RFC3339 format.
+    remainingDaysAlert:
+      type: integer
+      description: If present, an email notification is going to be sent the defined amount of days before the expiration
+        date.
+    remainingCouponsAlert:
+      type: integer
+      description: If present, an email notification is going to be sent when the total number of available coupons
+        falls below the defined threshold.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 401: unauthorized'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+- condition: 'HTTP 404: Record not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /couponCollections
+    auth: api-key header (never store the value).
+    operation_id: getCouponCollections
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,19 @@
+id: crm.create_company
+plan_availability:
+  free: available
+ui_label_pt: CRM > Empresas > Criar empresa
+ui:
+  entry: /companies
+  steps:
+  - Open CRM > Empresas and press 'Criar empresa' (top right). The side panel 'Criar uma empresa' opens.
+  - 'Fields: ''Associar empresa a contatos'' (picker), ''Domínio'', ''Nome da empresa*'' (required), ''Setor'',
+    ''Número de telefone'' (country selector, +55 default).'
+  - 'Press ''Criar'' (disabled until the name is filled). NOT EXECUTED: company creation was outside the test-data
+    permission; the panel was cancelled.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Panel observed and cancelled.

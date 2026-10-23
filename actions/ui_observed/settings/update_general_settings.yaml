@@ -1,0 +1,50 @@
+id: account.update_general_settings
+domain: account
+summary: 'Edit account preferences: time zone, 24h/12h clock, date format, notifications, invoice e-mails, support
+  access (Geral).'
+ui_label_pt: Configurações > Geral
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    time_zone:
+      type: string
+      description: Time zone.
+    clock_format:
+      type: string
+      enum:
+      - 24h
+      - 12h
+    date_format:
+      type: string
+      enum:
+      - DD-MM-AAAA
+      - MM-DD-AAAA
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/advanced
+    steps:
+    - Open the settings gear > Geral (/settings/advanced).
+    - 'Settings seen: time zone, clock format (24h/12h), date format (DD-MM-AAAA or MM-DD-AAAA), notifications (mute
+      the Brevo activity notice; e-mail when SMS credits fall below a threshold), invoices by e-mail on renewal,
+      and permission for Brevo support to access the account. Nothing was changed.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: 'Labels read; defaults and save behaviour unknown. Letting Brevo support access the account is a permission
+    change: ask first.'

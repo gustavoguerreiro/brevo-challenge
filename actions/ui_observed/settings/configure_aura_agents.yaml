@@ -1,0 +1,42 @@
+id: account.configure_aura_agents
+domain: account
+summary: 'Switch the AI agents on or off (Centro de controle da Aura IA): ''Agente de marketing'' and ''Agente de
+  vendas''.'
+ui_label_pt: Configurações > Centro de controle da Aura IA
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: The marketing agent was on; the sales agent needs a package.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    marketing_agent:
+      type: boolean
+      description: Toggle 'Agente de marketing'.
+    sales_agent:
+      type: boolean
+      description: Toggle 'Agente de vendas'; needs a package.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /aura-settings
+    steps:
+    - Open the settings gear > Centro de controle da Aura IA (/aura-settings).
+    - Toggles for the agents. 'Agente de marketing' was on (subject lines, messages, e-mail design); 'Agente de
+      vendas' needs a package ('Get package').
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Toggles read, none changed.

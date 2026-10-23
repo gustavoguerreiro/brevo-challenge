@@ -1,0 +1,57 @@
+id: ecommerce.create_coupons
+domain: ecommerce
+summary: Create coupons for a coupon collection.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    collectionId:
+      type: string
+      format: uuidv4
+      description: The id of the coupon collection for which the coupons will be created
+      x-in: body
+    coupons:
+      type: array
+      uniqueItems: true
+      items:
+        type: string
+        description: Name of the coupon
+      maxItems: 1000
+      minItems: 1
+      x-in: body
+  required:
+  - collectionId
+  - coupons
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 401: unauthorized'
+  recovery: Check the api-key header; the key may be missing, revoked or restricted by IP.
+- condition: 'HTTP 404: Coupon collection not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /coupons
+    auth: api-key header (never store the value).
+    operation_id: createCoupons
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,84 @@
+id: crm.create_company
+domain: crm
+summary: Create a company in the CRM, optionally linked to contacts and deals.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of company
+      x-in: body
+    attributes:
+      type: object
+      description: Attributes for company creation
+      properties: {}
+      x-in: body
+    countryCode:
+      type: integer
+      format: int64
+      description: Country code if phone_number is passed in attributes.
+      x-in: body
+    linkedContactsIds:
+      type: array
+      description: Contact ids to be linked with company
+      items:
+        type: integer
+        format: int64
+      x-in: body
+    linkedDealsIds:
+      type: array
+      description: Deal ids to be linked with company
+      items:
+        type: string
+        format: objectID
+      x-in: body
+  required:
+  - name
+outputs:
+  type: object
+  required:
+  - id
+  properties:
+    id:
+      type: string
+      description: Unique company id
+  description: Created company id
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /companies
+    auth: api-key header (never store the value).
+  ui:
+    entry: /companies
+    steps:
+    - Open CRM > Empresas and press 'Criar empresa' (top right). The side panel 'Criar uma empresa' opens.
+    - 'Fields: ''Associar empresa a contatos'' (picker), ''Domínio'', ''Nome da empresa*'' (required), ''Setor'',
+      ''Número de telefone'' (country selector, +55 default).'
+    - 'Press ''Criar'' (disabled until the name is filled). NOT EXECUTED: company creation was outside the test-data
+      permission; the panel was cancelled.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Panel observed and cancelled. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed:
+    the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+ui_label_pt: CRM > Empresas > Criar empresa

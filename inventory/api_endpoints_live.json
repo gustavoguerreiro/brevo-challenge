@@ -1,0 +1,2466 @@
+[
+ {
+  "method": "GET",
+  "path": "/account",
+  "operation_id": "getAccount",
+  "tag": "Account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/organization/activities",
+  "operation_id": "getAccountActivity",
+  "tag": "Account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/companies",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/companies",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/companies/attributes",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/companies/link-unlink/{id}",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/companies/{id}",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/companies/{id}",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/companies/{id}",
+  "operation_id": null,
+  "tag": "Companies",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts",
+  "operation_id": "getContacts",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts",
+  "operation_id": "createContact",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/attributes",
+  "operation_id": "getAttributes",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/attributes/{attributeCategory}/{attributeName}",
+  "operation_id": "deleteAttribute",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/attributes/{attributeCategory}/{attributeName}",
+  "operation_id": "createAttribute",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/contacts/attributes/{attributeCategory}/{attributeName}",
+  "operation_id": "updateAttribute",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/batch",
+  "operation_id": "updateBatchContacts",
+  "tag": "Contacts",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/doubleOptinConfirmation",
+  "operation_id": "createDoiContact",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/export",
+  "operation_id": "requestContactExport",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/folders",
+  "operation_id": "getFolders",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/folders",
+  "operation_id": "createFolder",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/folders/{folderId}",
+  "operation_id": "deleteFolder",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/folders/{folderId}",
+  "operation_id": "getFolder",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/contacts/folders/{folderId}",
+  "operation_id": "updateFolder",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/folders/{folderId}/lists",
+  "operation_id": "getFolderLists",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/import",
+  "operation_id": "importContacts",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/lists",
+  "operation_id": "getLists",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/lists",
+  "operation_id": "createList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/lists/{listId}",
+  "operation_id": "deleteList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/lists/{listId}",
+  "operation_id": "getList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/contacts/lists/{listId}",
+  "operation_id": "updateList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/lists/{listId}/contacts",
+  "operation_id": "getContactsFromList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/lists/{listId}/contacts/add",
+  "operation_id": "addContactToList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/lists/{listId}/contacts/remove",
+  "operation_id": "removeContactFromList",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/segments",
+  "operation_id": "getSegments",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/{identifier}",
+  "operation_id": "deleteContact",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/{identifier}",
+  "operation_id": "getContactInfo",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/contacts/{identifier}",
+  "operation_id": "updateContact",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/{identifier}/campaignStats",
+  "operation_id": "getContactStats",
+  "tag": "Contacts",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/conversations/agentOnlinePing",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/conversations/messages",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/conversations/messages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/conversations/messages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/conversations/messages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/conversations/pushedMessages",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/conversations/pushedMessages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/conversations/pushedMessages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/conversations/pushedMessages/{id}",
+  "operation_id": null,
+  "tag": "Conversations",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/couponCollections",
+  "operation_id": "getCouponCollections",
+  "tag": "Coupons",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/couponCollections",
+  "operation_id": "createCouponCollection",
+  "tag": "Coupons",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/couponCollections/{id}",
+  "operation_id": "getCouponCollection",
+  "tag": "Coupons",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/couponCollections/{id}",
+  "operation_id": "updateCouponCollection",
+  "tag": "Coupons",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/coupons",
+  "operation_id": "createCoupons",
+  "tag": "Coupons",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/attributes/deals",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/deals",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/deals",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/deals/import",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/crm/deals/link-unlink/{id}",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/crm/deals/{id}",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/deals/{id}",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/crm/deals/{id}",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/pipeline/details",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/pipeline/details/all",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/pipeline/details/{pipelineID}",
+  "operation_id": null,
+  "tag": "Deals",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/senders/domains",
+  "operation_id": "getDomains",
+  "tag": "Domains",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/senders/domains",
+  "operation_id": "createDomain",
+  "tag": "Domains",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/senders/domains/{domainName}",
+  "operation_id": "deleteDomain",
+  "tag": "Domains",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/senders/domains/{domainName}",
+  "operation_id": "getDomainConfiguration",
+  "tag": "Domains",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/senders/domains/{domainName}/authenticate",
+  "operation_id": "authenticateDomain",
+  "tag": "Domains",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/categories",
+  "operation_id": "getCategories",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/categories",
+  "operation_id": "createUpdateCategory",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/categories/batch",
+  "operation_id": "createUpdateBatchCategory",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/categories/{id}",
+  "operation_id": "getCategoryInfo",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/ecommerce/activate",
+  "operation_id": null,
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/ecommerce/attribution/metrics",
+  "operation_id": null,
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/ecommerce/attribution/metrics/{conversionSource}/{conversionSourceId}",
+  "operation_id": null,
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/ecommerce/attribution/products/{conversionSource}/{conversionSourceId}",
+  "operation_id": null,
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/ecommerce/config/displayCurrency",
+  "operation_id": null,
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/ecommerce/config/displayCurrency",
+  "operation_id": "setConfigDisplayCurrency",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/orders",
+  "operation_id": "getOrders",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/orders/status",
+  "operation_id": "createOrder",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/orders/status/batch",
+  "operation_id": "createBatchOrder",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/products",
+  "operation_id": "getProducts",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/products",
+  "operation_id": "createUpdateProduct",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/products/batch",
+  "operation_id": "createUpdateBatchProducts",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/products/{id}",
+  "operation_id": "getProductInfo",
+  "tag": "Ecommerce",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/emailCampaigns",
+  "operation_id": "getEmailCampaigns",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns",
+  "operation_id": "createEmailCampaign",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns/images",
+  "operation_id": "uploadImageToGallery",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/emailCampaigns/{campaignId}",
+  "operation_id": "deleteEmailCampaign",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/emailCampaigns/{campaignId}",
+  "operation_id": "getEmailCampaign",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/emailCampaigns/{campaignId}",
+  "operation_id": "updateEmailCampaign",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/emailCampaigns/{campaignId}/abTestCampaignResult",
+  "operation_id": "getAbTestCampaignResult",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns/{campaignId}/exportRecipients",
+  "operation_id": "emailExportRecipients",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns/{campaignId}/sendNow",
+  "operation_id": "sendEmailCampaignNow",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns/{campaignId}/sendReport",
+  "operation_id": "sendReport",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/emailCampaigns/{campaignId}/sendTest",
+  "operation_id": "sendTestEmail",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/emailCampaigns/{campaignId}/sharedUrl",
+  "operation_id": "getSharedTemplateUrl",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/emailCampaigns/{campaignId}/status",
+  "operation_id": "updateCampaignStatus",
+  "tag": "Email Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/events",
+  "operation_id": "createEvent",
+  "tag": "Events",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/feeds",
+  "operation_id": "getAllExternalFeeds",
+  "tag": "External Feeds",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/feeds",
+  "operation_id": "createExternalFeed",
+  "tag": "External Feeds",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/feeds/{uuid}",
+  "operation_id": "deleteExternalFeed",
+  "tag": "External Feeds",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/feeds/{uuid}",
+  "operation_id": "getExternalFeedByUUID",
+  "tag": "External Feeds",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/feeds/{uuid}",
+  "operation_id": "updateExternalFeed",
+  "tag": "External Feeds",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/files",
+  "operation_id": null,
+  "tag": "Files",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/files",
+  "operation_id": null,
+  "tag": "Files",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/crm/files/{id}",
+  "operation_id": null,
+  "tag": "Files",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/files/{id}",
+  "operation_id": null,
+  "tag": "Files",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/files/{id}/data",
+  "operation_id": null,
+  "tag": "Files",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/inbound/attachments/{downloadToken}",
+  "operation_id": "getInboundEmailAttachment",
+  "tag": "Inbound Parsing",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/inbound/events",
+  "operation_id": "getInboundEmailEvents",
+  "tag": "Inbound Parsing",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/inbound/events/{uuid}",
+  "operation_id": "getInboundEmailEventsByUuid",
+  "tag": "Inbound Parsing",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/group",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/group/unlink/{groupId}/subAccounts",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/corporate/group/{id}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/group/{id}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/group/{id}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/groups",
+  "operation_id": "getSubAccountGroups",
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/invited/users",
+  "operation_id": "getCorporateInvitedUsersList",
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/masterAccount",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/ssoToken",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/subAccount",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/subAccount",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/subAccount/ip/associate",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/subAccount/ip/dissociate",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/subAccount/key",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/subAccount/ssoToken",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/corporate/subAccount/{id}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/subAccount/{id}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/subAccount/{id}/applications/toggle",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/subAccount/{id}/plan",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/corporate/user/invitation/send",
+  "operation_id": "inviteAdminUser",
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/user/invitation/{action}/{email}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/corporate/user/revoke/{email}",
+  "operation_id": null,
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/user/{email}/permissions",
+  "operation_id": "getCorporateUserPermission",
+  "tag": "Master account",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/notes",
+  "operation_id": null,
+  "tag": "Notes",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/notes",
+  "operation_id": null,
+  "tag": "Notes",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/crm/notes/{id}",
+  "operation_id": null,
+  "tag": "Notes",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/notes/{id}",
+  "operation_id": null,
+  "tag": "Notes",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/crm/notes/{id}",
+  "operation_id": null,
+  "tag": "Notes",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/payments/requests",
+  "operation_id": "createPaymentRequest",
+  "tag": "Payments",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/payments/requests/{id}",
+  "operation_id": "deletePaymentRequest",
+  "tag": "Payments",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/payments/requests/{id}",
+  "operation_id": "getPaymentRequest",
+  "tag": "Payments",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/processes",
+  "operation_id": "getProcesses",
+  "tag": "Process",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/processes/{processId}",
+  "operation_id": "getProcess",
+  "tag": "Process",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/reseller/children",
+  "operation_id": "getResellerChilds",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children",
+  "operation_id": "createResellerChild",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/reseller/children/{childIdentifier}",
+  "operation_id": "deleteResellerChild",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/reseller/children/{childIdentifier}",
+  "operation_id": "getChildInfo",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/reseller/children/{childIdentifier}",
+  "operation_id": "updateResellerChild",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/reseller/children/{childIdentifier}/accountCreationStatus",
+  "operation_id": "getChildAccountCreationStatus",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/reseller/children/{childIdentifier}/accountStatus",
+  "operation_id": "updateChildAccountStatus",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/reseller/children/{childIdentifier}/auth",
+  "operation_id": "getSsoToken",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children/{childIdentifier}/credits/add",
+  "operation_id": "addCredits",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children/{childIdentifier}/credits/remove",
+  "operation_id": "removeCredits",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/reseller/children/{childIdentifier}/domains",
+  "operation_id": "getChildDomains",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children/{childIdentifier}/domains",
+  "operation_id": "createChildDomain",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/reseller/children/{childIdentifier}/domains/{domainName}",
+  "operation_id": "deleteChildDomain",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/reseller/children/{childIdentifier}/domains/{domainName}",
+  "operation_id": "updateChildDomain",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children/{childIdentifier}/ips/associate",
+  "operation_id": "associateIpToChild",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/reseller/children/{childIdentifier}/ips/dissociate",
+  "operation_id": "dissociateIpFromChild",
+  "tag": "Reseller",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smsCampaigns",
+  "operation_id": "getSmsCampaigns",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smsCampaigns",
+  "operation_id": "createSmsCampaign",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smsCampaigns/{campaignId}",
+  "operation_id": "deleteSmsCampaign",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smsCampaigns/{campaignId}",
+  "operation_id": "getSmsCampaign",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/smsCampaigns/{campaignId}",
+  "operation_id": "updateSmsCampaign",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smsCampaigns/{campaignId}/exportRecipients",
+  "operation_id": "requestSmsRecipientExport",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smsCampaigns/{campaignId}/sendNow",
+  "operation_id": "sendSmsCampaignNow",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smsCampaigns/{campaignId}/sendReport",
+  "operation_id": "sendSmsReport",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smsCampaigns/{campaignId}/sendTest",
+  "operation_id": "sendTestSms",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/smsCampaigns/{campaignId}/status",
+  "operation_id": "updateSmsCampaignStatus",
+  "tag": "SMS Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/senders",
+  "operation_id": "getSenders",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/senders",
+  "operation_id": "createSender",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/senders/ips",
+  "operation_id": "getIps",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/senders/{senderId}",
+  "operation_id": "deleteSender",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/senders/{senderId}",
+  "operation_id": "updateSender",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/senders/{senderId}/ips",
+  "operation_id": "getIpsFromSender",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/senders/{senderId}/validate",
+  "operation_id": "validateSenderByOTP",
+  "tag": "Senders",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/tasks",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/tasks",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/crm/tasks/{id}",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/tasks/{id}",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PATCH",
+  "path": "/crm/tasks/{id}",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/tasktypes",
+  "operation_id": null,
+  "tag": "Tasks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/transactionalSMS/sms",
+  "operation_id": "sendTransacSms",
+  "tag": "Transactional SMS",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/transactionalSMS/statistics/aggregatedReport",
+  "operation_id": "getTransacAggregatedSmsReport",
+  "tag": "Transactional SMS",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/transactionalSMS/statistics/events",
+  "operation_id": "getSmsEvents",
+  "tag": "Transactional SMS",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/transactionalSMS/statistics/reports",
+  "operation_id": "getTransacSmsReport",
+  "tag": "Transactional SMS",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/whatsapp/sendMessage",
+  "operation_id": "sendWhatsappMessage",
+  "tag": "Transactional WhatsApp",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/whatsapp/statistics/events",
+  "operation_id": "getWhatsappEventReport",
+  "tag": "Transactional WhatsApp",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/blockedContacts",
+  "operation_id": "getTransacBlockedContacts",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smtp/blockedContacts/{email}",
+  "operation_id": null,
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/blockedDomains",
+  "operation_id": "getBlockedDomains",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/blockedDomains",
+  "operation_id": "blockNewDomain",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smtp/blockedDomains/{domain}",
+  "operation_id": "deleteBlockedDomain",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/deleteHardbounces",
+  "operation_id": "deleteHardbounces",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/email",
+  "operation_id": "sendTransacEmail",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smtp/email/{identifier}",
+  "operation_id": "deleteScheduledEmailById",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/emailStatus/{batchId}",
+  "operation_id": "getScheduledEmailByBatchId",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/emailStatus/{messageId}",
+  "operation_id": "getScheduledEmailByMessageId",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/emails",
+  "operation_id": "getTransacEmailsList",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/emails/{uuid}",
+  "operation_id": "getTransacEmailContent",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smtp/log/{identifier}",
+  "operation_id": null,
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/statistics/aggregatedReport",
+  "operation_id": "getAggregatedSmtpReport",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/statistics/events",
+  "operation_id": "getEmailEventReport",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/statistics/reports",
+  "operation_id": "getSmtpReport",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/templates",
+  "operation_id": "getSmtpTemplates",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/templates",
+  "operation_id": "createSmtpTemplate",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/smtp/templates/{templateId}",
+  "operation_id": "deleteSmtpTemplate",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/smtp/templates/{templateId}",
+  "operation_id": "getSmtpTemplate",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/smtp/templates/{templateId}",
+  "operation_id": "updateSmtpTemplate",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/templates/{templateId}/sendTest",
+  "operation_id": "sendTestTemplate",
+  "tag": "Transactional emails",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/organization/invited/users",
+  "operation_id": "getInvitedUsersList",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/organization/user/invitation/revoke/{email}",
+  "operation_id": "putRevokeUserPermission",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/organization/user/invitation/send",
+  "operation_id": "inviteuser",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/organization/user/invitation/{action}/{email}",
+  "operation_id": "putresendcancelinvitation",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/organization/user/update/permissions",
+  "operation_id": "EditUserPermission",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/organization/user/{email}/permissions",
+  "operation_id": "getUserPermission",
+  "tag": "User",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/webhooks",
+  "operation_id": "getWebhooks",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/webhooks",
+  "operation_id": "createWebhook",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/webhooks/export",
+  "operation_id": "exportWebhooksHistory",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/webhooks/{webhookId}",
+  "operation_id": "deleteWebhook",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/webhooks/{webhookId}",
+  "operation_id": "getWebhook",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/webhooks/{webhookId}",
+  "operation_id": "updateWebhook",
+  "tag": "Webhooks",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/whatsappCampaigns",
+  "operation_id": "getWhatsAppCampaigns",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/whatsappCampaigns",
+  "operation_id": "createWhatsAppCampaign",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/whatsappCampaigns/config",
+  "operation_id": "getWhatsAppConfig",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/whatsappCampaigns/template-list",
+  "operation_id": "getWhatsAppTemplates",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/whatsappCampaigns/template/approval/{templateId}",
+  "operation_id": "sendWhatsAppTemplateApproval",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "DELETE",
+  "path": "/whatsappCampaigns/{campaignId}",
+  "operation_id": "deleteWhatsAppCampaign",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "GET",
+  "path": "/whatsappCampaigns/{campaignId}",
+  "operation_id": "getWhatsAppCampaign",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "PUT",
+  "path": "/whatsappCampaigns/{campaignId}",
+  "operation_id": "updateWhatsAppCampaign",
+  "tag": "WhatsApp Campaigns",
+  "in_live": true,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/whatsppCampaigns/template",
+  "operation_id": "createWhatsAppTemplate",
+  "tag": "WhatsApp Campaigns",
+  "in_live": false,
+  "source": "snapshot"
+ },
+ {
+  "method": "POST",
+  "path": "/smtp/template/preview",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/transactionalSMS/send",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/whatsappCampaigns/template",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/consent-groups",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/contacts/consent-groups",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/contacts/consent-groups/{id}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/contacts/consent-groups/{id}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/contacts/consent-groups/{id}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/events",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/events/batch",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/objects/{object_type}/batch/upsert",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/objects/{object_type}/records",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/objects/{object_type}/batch/delete",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/objects/{object_type}/associated-records",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/subAccounts/plan",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/corporate/ip",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/corporate/user/{email}/permissions",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/crm/attributes",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/crm/attributes/companies",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/companies/import",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/conversations/visitorGroup",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/products/{id}/alerts/{type}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/wallet/passes/{passId}/installUrl/{contactId}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/wallet/passes/{installationId}/redeem",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/config/programs",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/config/programs",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/config/programs/{pid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/loyalty/config/programs/{pid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PATCH",
+  "path": "/loyalty/config/programs/{pid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/config/programs/{pid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/config/programs/{pid}/publish",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/config/programs/{pid}/subscriptions",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/config/programs/{pid}/subscription-members",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/config/programs/{pid}/subscription-members",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/config/programs/{pid}/contact/{cid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/config/programs/{pid}/account-info",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/offer/programs/{pid}/code-pools/{cpid}/codes-count",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/offer/programs/{pid}/vouchers",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/offer/programs/{pid}/offers",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/offer/programs/{pid}/offers",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/offer/programs/{pid}/rewards/{rid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/offer/programs/{pid}/rewards/attribute",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/offer/programs/{pid}/rewards/redeem",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/offer/programs/{pid}/rewards/redeem/{tid}/complete",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/offer/programs/{pid}/rewards/revoke",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/offer/programs/{pid}/rewards/validate",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/subscriptions/{cid}/balances",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/subscriptions/{cid}/balances",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/contact-balances",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/transactions",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/transactions/{tid}/complete",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/transactions/{tid}/cancel",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/balance/programs/{pid}/create-order",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/active-balance",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/balance/programs/{pid}/transaction-history",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups/{gid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups/{gid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups/{gid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "GET",
+  "path": "/loyalty/tier/programs/{pid}/tiers",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/tier/programs/{pid}/tier-groups/{gid}/tiers",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "DELETE",
+  "path": "/loyalty/tier/programs/{pid}/tiers/{tid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "PUT",
+  "path": "/loyalty/tier/programs/{pid}/tiers/{tid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ },
+ {
+  "method": "POST",
+  "path": "/loyalty/tier/programs/{pid}/contacts/{cid}/tiers/{tid}",
+  "operation_id": null,
+  "tag": "live",
+  "in_live": true,
+  "source": "live"
+ }
+]

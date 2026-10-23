@@ -1,0 +1,63 @@
+id: email_campaigns.get_shared_url
+domain: email_campaigns
+summary: Get a shared template url.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the campaign or template
+  required:
+  - campaignId
+outputs:
+  type: object
+  required:
+  - sharedUrl
+  properties:
+    sharedUrl:
+      type: string
+      format: url
+      description: A unique URL for the email campaign or transactional template. This URL can be shared with other
+        Brevo users.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign/Template ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /emailCampaigns/{campaignId}/sharedUrl
+    auth: api-key header (never store the value).
+    operation_id: getSharedTemplateUrl
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - 'Open Marketing > Campanhas and the row menu; choose ''Compartilhar modelo''. NOT EXECUTED: the resulting
+      dialog and link were not opened. A shared link may be reachable by anyone who has it.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Menu entry only. The same word ''Compartilhar'' also appears on template rows that have a design. Generated
+    from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present
+    in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/content.template_lifecycle.json
+ui_label_pt: Compartilhar modelo

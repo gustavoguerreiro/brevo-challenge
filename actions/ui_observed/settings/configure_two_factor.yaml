@@ -1,0 +1,39 @@
+id: account.configure_two_factor
+domain: account
+summary: Enable two-factor authentication with an authenticator app or SMS (Segurança > Autenticação em dois fatores).
+ui_label_pt: Segurança > Autenticação em dois fatores
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    method:
+      type: string
+      enum:
+      - authenticator_app
+      - sms
+      description: As listed on the page.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /security/two-factor-authentication
+    steps:
+    - Open Settings > Segurança, tab 'Autenticação em dois fatores'.
+    - The options are an authenticator app or SMS verification. Not changed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: 'Page read; nothing changed. This is a security setting: only with the person''s explicit yes.'

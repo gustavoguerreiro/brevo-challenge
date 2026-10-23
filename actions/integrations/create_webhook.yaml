@@ -1,0 +1,122 @@
+id: integrations.create_webhook
+domain: integrations
+summary: Create an outbound webhook that posts event payloads to a URL you control. Inbound webhooks are plan-gated.
+ui_label_pt: Adicionar webhook
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: Outbound webhooks are available. Inbound webhooks are crown (plan-gated) on Free.
+preconditions:
+- A receiving URL that the account owner controls and trusts. Event payloads contain contact e-mail addresses and
+  activity.
+- 'UI: Nome is required (max 64 characters). URL is required.'
+- 'API: url and events are required. type defaults to transactional. domain is required for type inbound.'
+inputs:
+  type: object
+  required:
+  - url
+  - events
+  properties:
+    name:
+      type: string
+      maxLength: 64
+      description: UI label 'Nome'. The API has only description; the mapping Nome to description is inferred.
+    url:
+      type: string
+      format: uri
+      description: 'UI label ''URL''. API: url.'
+    type:
+      type: string
+      enum:
+      - transactional
+      - marketing
+      - inbound
+      default: transactional
+      description: API only. In the UI the equivalent is the 'Categoria de evento' choice.
+    events:
+      type: array
+      items:
+        type: string
+      description: 'API enum: sent, request, delivered, hardBounce, softBounce, blocked, spam, invalid, deferred,
+        click, opened, uniqueOpened, unsubscribed, listAddition, contactUpdated, contactDeleted, inboundEmailProcessed.
+        UI: one toggle per event inside one category; 109 labelled events in 15 categories are listed in inventory/webhook_events.json.'
+    event_category:
+      type: string
+      description: UI only. One of the 15 categories (Transactional email, Transactional sms, Marketing email, Marketing
+        sms, Conversations, Meetings, Phone, WhatsApp, Cohort, Company, Coupon, Deals, Loyalty, Push, Website).
+    auth:
+      type: object
+      description: 'UI ''Método de autenticação'': Sem autenticação, Básico, Token. API: auth {type, token}.'
+      properties:
+        type:
+          type: string
+        token:
+          type: string
+          description: Secret. Never store or echo it in a catalog or log.
+    headers:
+      type: array
+      description: 'Extra headers. UI: ''+ Adicionar objeto'' (inferred from the label). API: headers [{key, value}].'
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+    batched:
+      type: boolean
+      description: 'API only: send events in batches.'
+    domain:
+      type: string
+      description: API only, required for type inbound.
+outputs:
+  type: object
+  properties:
+    webhook_id:
+      type: integer
+      description: 'API: id in the 201 response. UI: not observed.'
+side_effects:
+- 'Expected (not observed): Brevo starts sending HTTP POST requests with event data (contact e-mail, campaign, timestamps)
+  to the URL.'
+- 'Observed (form read, not submitted): In the UI every event in the chosen category is on by default, so untick
+  what is not needed to limit the data shared.'
+- 'Observed (form read, not submitted): The final button is named ''Ativar webhook'': saving and activating are
+  one step in the UI.'
+postcondition_check: 'Not observed. Expected: the webhook appears in Aplicativos > Webhooks. Check it with integrations.list_webhooks
+  or get_webhook.'
+errors:
+- condition: Missing url or events, or an invalid event for the chosen type
+  symptom: HTTP 400 (documented, not reproduced).
+  recovery: Fix the payload. Transactional, marketing and inbound types each accept a different subset of events.
+limits:
+- 'Name: 64 characters (UI).'
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /webhooks
+    operation_id: createWebhook
+    auth: api-key header (never store the value).
+  ui:
+    entry: /app-store/webhooks
+    steps:
+    - Go to Aplicativos > Webhooks (tab 'Webhooks'), keep 'Webhook de saída' selected, press 'Adicionar webhook'
+      and choose outbound.
+    - 'Step 1 ''Criar webhook de saída'': type the Nome.'
+    - 'Step 2 ''Ponto de extremidade'': type the URL, pick ''Método de autenticação'' and, if needed, add extra
+      headers with ''+ Adicionar objeto''.'
+    - 'Step 3 ''Ações'': pick ''Categoria de evento'', untick events that are not wanted.'
+    - 'Press ''Ativar webhook''. NOT EXECUTED: the wizard was abandoned at step 3 with ''Sair''.'
+    internal_service: not captured
+provenance:
+  sources:
+  - ui
+  - api_docs
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/integrations.create_webhook.json
+  notes: Wizard fields and all event labels were read in the UI; nothing was saved because it would start sending
+    contact data to a third-party URL. The API body comes from the public spec.

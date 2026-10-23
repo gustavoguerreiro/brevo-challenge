@@ -1,0 +1,79 @@
+id: account.update_sender
+domain: account
+summary: Change the name or e-mail address of an existing sender.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'senderId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    senderId:
+      type: integer
+      format: int64
+      description: Id of the sender
+    name:
+      type: string
+      description: From Name to update the sender
+      x-in: body
+    email:
+      type: string
+      format: email
+      description: From Email to update the sender
+      x-in: body
+    ips:
+      type: array
+      description: Only in case of dedicated IP, IPs to associate to the sender. If passed, will replace all the
+        existing IPs.
+      items:
+        type: object
+        required:
+        - domain
+        - ip
+        properties:
+          ip:
+            type: string
+            description: Dedicated IP available in your account
+          domain:
+            type: string
+            description: Domain of the IP
+          weight:
+            type: integer
+            format: int64
+            description: Weight to apply to the IP. Sum of all IP weights must be 100. Should be passed for either
+              ALL or NONE of the IPs. If it's not passed, the sending will be equally balanced on all IPs.
+            minimum: 1
+            maximum: 100
+      x-in: body
+  required:
+  - senderId
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Sender ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /senders/{senderId}
+    auth: api-key header (never store the value).
+    operation_id: updateSender
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

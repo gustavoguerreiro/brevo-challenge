@@ -1,0 +1,46 @@
+id: contacts.rename_segment
+domain: contacts
+summary: 'Rename a segment. UI only: the public API cannot update segments.'
+ui_label_pt: Renomear
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - segment_id
+  - new_name
+  properties:
+    segment_id:
+      type: integer
+    new_name:
+      type: string
+      maxLength: 50
+side_effects:
+- 'Observed: the new name shows in the list; the segment was renamed and renamed back. No other effect was seen.'
+postcondition_check: Toast 'Segmento renomeado para "<name>"', the new name and a new 'Última edição' time in the
+  table.
+errors: []
+limits:
+- Name max 50 characters.
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - Go to CRM > Contatos > Segmentos and open the three-dot menu in the Ações column of the segment row.
+    - Choose 'Renomear'. In the side panel 'Renomear segmento' replace 'Novo nome do segmento' (max 50 characters).
+    - Press 'Renomear segmento'.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  verified_via:
+  - ui
+  notes: Executed twice on the test segment (rename and rename back).

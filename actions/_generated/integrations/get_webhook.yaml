@@ -1,0 +1,109 @@
+id: integrations.get_webhook
+domain: integrations
+summary: Get a webhook details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'webhookId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    webhookId:
+      type: integer
+      format: int64
+      description: Id of the webhook
+  required:
+  - webhookId
+outputs:
+  type: object
+  required:
+  - createdAt
+  - description
+  - events
+  - id
+  - modifiedAt
+  - type
+  - url
+  properties:
+    url:
+      type: string
+      format: url
+      description: URL of the webhook
+    id:
+      type: integer
+      format: int64
+      description: ID of the webhook
+    description:
+      type: string
+      description: Description of the webhook
+    events:
+      type: array
+      items:
+        type: string
+        description: Events which will trigger the webhook when they occure
+    type:
+      type: string
+      description: Type of webhook (marketing or transactional)
+      enum:
+      - marketing
+      - transactional
+    createdAt:
+      type: string
+      description: Creation UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    modifiedAt:
+      type: string
+      description: Last modification UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)
+    batched:
+      type: boolean
+      description: To send batched webhooks
+    auth:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of authentication
+        token:
+          type: string
+          description: Webhook authentication token
+      description: Add authentication on webhook url
+    headers:
+      type: array
+      description: Custom headers to be send with webhooks
+      items:
+        type: object
+        properties:
+          key:
+            type: string
+            description: Header key name
+          value:
+            type: string
+            description: Header value
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Webhook ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /webhooks/{webhookId}
+    auth: api-key header (never store the value).
+    operation_id: getWebhook
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

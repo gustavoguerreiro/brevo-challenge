@@ -1,0 +1,46 @@
+id: conversations.connect_inbox_channel
+domain: conversations
+summary: 'Connect a channel to the Conversas inbox: chat widget and e-mail are open, Facebook, Instagram, WhatsApp
+  and SMS are crown-gated.'
+ui_label_pt: Conversas > Configurações > Canais
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: Chat widget and e-mail are listed without a crown; Facebook, Instagram, WhatsApp and SMS carry one.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    channel:
+      type: string
+      enum:
+      - chat_widget
+      - email
+      - facebook
+      - instagram
+      - whatsapp
+      - sms
+      description: Channel to connect.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: https://conversations-app.brevo.com/settings
+    steps:
+    - 'Open Conversas > Caixa de entrada > settings > ''Canais''. Listed: ''Widget do chat'', ''E-mail'', and Facebook,
+      Instagram, WhatsApp and SMS with a crown.'
+    - No channel was opened or connected.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Channel names and crowns seen; the connection flows were not opened.

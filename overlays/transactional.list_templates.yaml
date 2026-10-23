@@ -1,0 +1,22 @@
+id: transactional.list_templates
+plan_availability:
+  free: available
+ui_label_pt: Transacional > E-mail > Modelos
+ui:
+  entry: /templates/listing
+  steps:
+  - 'Open Marketing > Modelos, or Transacional > E-mail > Modelos: both open the same list (one pool of e-mail templates).'
+  - 'Filter with ''Buscar modelos'' and the status filter. Each row shows the name, #id, last edit and status (Ativo
+    / Inativo).'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: The UI list is the same for marketing and transactional use. That the API returns exactly the same objects
+    was not tested (no API key).
+  verified_via:
+  - ui
+related:
+- content.list_email_templates

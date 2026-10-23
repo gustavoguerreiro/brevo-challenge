@@ -1,0 +1,28 @@
+id: contacts.import_contacts
+plan_availability:
+  free: available
+ui_label_pt: Importar contatos
+ui:
+  entry: /contact/import/options
+  steps:
+  - 'Open CRM > Contatos and press ''Importar contatos''. Dialog ''Importar seus dados para a Brevo'': choose Contatos,
+    Empresas, Oportunidades or Notas (order: contacts, then companies/deals/tasks, then notes).'
+  - 'Page ''Importar contatos para criação ou atualização em massa'': ''Importar de um arquivo'' (csv, xlsx, txt),
+    ''Copiar e colar'', ''Importar de outra ferramenta''.'
+  - '''Importar de um arquivo'' opens /contact/import/upload, step 1 ''Carregue seu arquivo'' (drag and drop, link
+    to a sample .csv). Later steps (column mapping, list choice) were NOT reached.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Observed up to the upload step; nothing was uploaded.
+related:
+- account.get_process
+postcondition_check: 'Imports run as a background process. Read the process with account.get_process (API returns
+  a processId) or watch the import page; then read the list or contact count. Not observed: the import was never
+  started.'
+side_effects:
+- 'Expected (not observed): the import runs asynchronously; contacts appear after the process finishes, not when
+  the request returns.'

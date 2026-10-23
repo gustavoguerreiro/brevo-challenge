@@ -1,0 +1,75 @@
+id: account.list_sender_ips
+domain: account
+summary: Get all the dedicated IPs for a sender.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'senderId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    senderId:
+      type: integer
+      format: int64
+      description: Id of the sender
+  required:
+  - senderId
+outputs:
+  type: object
+  required:
+  - ips
+  properties:
+    ips:
+      type: array
+      description: Dedicated IP(s) linked to a sender
+      items:
+        type: object
+        required:
+        - domain
+        - id
+        - ip
+        - weight
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: ID of the dedicated IP
+          ip:
+            type: string
+            description: Dedicated IP
+          domain:
+            type: string
+            description: Domain associated to the IP
+          weight:
+            type: integer
+            format: int64
+            description: Weight of the IP
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Sender ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /senders/{senderId}/ips
+    auth: api-key header (never store the value).
+    operation_id: getIpsFromSender
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

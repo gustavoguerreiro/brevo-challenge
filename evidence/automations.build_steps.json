@@ -1,0 +1,118 @@
+{
+ "action": "automations.add_action_* / add_rule_* (automation editor)",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome on the inactive draft 'Automação #1' (ID 1). The automation was never activated and 'Testar' was never pressed.",
+ "mechanics_observed": [
+  "Palette on the left with tabs Gatilhos, Ações, Regras and a search box 'Buscar por nome da etapa'. Typing filters the palette, which gives a stable position for the first result.",
+  "A block is added by dragging it onto the dashed drop zone 'Solte o bloco aqui' between two steps (or on the connector). A side panel opens with the step name (pencil to rename), 'ID da etapa #N', the settings, and Cancelar / Salvar.",
+  "The step ID is allocated when the block is dropped and is not reused after an undo (IDs went 2, 3, 4 ... 17 in this session).",
+  "Salvar stores the step and the canvas card then shows the choice (for example 'Lista ZZ_TEST_list_2_dup - #6'). Cancelar leaves an unsaved card with the orange text 'Defina e salve essa ação.'; the header undo arrow removes it (wait about 3 seconds after an undo before dragging again, otherwise the editor gets stuck in a drag state until reload).",
+  "The editor autosaves ('Salva hoje às HH:MM'). Split rules need two undo presses.",
+  "A second trigger could not be dropped onto a canvas that already has a trigger (not investigated further)."
+ ],
+ "executed_and_saved": [
+  "Adicionar um contato a uma lista (list ZZ_TEST_list_2_dup, step #2)"
+ ],
+ "panels_opened_and_cancelled": {
+  "Remover contato de uma lista": [
+   "Escolha de suas listas*"
+  ],
+  "Atualizar atributo de contato": [
+   "radio 'Atualizar valor de atributo' | 'Excluir valor de atributo'",
+   "'Atualizar atributo de contato*' select"
+  ],
+  "Colocar contato em lista bloqueada": [
+   "radio 'E-mails transacionais' (default) | 'Campanha de marketing' | 'Todos os e-mails e remetente'",
+   "'Selecionar remetentes*'"
+  ],
+  "Atribuir um usuário a um contato": [
+   "'Atribuir para*' (user select)",
+   "toggle 'Round robin'"
+  ],
+  "Excluir um contato": [
+   "No settings. Red warning: contacts entering this step are permanently deleted and removed from every running process; the action cannot be undone."
+  ],
+  "Enviar um e-mail": [
+   "'Mensagem*' with 'Adicionar mensagem' which opens 'Criar nova mensagem' (Criar do zero menu; 'Seus e-mails > Mensagens de automação'; 'Modelos > Seus modelos / Modelos básicos / Prontos para uso'). The inactive test template did not appear under 'Seus modelos'."
+  ],
+  "Enviar um SMS": [
+   "'Tipo de SMS*': SMS transacional (default) | SMS promocional",
+   "'Nome do remetente*'",
+   "message text with a 160-character counter",
+   "toggles 'Exibir caracteres especiais' and 'Configurar quando enviar o SMS'"
+  ],
+  "Notificar por e-mail": [
+   "'Remetente*' (preset)",
+   "'Quem você deseja notificar?*': 'Um ou mais contatos' (Contato* select) | 'Destinatários definidos nos atributos de contato'",
+   "'Conteúdo de notificação' rich-text editor (Templates, bold, italic, underline, strike, link, image, emoji, variables, more)",
+   "'Quais dados de eventos devem ser exibidos?' select"
+  ],
+  "Chamar um webhook": [
+   "'URL*'",
+   "'Método de autenticação' (default Sem autenticação)",
+   "'Adicionar objeto' (extra headers, inferred)",
+   "toggle 'Incluir detalhes do contato que acionou o evento'"
+  ],
+  "Iniciar outra automação": [
+   "'Automação*' select",
+   "'Etapa' (optional, if empty the contact starts at the first step)"
+  ],
+  "Redirecionar contato para outra etapa": [
+   "'Etapa*' ('Selecionar etapa')"
+  ],
+  "Atraso de tempo": [
+   "'Escolha o período antes da próxima etapa*': Meses, Dias, Horas, Minutos (a month counts as 30 days). The card is titled 'Esperar'."
+  ],
+  "Divisão condicional": [
+   "Ramificação A with 'Adicionar filtro' (same filter builder as segments, inferred)",
+   "Ramificação B = contacts matching no condition",
+   "'Adicionar ramificação' is crown-gated"
+  ],
+  "Divisão percentual": [
+   "Ramificação A 'Porcentagem*' (default 50), Ramificação B 'Porcentagem*' (default 50)",
+   "'Adicionar ramificação' is crown-gated"
+  ],
+  "Espere até que um evento aconteça": [
+   "'Evento*' picker with the same categories as triggers (Contatos, Formulários, WhatsApp, E-mail, Conversas, Oportunidades, Meetings ...)",
+   "'Tempo de espera*' Meses/Dias/Horas/Minutos",
+   "branches 'Sim' (event within the wait time) and 'Não'"
+  ]
+ },
+ "crown_gated_in_palette": [
+  "Envie um e-mail individual a partir de ...",
+  "Enviar uma mensagem de WhatsApp",
+  "Criar uma tarefa",
+  "Tarefa criada (trigger)",
+  "Tarefa concluída (trigger)",
+  "Adicionar ramificação (splits)"
+ ],
+ "not_opened": [
+  "Atualizar atributo de empresa (drag attempt did not drop)",
+  "Atualizar atributo de oportunidades",
+  "Duplicar oportunidade",
+  "Criar oportunidade",
+  "all triggers except 'Contato adicionado à lista'"
+ ],
+ "other_pages": {
+  "/automation/settings/<id>": "'Entrada e saída do público': 'Reentrada de contato após a saída' (toggle 'Permitir a reentrada de contatos após a saída' and 'Configurar tempo de espera'), 'Condições de saída' ('Adicionar condição de saída'), 'Condições de reinicialização'; button 'Salvar condições'.",
+  "/automation/stats/<id>": "'Atividade de cenário': 'Ver relatório completo', 'Visão geral' with a date range and refresh, per-step 'Total de contatos'.",
+  "/automation/automations": "Tabs Todos, Ativada, Pausados, Desativada; per-row counters (Ativo agora, Iniciada, Finalizada, Suspensa); icons for the report and for activation (play); row menu Duplicar, Renomear, Atribuir uma tag (crown), Ver relatório, Ver detalhes (dialog with Criada em, Última edição, Descrição with 'Editar descrição'), Registros de acesso, Excluir.",
+  "/automation/messages": "'Mensagens em automações': e-mail messages sent by the step 'Enviar um E-mail'; updating a message syncs every step that uses it.",
+  "/automation/logs/scenarios": "'Logs' with tabs 'Logs de cenários' and 'Contatos no cenário', filters (automation, step, date range), and a link to 'Log de eventos'."
+ },
+ "not_pressed": [
+  "Ativar automação",
+  "Testar",
+  "the play icon on the automation row",
+  "Excluir"
+ ],
+ "limitations": [
+  "Save request bodies not captured.",
+  "Only the free-plan palette is known."
+ ],
+ "test_data_left_in_account": "Automation 1 now has step #2 'Adicionar um contato a uma lista' (list 6) after the trigger. It is inactive.",
+ "incidents": [
+  "A cancel followed by an undo issued without a screenshot first removed the saved step instead of the unsaved card. Redo (header arrow) and a page reload brought it back. After that every drag or undo was checked with a screenshot first."
+ ],
+ "read_back": "Re-read on 2026-10-22 late evening in the editor of automation 1 (read only, nothing pressed): the canvas holds the trigger 'Contato adicionado à lista' (list #3) and the saved step 'Adicionar um contato a uma lista' (list #6). The status reads 'Desativada'."
+}

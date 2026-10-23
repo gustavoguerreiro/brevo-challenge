@@ -1,0 +1,185 @@
+id: account.update_user_permissions
+domain: account
+summary: Update permission for a user.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+      x-in: body
+    all_features_access:
+      type: boolean
+      description: All access to the features
+      x-in: body
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - email_campaigns
+            - sms_campaigns
+            - contacts
+            - templates
+            - workflows
+            - facebook_ads
+            - landing_pages
+            - transactional_emails
+            - smtp_api
+            - user_management
+            - sales_platform
+            - phone
+            - conversations
+            - senders_domains_dedicated_ips
+            - push_notifications
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - create_edit_delete
+              - send_schedule_suspend
+              - view
+              - import
+              - export
+              - list_and_attributes
+              - forms
+              - activate_deactivate
+              - activate_deactivate_pause
+              - settings
+              - schedule_pause
+              - all
+              - logs
+              - access
+              - assign
+              - configure
+              - manage_owned_deals_tasks
+              - manage_others_deals_tasks
+              - manage_owned_companies
+              - manage_others_companies
+              - reports
+              - senders_management
+              - domains_management
+              - dedicated_ips_management
+              - send
+              - smtp
+              - api_keys
+              - authorized_ips
+              - none
+        description: Privileges given to the user
+      x-in: body
+  required:
+  - all_features_access
+  - email
+  - privileges
+outputs:
+  type: object
+  required:
+  - all_features_access
+  - email
+  - privileges
+  properties:
+    email:
+      type: string
+      format: email
+      description: Email address for the organization
+    all_features_access:
+      type: boolean
+      description: All access to the features
+    privileges:
+      type: array
+      items:
+        type: object
+        properties:
+          feature:
+            type: string
+            description: Feature name
+            enum:
+            - email_campaigns
+            - sms_campaigns
+            - contacts
+            - templates
+            - workflows
+            - facebook_ads
+            - landing_pages
+            - transactional_emails
+            - smtp_api
+            - user_management
+            - sales_platform
+            - phone
+            - conversations
+            - senders_domains_dedicated_ips
+            - push_notifications
+          permissions:
+            type: array
+            description: Permissions for a given feature
+            items:
+              type: string
+              enum:
+              - create_edit_delete
+              - send_schedule_suspend
+              - view
+              - import
+              - export
+              - list_and_attributes
+              - forms
+              - activate_deactivate
+              - activate_deactivate_pause
+              - settings
+              - schedule_pause
+              - all
+              - logs
+              - access
+              - assign
+              - configure
+              - manage_owned_deals_tasks
+              - manage_others_deals_tasks
+              - manage_owned_companies
+              - manage_others_companies
+              - reports
+              - senders_management
+              - domains_management
+              - dedicated_ips_management
+              - send
+              - smtp
+              - api_keys
+              - authorized_ips
+              - none
+        description: Privileges given to the user
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 403: Access Denied'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /organization/user/update/permissions
+    auth: api-key header (never store the value).
+    operation_id: EditUserPermission
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

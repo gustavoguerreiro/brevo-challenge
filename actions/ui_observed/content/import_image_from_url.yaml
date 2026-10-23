@@ -1,0 +1,37 @@
+id: content.import_image_from_url
+domain: content
+summary: Import an image into the media library from a URL (Biblioteca > Multimédia).
+ui_label_pt: Multimédia > Importar por URL
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    url:
+      type: string
+      description: Image URL.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: https://content-library.brevo.com/content-hub
+    steps:
+    - Open Biblioteca > Multimédia (content-library.brevo.com/content-hub). The page offers upload, import by URL,
+      folders and AI image generation.
+    - Not used.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Capability named in the page notes; the dialog was not opened.

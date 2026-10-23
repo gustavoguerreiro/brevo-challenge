@@ -1,0 +1,45 @@
+id: custom_objects.delete_object_records
+domain: custom_objects
+summary: Delete object records (POST /objects/{object_type}/batch/delete).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Custom objects redirect to an upgrade page in the UI on Free (observed). The API calls were not tried; they
+    are expected to fail on Free.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'object_type' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    object_type:
+      description: Type not captured.
+      x-in: path
+    identifiers:
+      description: Type not captured.
+      x-in: body
+  required:
+  - object_type
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /objects/{object_type}/batch/delete
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

@@ -1,0 +1,16 @@
+id: email_campaigns.delete_campaign
+plan_availability:
+  free: available
+ui_label_pt: Excluir
+ui:
+  entry: /campaigns/listing
+  steps:
+  - Open Marketing > Campanhas and the row menu; the red entry 'Excluir' is last.
+  - 'Confirm in the dialog. NOT EXECUTED: the dialog was not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: Menu entry only.

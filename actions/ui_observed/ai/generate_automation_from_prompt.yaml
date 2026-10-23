@@ -1,0 +1,43 @@
+id: automations.generate_automation_from_prompt
+domain: automations
+summary: Describe an automation in one sentence and let AI build it (dialog 'Criar uma campanha' > 'Automatizada').
+ui_label_pt: Criar campanha > Automatizada > Comece com uma frase
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    channel:
+      type: string
+      description: Field 'canal'.
+    trigger_text:
+      type: string
+      description: Field 'algo acontecer'.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Press 'Criar campanha'. In the section 'Automatizada' choose 'Modo guiado' or 'Escreva seu próprio' and complete
+      the sentence 'Criar uma automação que envie uma mensagem pelo <canal> quando <algo acontecer>' (fields 'canal'
+      and 'algo acontecer'), then 'Gerar automação'.
+    - Not pressed. The result was not seen.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Dialog fields read; generation was not run. Always review the generated automation and keep it inactive
+    until a human approves.

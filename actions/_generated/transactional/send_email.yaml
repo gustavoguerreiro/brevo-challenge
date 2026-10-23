@@ -1,0 +1,293 @@
+id: transactional.send_email
+domain: transactional
+summary: Send a transactional email.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    sender:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the sender from which the emails will be sent. Maximum allowed characters are 70.
+            Applicable only when email is passed.
+        email:
+          type: string
+          format: email
+          description: Email of the sender from which the emails will be sent. Mandatory if sender id is not passed.
+        id:
+          type: integer
+          format: int64
+          description: Id of the sender from which the emails will be sent. In order to select a sender with specific
+            pool of IP’s, dedicated ip users shall pass id (instead of email). Mandatory if email is not passed.
+      description: Mandatory if `templateId` is not passed. Pass `name` (optional) and `email` OR `id` of sender
+        from which emails will be sent. `name` will be ignored if passed along with sender `id`. For example, {"name":"Mary
+        from MyShop" …
+      x-in: body
+    to:
+      type: array
+      description: Mandatory if messageVersions are not passed, ignored if messageVersions are passed. List of email
+        addresses and names (optional) of the recipients. For example, [{"name":"Jimmy", "email":"jimmy98@example.com"},
+        {"name":"Joe" …
+      items:
+        type: object
+        required:
+        - email
+        properties:
+          email:
+            type: string
+            format: email
+            description: Email address of the recipient
+          name:
+            type: string
+            description: Name of the recipient. Maximum allowed characters are 70.
+      x-in: body
+    bcc:
+      type: array
+      description: List of email addresses and names (optional) of the recipients in bcc
+      items:
+        type: object
+        required:
+        - email
+        properties:
+          email:
+            type: string
+            format: email
+            description: Email address of the recipient in bcc
+          name:
+            type: string
+            description: Name of the recipient in bcc. Maximum allowed characters are 70.
+      x-in: body
+    cc:
+      type: array
+      description: List of email addresses and names (optional) of the recipients in cc
+      items:
+        type: object
+        required:
+        - email
+        properties:
+          email:
+            type: string
+            format: email
+            description: Email address of the recipient in cc
+          name:
+            type: string
+            description: Name of the recipient in cc. Maximum allowed characters are 70.
+      x-in: body
+    htmlContent:
+      type: string
+      description: HTML body of the message ( Mandatory if 'templateId' is not passed, ignored if 'templateId' is
+        passed )
+      x-in: body
+    textContent:
+      type: string
+      description: Plain Text body of the message ( Ignored if 'templateId' is passed )
+      x-in: body
+    subject:
+      type: string
+      description: Subject of the message. Mandatory if 'templateId' is not passed
+      x-in: body
+    replyTo:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address in reply to
+        name:
+          type: string
+          description: Name in reply to. Maximum allowed characters are 70.
+      description: Email (required), along with name (optional), on which transactional mail recipients will be
+        able to reply back. For example, {"email":"ann6533@example.com", "name":"Ann"}.
+      x-in: body
+    attachment:
+      type: array
+      description: Pass the absolute URL (no local file) or the base64 content of the attachment along with the
+        attachment name (Mandatory if attachment content is passed). For example, `[{"url":"https://attachment.domain.com/myAttachmentFromUrl.jpg"
+        …
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            format: url
+            description: Absolute url of the attachment (no local file).
+          content:
+            type: string
+            format: byte
+            description: Base64 encoded chunk data of the attachment generated on the fly
+            pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          name:
+            type: string
+            description: Required if content is passed. Name of the attachment
+      x-in: body
+    headers:
+      type: object
+      description: Pass the set of custom headers (not the standard headers) that shall be sent along the mail headers
+        in the original email. 'sender.ip' header can be set (only for dedicated ip users) to mention the IP to
+        be used for sending transactional …
+      properties: {}
+      x-in: body
+    templateId:
+      type: integer
+      format: int64
+      description: Id of the template.
+      x-in: body
+    params:
+      type: object
+      description: Pass the set of attributes to customize the template. For example, {"FNAME":"Joe", "LNAME":"Doe"}.
+        It's considered only if template is in New Template Language format.
+      properties: {}
+      x-in: body
+    messageVersions:
+      type: array
+      description: You can customize and send out multiple versions of a mail. templateId can be customized only
+        if global parameter contains templateId. htmlContent and textContent can be customized only if any of the
+        two, htmlContent or textContent, is …
+      items:
+        type: object
+        required:
+        - to
+        properties:
+          to:
+            type: array
+            description: List of email addresses and names (_optional_) of the recipients. For example, [{"name":"Jimmy",
+              "email":"jimmy98@example.com"}, {"name":"Joe", "email":"joe@example.com"}]
+            items:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the recipient
+                name:
+                  type: string
+                  description: Name of the recipient. **Maximum allowed characters are 70**.
+          params:
+            type: object
+            description: Pass the set of attributes to customize the template. For example, {"FNAME":"Joe", "LNAME":"Doe"}.
+              It's considered only if template is in New Template Language format.
+            additionalProperties: {}
+          bcc:
+            type: array
+            description: List of email addresses and names (optional) of the recipients in bcc
+            items:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the recipient in bcc
+                name:
+                  type: string
+                  description: Name of the recipient in bcc. Maximum allowed characters are 70.
+          cc:
+            type: array
+            description: List of email addresses and names (optional) of the recipients in cc
+            items:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Email address of the recipient in cc
+                name:
+                  type: string
+                  description: Name of the recipient in cc. Maximum allowed characters are 70.
+          replyTo:
+            type: object
+            required:
+            - email
+            properties:
+              email:
+                type: string
+                format: email
+                description: Email address in reply to
+              name:
+                type: string
+                description: Name in reply to. Maximum allowed characters are 70.
+            description: Email (required), along with name (optional), on which transactional mail recipients will
+              be able to reply back. For example, {"email":"ann6533@example.com", "name":"Ann"}
+          subject:
+            type: string
+            description: Custom subject specific to message version
+          htmlContent:
+            type: string
+            description: HTML body of the message. **Mandatory if 'templateId' is not passed, ignored if 'templateId'
+              is passed**
+          textContent:
+            type: string
+            description: Plain Text body of the message. **Ignored if 'templateId' is passed**
+      x-in: body
+    tags:
+      type: array
+      description: Tag your emails to find them more easily
+      items:
+        type: string
+      x-in: body
+    scheduledAt:
+      type: string
+      format: date-time
+      description: UTC date-time on which the email has to schedule (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your
+        timezone in date-time format for scheduling. There can be an expected delay of +5 minutes in scheduled email
+        delivery. **Please note this …
+      x-in: body
+    batchId:
+      type: string
+      description: Valid UUIDv4 batch id to identify the scheduled batches transactional email. If not passed we
+        will create a valid UUIDv4 batch id at our end.
+      x-in: body
+outputs:
+  type: object
+  properties:
+    messageId:
+      type: string
+      description: Message ID of the transactional email sent
+    messageIds:
+      type: array
+      items:
+        type: string
+        description: version wise message ID's of the transactional emails sent
+side_effects:
+- 'Expected (from the API docs, not verified): Delivers real e-mail to the recipients and counts against the sending
+  allowance; scheduledAt delays it.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smtp/email
+    auth: api-key header (never store the value).
+    operation_id: sendTransacEmail
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Sends real e-mail. Can also
+  schedule with scheduledAt.'

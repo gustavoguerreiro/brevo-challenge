@@ -1,0 +1,125 @@
+id: conversations.update_message
+domain: conversations
+summary: Update a message sent by an agent.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: ID of the message
+    body:
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: edited message text
+      x-in: body
+  required:
+  - id
+outputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Message ID. It can be used for further manipulations with the message.
+    type:
+      type: string
+      description: '`"agent"` for agents’ messages, `"visitor"` for visitors’ messages.'
+      enum:
+      - agent
+      - visitor
+    text:
+      type: string
+      description: Message text or name of the attached file
+    visitorId:
+      type: string
+      description: visitor’s ID
+    agentId:
+      type: string
+      description: ID of the agent on whose behalf the message was sent (only in messages sent by an agent).
+    agentName:
+      type: string
+      description: Agent’s name as displayed to the visitor. Only in the messages sent by an agent.
+    createdAt:
+      type: integer
+      format: int64
+      description: Timestamp in milliseconds.
+      minimum: 0
+    isPushed:
+      type: boolean
+      description: '`true` for pushed messages'
+    receivedFrom:
+      type: string
+      description: In two-way integrations, messages sent via REST API can be marked with receivedFrom property
+        and then filtered out when received in a webhook to avoid infinite loop.
+    file:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Name of the file
+        size:
+          type: integer
+          format: int64
+          description: Size in bytes
+          minimum: 0
+        isImage:
+          type: boolean
+          description: Whether the file is an image
+        url:
+          type: string
+          format: url
+          description: URL of the file
+        imageInfo:
+          type: object
+          properties:
+            width:
+              type: integer
+              format: int64
+              description: Width of the image
+              minimum: 0
+            height:
+              type: integer
+              format: int64
+              description: height of the image
+              minimum: 0
+            previewUrl:
+              type: string
+              format: url
+              description: URL of the preview
+          description: image info is passed in case the file is an image
+  description: a Conversations message
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Returned when item not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /conversations/messages/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

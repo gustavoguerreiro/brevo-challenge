@@ -1,0 +1,69 @@
+id: crm.update_company_links
+domain: crm
+summary: Link and Unlink company with contacts and deals.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+    linkContactIds:
+      type: array
+      description: Contact ids for contacts to be linked with company
+      items:
+        type: integer
+        format: int64
+      x-in: body
+    unlinkContactIds:
+      type: array
+      description: Contact ids for contacts to be unlinked from company
+      items:
+        type: integer
+        format: int64
+      x-in: body
+    linkDealsIds:
+      type: array
+      description: Deals ids for deals to be linked with company
+      items:
+        type: string
+      x-in: body
+    unlinkDealsIds:
+      type: array
+      description: Deals ids for deals to be unlinked from company
+      items:
+        type: string
+      x-in: body
+  required:
+  - id
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: Returned when query params are invalid'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PATCH
+    path: /companies/link-unlink/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Links or unlinks contacts and
+  deals.'

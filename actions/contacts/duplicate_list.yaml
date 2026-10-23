@@ -1,0 +1,59 @@
+id: contacts.duplicate_list
+domain: contacts
+summary: Duplicate a list into a folder under a new name. UI only. Runs asynchronously.
+ui_label_pt: Duplicar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- 'The source list was empty in the only run, so whether its contacts are copied was not tested. Check the contact count of the copy before relying on it.'
+inputs:
+  type: object
+  required:
+  - list_id
+  - new_name
+  properties:
+    list_id:
+      type: integer
+    new_name:
+      type: string
+      maxLength: 255
+    target_folder:
+      type: string
+      default: Sua primeira pasta
+outputs:
+  type: object
+  properties:
+    list_id:
+      type: integer
+      description: New ID visible in the table. In the test the copy got ID 6 (ID 5 was skipped).
+side_effects:
+- Creates a new list (observed). Contact copying was not tested.
+postcondition_check: After a reload the table has a new row with the new name and ID. Do not trust the toast alone,
+  the copy is created asynchronously.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list-listing
+    steps:
+    - Open the Ações menu of the list row and choose 'Duplicar'.
+    - In the side panel (titled 'Lista duplicada') edit 'Nome da lista' (prefilled 'Duplicado de <name>', max 255)
+      and choose 'Pasta de destino'.
+    - Press the black button at the bottom (also labelled 'Lista duplicada'). A toast says 'Duplicar a lista...
+      Pode levar alguns minutos.' Reload after a few seconds.
+    internal_service: contacts-api-v2/lists/duplicate (a GET request)
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.duplicate_list.json
+  verified_via:
+  - ui
+  notes: Executed once on the test list (0 contacts). Whether contacts are copied was not tested because the list
+    was empty.

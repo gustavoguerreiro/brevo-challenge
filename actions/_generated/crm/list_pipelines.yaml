@@ -1,0 +1,61 @@
+id: crm.list_pipelines
+domain: crm
+summary: Get all pipelines.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: array
+  description: List of pipeline
+  items:
+    type: object
+    properties:
+      pipeline:
+        type: string
+        description: Pipeline id
+      pipeline_name:
+        type: string
+        description: Pipeline Name
+      stages:
+        type: array
+        description: List of stages
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Stage id
+            name:
+              type: string
+              description: Stage name
+          description: List of stages
+    description: List of stages
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Returned when pipeline id is invalid or does not exist'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /crm/pipeline/details/all
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

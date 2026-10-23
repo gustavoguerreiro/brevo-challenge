@@ -1,0 +1,46 @@
+id: ecommerce.install_plugin
+domain: ecommerce
+summary: Connect an online store by installing its Brevo plug-in ('Instalar plug-in' per platform on /ecommerce).
+ui_label_pt: E-commerce > Instalar plug-in
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    platform:
+      type: string
+      enum:
+      - WooCommerce
+      - Shopify
+      - PrestaShop
+      - Shopware 6
+      - Magento
+      - BigCommerce
+      - Shopware 5
+      - nopCommerce
+      - JTL-Shop
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /ecommerce
+    steps:
+    - 'Open Comércio > E-commerce (/ecommerce): ''Conecte sua loja à Brevo'', ''Escolher sua plataforma''.'
+    - Each platform has 'Instalar plug-in' and 'Ver guia de configuração' (not pressed). The plug-in is installed
+      on the store's side.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Platform list read live. The API's ecommerce.activate_ecommerce needs the app connected first.

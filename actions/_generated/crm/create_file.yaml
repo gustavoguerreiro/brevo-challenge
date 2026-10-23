@@ -1,0 +1,80 @@
+id: crm.create_file
+domain: crm
+summary: Upload a file to attach to a CRM contact, company or deal.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    file:
+      type: string
+      description: File data to create a file.
+    dealId:
+      type: string
+      description: Deal id linked to a file
+    contactId:
+      type: integer
+      format: int64
+      description: Contact id linked to a file
+    companyId:
+      type: string
+      description: Company id linked to a file
+  required:
+  - file
+outputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Name of uploaded file
+    authorId:
+      type: string
+      description: Account id of user which created the file
+    contactId:
+      type: integer
+      format: int64
+      description: Contact id of contact on which file is uploaded
+    dealId:
+      type: string
+      description: Deal id linked to a file
+    companyId:
+      type: string
+      description: Company id linked to a file
+    size:
+      type: integer
+      format: int64
+      description: Size of file in bytes
+    createdAt:
+      type: string
+      format: date-time
+      description: File created date/time
+  description: File data that is uploaded
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /crm/files
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Uploads a file and links it
+  to a contact, company or deal.'

@@ -1,0 +1,56 @@
+id: transactional.delete_template
+domain: transactional
+summary: Delete an inactive email template.
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'templateId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    templateId:
+      type: integer
+      format: int64
+      description: id of the template
+  required:
+  - templateId
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Template ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /smtp/templates/{templateId}
+    auth: api-key header (never store the value).
+    operation_id: deleteSmtpTemplate
+  ui:
+    entry: /templates/listing
+    steps:
+    - 'Open Marketing > Modelos and the row menu of an INACTIVE template; the red entry ''Excluir'' is last. Active
+      templates do not offer it: deactivate them first (content.deactivate_email_template).'
+    - 'Confirm in the dialog. NOT EXECUTED: the dialog was not seen.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'The UI rule matches the API summary ''Delete an inactive email template'': an active template shows no
+    Excluir entry. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account
+    had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/content.template_lifecycle.json
+related:
+- content.delete_email_template
+ui_label_pt: Excluir

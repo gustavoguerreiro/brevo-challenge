@@ -1,0 +1,52 @@
+id: loyalty.get_balance_limit
+domain: loyalty
+summary: Get balance limit (GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}).
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: The Loyalty module is gated to an Enterprise plan in the UI (observed). The API calls were not tried; they
+    are expected to fail on Free.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'pid' must identify an existing record.
+- Path value 'bdid' must identify an existing record.
+- Path value 'blid' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    pid:
+      description: Type not captured.
+      x-in: path
+    bdid:
+      description: Type not captured.
+      x-in: path
+    blid:
+      description: Type not captured.
+      x-in: path
+  required:
+  - bdid
+  - blid
+  - pid
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

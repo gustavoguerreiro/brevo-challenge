@@ -1,0 +1,48 @@
+id: automations.activate_automation
+domain: automations
+summary: Activate an automation so that it starts processing real contacts. External effect.
+ui_label_pt: Ativar automação
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- Every step is saved. A trigger exists.
+- A human has confirmed the audience, the messages and the exit conditions.
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+      description: Automation to activate.
+side_effects:
+- 'Expected (not observed): Contacts that match the trigger (only those added after activation for list triggers)
+  start flowing through every step, which can send e-mail or SMS, call webhooks, change attributes or delete contacts.'
+- 'Expected (not observed): Pausing later stops new entries but cannot recall messages already sent.'
+postcondition_check: 'Not observed. Expected: status moves from Desativada to Ativada in the list.'
+errors:
+- condition: Account suspended for marketing e-mail
+  symptom: 'Red banner on the list page: ''Sua conta foi suspensa para e-mails de marketing...''.'
+  recovery: Resolve the compliance review under Centro de entregabilidade; do not work around it.
+limits: []
+depends_on:
+- automations.create_automation
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/edit/<automation_id>
+    steps:
+    - Open the editor. Make sure every card is saved and no card shows 'Defina e salve essa ação.'.
+    - Press the black header button 'Ativar automação' (or the play icon on the list row).
+    - 'NOT EXECUTED: it would start real processing. The dialog (if any) and the status change were not observed.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: 'The button exists in the editor header and the play icon on the list row. Not pressed: marketing e-mail
+    is suspended in the test account and activation could run steps on real contacts.'

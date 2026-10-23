@@ -1,0 +1,47 @@
+id: content.list_email_templates
+domain: content
+summary: List marketing e-mail templates with status and last edit time.
+ui_label_pt: Marketing > Modelos
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    search:
+      type: string
+    status:
+      type: string
+      enum:
+      - all
+      - active
+      - inactive
+      default: all
+side_effects:
+- None; read only.
+postcondition_check: The rows match the filter and the counter shows 'x-y of n'.
+errors: []
+limits: []
+depends_on: []
+related: [transactional.list_templates]
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - Open Marketing > Modelos (/templates/listing). The tab 'E-mail' is the only one without a crown.
+    - 'Use ''Buscar modelos'' and the status filter (''Todos os status'', Ativo, Inativo). Each row shows the name,
+      #id, ''Última edição feita em ...'' and the status.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Read many times in the UI. Whether GET /smtp/templates returns the same objects as this list was not tested
+    (no API key).

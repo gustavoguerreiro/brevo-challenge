@@ -1,0 +1,19 @@
+id: account.list_domains
+plan_availability:
+  free: available
+ui_label_pt: Remetentes > Domínios
+ui:
+  entry: /senders/domain/list
+  steps:
+  - Open Remetentes, domínios e IPs dedicados, tab 'Domínios'. A new account shows the empty state 'Configurar seu
+    domínio'.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_via:
+  - ui
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.read_pages.json
+  notes: Read in the UI (empty state only). UI view read; field-level equality with the API response was not tested
+    (no API key).

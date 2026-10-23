@@ -1,0 +1,49 @@
+id: sms_whatsapp.schedule_sms_campaign
+domain: sms_whatsapp
+summary: Schedule an SMS campaign to be sent to real recipients ('Enviar agora ou mais tarde'). Not executed.
+ui_label_pt: Enviar agora ou mais tarde
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: SMS needs credits and set-up; the test account has none.
+preconditions:
+- SMS is configured on the account and has credits.
+- A human confirms recipients, content, sender and date.
+inputs:
+  type: object
+  properties:
+    campaign_id:
+      type: integer
+      description: SMS campaign.
+    scheduled_at:
+      type: string
+      description: 'When to send; pass a time zone. API: PUT /smsCampaigns/{id} with scheduledAt (sms_whatsapp.update_sms_campaign).'
+  required:
+  - campaign_id
+  - scheduled_at
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run. Expected: the campaign in /campaigns/listing changes from Rascunho to a scheduled
+  state with the chosen date. The dialog was never opened, so its labels are unknown.'
+errors: []
+limits: []
+depends_on:
+- sms_whatsapp.create_sms_campaign
+execution:
+  preferred: ui
+  ui:
+    entry: /sms-campaign/edit/<id>
+    steps:
+    - Open the campaign editor at /sms-campaign/edit/<id> and complete 'Conteúdo da mensagem', 'Remetente' and 'Destinatários'.
+    - 'Press the header button ''Enviar agora ou mais tarde'' (seen, not pressed) and choose a date. NOT EXECUTED:
+      the dialog was never opened.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Only the button was seen. A banner on the editor says SMS must be configured first ('Configurar SMS');
+    the account has 0 SMS credits.

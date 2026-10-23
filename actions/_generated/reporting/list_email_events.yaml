@@ -1,0 +1,176 @@
+id: reporting.list_email_events
+domain: reporting
+summary: Get all your transactional email activity (unaggregated events).
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 2500
+      description: Number limitation for the result returned
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Beginning point in the list to retrieve from.
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date of the report (YYYY-MM-DD). Must be lower than equal
+        to endDate
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date of the report (YYYY-MM-DD). Must be greater than
+        equal to startDate
+    days:
+      type: integer
+      format: int64
+      description: Number of days in the past including today (positive integer). Not compatible with 'startDate'
+        and 'endDate'
+    email:
+      type: string
+      format: email
+      description: Filter the report for a specific email addresses
+    event:
+      type: string
+      enum:
+      - bounces
+      - hardBounces
+      - softBounces
+      - delivered
+      - spam
+      - requests
+      - opened
+      - clicks
+      - invalid
+      - deferred
+      - blocked
+      - unsubscribed
+      - error
+      - loadedByProxy
+      description: Filter the report for a specific event type
+    tags:
+      type: string
+      description: Filter the report for tags (serialized and urlencoded array)
+    messageId:
+      type: string
+      description: Filter on a specific message id
+    templateId:
+      type: integer
+      format: int64
+      description: Filter on a specific template id
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    events:
+      type: array
+      items:
+        type: object
+        required:
+        - date
+        - email
+        - event
+        - messageId
+        properties:
+          email:
+            type: string
+            format: email
+            description: Email address which generates the event
+          date:
+            type: string
+            description: UTC date-time on which the event has been generated
+          subject:
+            type: string
+            description: Subject of the event
+          messageId:
+            type: string
+            description: Message ID which generated the event
+          event:
+            type: string
+            description: Event which occurred
+            enum:
+            - bounces
+            - hardBounces
+            - softBounces
+            - delivered
+            - spam
+            - requests
+            - opened
+            - clicks
+            - invalid
+            - deferred
+            - blocked
+            - unsubscribed
+            - error
+            - loadedByProxy
+          reason:
+            type: string
+            description: Reason of bounce (only available if the event is hardbounce or softbounce)
+          tag:
+            type: string
+            description: Tag of the email which generated the event
+          ip:
+            type: string
+            description: IP from which the user has opened the email or clicked on the link (only available if the
+              event is opened or clicks)
+          link:
+            type: string
+            description: The link which is sent to the user (only available if the event is requests or opened or
+              clicks)
+          from:
+            type: string
+            format: email
+            description: Sender email from which the emails are sent
+          templateId:
+            type: integer
+            format: int64
+            description: ID of the template (only available if the email is template based)
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/statistics/events
+    auth: api-key header (never store the value).
+    operation_id: getEmailEventReport
+  ui:
+    entry: /transactional/email/logs
+    steps:
+    - Open Transacional > E-mail > Logs (/transactional/email/logs).
+    - Buttons 'Atualizar' and 'Baixar CSV'; filter 'Destinatário (Para)' with a 'prefix' mode and 'Mais filtros'.
+      The page says it shows all events of transactional e-mails.
+    - The test account showed '0 logs' (nothing was sent), so the columns of a populated table were not seen.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'UI page opened and read while empty. The action itself (API) was not run. Generated from the Brevo public
+    API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live developer-site
+    spec read on 2026-10-22.'
+  evidence: evidence/ui.pass6_misc_pages.json
+ui_label_pt: Transacional > E-mail > Logs

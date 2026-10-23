@@ -1,0 +1,34 @@
+id: account.configure_sending_cadence
+domain: account
+summary: Edit the sending cadence (tab 'Cadência de envio' of Remetentes, domínio, IPs). Only the tab was seen.
+ui_label_pt: Remetentes > Cadência de envio
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /senders/list
+    steps:
+    - Open the settings gear > Remetentes, domínio, IPs and the tab 'Cadência de envio'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: The tab name was seen; its content was not read.

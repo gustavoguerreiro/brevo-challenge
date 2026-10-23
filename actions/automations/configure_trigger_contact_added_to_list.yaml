@@ -1,0 +1,60 @@
+id: automations.configure_trigger_contact_added_to_list
+domain: automations
+summary: Set the automation entry trigger "Contato adicionado à lista" (contact added to list) on a draft automation.
+ui_label_pt: Contato adicionado à lista
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An automation draft exists and its editor is open (automations.create_automation).
+- At least one list exists (contacts.create_list).
+- The trigger only counts contacts added to the list AFTER the automation is activated (note shown in the trigger
+  panel).
+inputs:
+  type: object
+  required:
+  - automation_id
+  - list_ids
+  properties:
+    automation_id:
+      type: integer
+    list_ids:
+      type: array
+      minItems: 1
+      items:
+        type: integer
+      description: 'UI: multi-select with checkboxes.'
+outputs:
+  type: object
+  properties:
+    step_id:
+      type: integer
+      description: 'Canvas step numbering, the first step is #1.'
+side_effects:
+- 'Observed: nothing ran; the automation stayed inactive.'
+postcondition_check: 'The canvas step reads ''Lista <name> - #<id>'' and the header shows ''Salva hoje às <hora>''.'
+errors: []
+limits: []
+depends_on:
+- automations.create_automation
+- contacts.create_list
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/edit/<id>
+    steps:
+    - In the editor's right panel open the tab of triggers (group 'Contatos') and drag 'Contato adicionado à lista'
+      onto the empty canvas. The drop may take a moment to register.
+    - In the panel that opens, open the list selector and tick the list(s).
+    - Press 'Salvar'. The panel moves on to the tab 'Ações'.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/automations.create_automation.json
+  notes: Executed with list ZZ_TEST_list_1 (#3). The automation was never activated.

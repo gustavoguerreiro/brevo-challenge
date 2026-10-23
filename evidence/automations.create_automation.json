@@ -1,0 +1,49 @@
+{
+  "action": "automations.create_automation",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR. The automation was never activated.",
+  "steps_run": [
+    "Opened Automações (/automation/onboarding, then /automation/automations with tabs Todos, Ativada, Pausados, Desativada)",
+    "Pressed 'Criar automação'; modal offers 'Criar do zero', an AI prompt (Modo guiado / Escreva seu próprio) and pre-built automations",
+    "Chose 'Criar do zero'; landed on /automation/edit/1; draft named 'Automação #1', status Desativada",
+    "Dragged trigger 'Contato adicionado à lista' onto the canvas (step #1); in its panel chose list ZZ_TEST_list_1 (#3) in a multi-select; pressed 'Salvar'",
+    "Canvas step now reads 'Lista ZZ_TEST_list_1 - #3'; header autosave text 'Salva hoje às 16:48'; side panel switched to the Ações tab"
+  ],
+  "results": [
+    "Automation ID 1 exists, inactive",
+    "Trigger panel note: 'Esse gatilho considera somente os contatos adicionados à lista após a automação ser ativada'"
+  ],
+  "editor_structure": {
+    "header": ["name", "undo/redo", "Ativar automação (not pressed)", "Testar (not pressed)", "Sair do editor"],
+    "left_rail": ["Editor", "Configurações", "Atividade"]
+  },
+  "palette_observed_in_this_free_account": {
+    "triggers_22": {
+      "Contatos": ["Contato adicionado à lista", "Contato removido da lista", "O contato atende a filtros personalizados", "O contato está em um segmento", "Aniversário", "Contato adicionado manualmente"],
+      "Formulários": ["Formulário enviado"],
+      "WhatsApp": ["Resposta do WhatsApp recebida"],
+      "E-mail": ["E-mail aberto", "Link clicado em um e-mail", "Cancelamento da assinatura de e-mails"],
+      "Oportunidades": ["Oportunidade criada", "Etapa da oportunidade atualizada", "Tarefa criada", "Tarefa concluída"],
+      "Meetings": ["Reunião agendada", "Reunião iniciada", "Reunião cancelada"],
+      "Telefone": ["Chamada encerrada"],
+      "Website": ["Página da web visitada"],
+      "Personalizado": ["Evento personalizado"],
+      "Coupon": ["Unique coupon sent"]
+    },
+    "actions_19": {
+      "Contatos": ["Adicionar contato a lista", "Remover contato de lista", "Atualizar atributo de contato", "Colocar contato em lista bloqueada", "Atribuir usuário a contato", "Excluir um contato", "Atualizar atributo de empresa"],
+      "Mensagens": ["Enviar e-mail", "Enviar SMS", "E-mail individual de caixa de correio", "Mensagem WhatsApp", "Notificar por e-mail"],
+      "Webhooks": ["Chamar webhook"],
+      "Oportunidades": ["Criar tarefa", "Atualizar atributo de oportunidades", "Duplicar oportunidade", "Criar oportunidade"],
+      "Automations": ["Iniciar outra automação", "Redirecionar contato para outra etapa"]
+    },
+    "rules_4": ["Atraso de tempo", "Divisão condicional", "Divisão percentual", "Espere até que um evento aconteça"]
+  },
+  "account_state_banner": "Red banner on the automation list: 'Sua conta foi suspensa para e-mails de marketing. Por isso, você não pode enviar e-mails usando nossa plataforma de automação. Revise a página de Conformidade...'. This means 'Enviar e-mail' steps could not run in this account even if the automation were activated.",
+  "limitations": [
+    "Only one trigger was configured. Action and rule steps were seen in the palette but not dropped on the canvas.",
+    "The trigger-save request body was not captured.",
+    "The 22/19/4 palette is what this free account shows. The help center documents more triggers and actions (e-commerce, conversations, loyalty, payment, push, wallet), which are hidden here."
+  ],
+  "test_data_left_in_account": "draft automation 'Automação #1' (ID 1, inactive, trigger on list ZZ_TEST_list_1), to be removed by the account owner"
+}

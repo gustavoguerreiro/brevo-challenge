@@ -1,0 +1,48 @@
+id: contacts.delete_folder
+domain: contacts
+summary: Delete a folder (and all its lists).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'folderId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    folderId:
+      type: integer
+      format: int64
+      description: Id of the folder
+  required:
+  - folderId
+side_effects:
+- 'Expected (from the API docs, not verified): Lists inside the folder are deleted too.'
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Folder ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /contacts/folders/{folderId}
+    auth: api-key header (never store the value).
+    operation_id: deleteFolder
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Deletes the lists inside the
+  folder (contacts themselves stay).'

@@ -1,0 +1,136 @@
+id: reporting.list_sms_events
+domain: reporting
+summary: Get all your SMS activity (unaggregated events).
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date (YYYY-MM-DD) of the report
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date (YYYY-MM-DD) of the report
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document of the page
+    days:
+      type: integer
+      format: int64
+      description: Number of days in the past including today (positive integer). Not compatible with 'startDate'
+        and 'endDate'
+    phoneNumber:
+      type: string
+      description: Filter the report for a specific phone number
+    event:
+      type: string
+      enum:
+      - bounces
+      - hardBounces
+      - softBounces
+      - delivered
+      - sent
+      - accepted
+      - unsubscription
+      - replies
+      - blocked
+      - rejected
+      - skipped
+      description: Filter the report for specific events
+    tags:
+      type: string
+      description: Filter the report for specific tags passed as a serialized urlencoded array
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    events:
+      type: array
+      items:
+        type: object
+        properties:
+          phoneNumber:
+            type: string
+            description: Phone number which has generated the event
+          date:
+            type: string
+            description: UTC date-time on which the event has been generated
+          messageId:
+            type: string
+            description: Message ID which generated the event
+          event:
+            type: string
+            description: Event which occurred
+            enum:
+            - bounces
+            - hardBounces
+            - softBounces
+            - delivered
+            - sent
+            - accepted
+            - unsubscription
+            - replies
+            - blocked
+            - rejected
+            - skipped
+          reason:
+            type: string
+            description: Reason of bounce (only available if the event is hardbounce or softbounce)
+          reply:
+            type: string
+          tag:
+            type: string
+            description: Tag of the SMS which generated the event
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /transactionalSMS/statistics/events
+    auth: api-key header (never store the value).
+    operation_id: getSmsEvents
+  ui:
+    entry: /transactional/sms/logs
+    steps:
+    - Open Transacional > SMS > Logs (/transactional/sms/logs).
+    - Buttons 'Atualizar' and 'Download'; filter 'Remetente (De)' with a 'prefix' mode and 'Mais filtros'.
+    - The test account showed '0 logs' (nothing was sent), so the columns of a populated table were not seen.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'UI page opened and read while empty. The action itself (API) was not run. Generated from the Brevo public
+    API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live developer-site
+    spec read on 2026-10-22.'
+  evidence: evidence/ui.pass6_misc_pages.json
+ui_label_pt: Transacional > SMS > Logs

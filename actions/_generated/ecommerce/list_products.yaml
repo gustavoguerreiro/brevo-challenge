@@ -1,0 +1,176 @@
+id: ecommerce.list_products
+domain: ecommerce
+summary: Return all your products.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document in the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+    ids:
+      type: array
+      items:
+        type: string
+      description: Filter by product ids
+    name:
+      type: string
+      description: Filter by product name, minimum 3 characters should be present for search
+    price[lte]:
+      type: number
+      description: Price filter for products less than and equals to particular amount
+    price[gte]:
+      type: number
+      description: Price filter for products greater than and equals to particular amount
+    price[lt]:
+      type: number
+      description: Price filter for products less than particular amount
+    price[gt]:
+      type: number
+      description: Price filter for products greater than particular amount
+    price[eq]:
+      type: number
+      description: Price filter for products equals to particular amount
+    price[ne]:
+      type: number
+      description: Price filter for products not equals to particular amount
+    categories:
+      type: array
+      items:
+        type: string
+      description: Filter by category ids
+    modifiedSince:
+      type: string
+      description: Filter (urlencoded) the orders modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ).
+        **Prefer to pass your timezone in date-time format for accurate result.**
+    createdSince:
+      type: string
+      description: Filter (urlencoded) the orders created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ).
+        **Prefer to pass your timezone in date-time format for accurate result.**
+outputs:
+  type: object
+  required:
+  - count
+  - products
+  properties:
+    products:
+      type: array
+      items:
+        type: object
+        allOf:
+        - type: object
+          required:
+          - createdAt
+          - id
+          - modifiedAt
+          - name
+          - s3ThumbAnalytics
+          - s3ThumbEditor
+          properties:
+            id:
+              type: string
+              format: string
+              description: Product ID for which you requested the details
+            name:
+              type: string
+              format: string
+              description: Name of the product for which you requested the details
+            createdAt:
+              type: string
+              description: Creation UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)
+            modifiedAt:
+              type: string
+              description: Last modification UTC date-time of the product (YYYY-MM-DDTHH:mm:ss.SSSZ)
+            url:
+              type: string
+              format: string
+              description: URL to the product
+            imageUrl:
+              type: string
+              format: string
+              description: Absolute URL to the cover image of the product
+            sku:
+              type: string
+              format: string
+              description: Product identifier from the shop
+            price:
+              type: number
+              format: float
+              description: Price of the product
+            categories:
+              type: array
+              description: Category ID-s of the product
+              items:
+                type: string
+            parentId:
+              type: string
+              format: string
+              description: Parent product id of the product
+            s3Original:
+              type: string
+              format: string
+              description: S3 url of original image
+            s3ThumbAnalytics:
+              type: string
+              format: string
+              description: S3 thumbnail url of original image in 120x120 dimension for analytics section
+            metaInfo:
+              type: object
+              description: Meta data of product such as description, vendor, producer, stock level, etc.
+              properties: {}
+            s3ThumbEditor:
+              type: string
+              format: string
+              description: S3 thumbnail url of original image in 600x400 dimension for editor section
+            isDeleted:
+              type: boolean
+              format: string
+              description: product deleted from the shop's database
+    count:
+      type: integer
+      format: int64
+      description: Number of products
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /products
+    auth: api-key header (never store the value).
+    operation_id: getProducts
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

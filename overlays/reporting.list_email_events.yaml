@@ -1,0 +1,14 @@
+id: reporting.list_email_events
+ui_label_pt: Transacional > E-mail > Logs
+ui:
+  entry: /transactional/email/logs
+  steps:
+    - "Open Transacional > E-mail > Logs (/transactional/email/logs)."
+    - "Buttons 'Atualizar' and 'Baixar CSV'; filter 'Destinatário (Para)' with a 'prefix' mode and 'Mais filtros'. The page says it shows all events of transactional e-mails."
+    - "The test account showed '0 logs' (nothing was sent), so the columns of a populated table were not seen."
+provenance:
+  sources: [ui]
+  verification: documented_only
+  verified_at: "2026-10-22"
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: "UI page opened and read while empty. The action itself (API) was not run."

@@ -1,0 +1,66 @@
+id: content.upload_gallery_image
+domain: content
+summary: Upload an image to your account's image gallery.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    imageUrl:
+      type: string
+      description: The absolute url of the image (no local file). Maximum allowed size for image is 2MB. Allowed
+        extensions for images are - jpeg, jpg, png, bmp, gif.
+      x-in: body
+    name:
+      type: string
+      description: Name of the image.
+      x-in: body
+  required:
+  - imageUrl
+outputs:
+  type: object
+  required:
+  - url
+  properties:
+    url:
+      type: string
+      format: string
+      description: URL of the image uploaded
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /emailCampaigns/images
+    auth: api-key header (never store the value).
+    operation_id: uploadImageToGallery
+  ui:
+    entry: /content-hub
+    steps:
+    - 'Open Biblioteca > Multimídia (page title ''Mídia''). Press ''Adicionar arquivo'' (black button, top right).
+      Entries: ''Carregar'' (file picker) and ''Importar via URL''.'
+    - '''Criar pasta'' creates a media folder; ''Gerar imagem'' makes an image with AI. NOT EXECUTED: nothing was
+      uploaded.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Whether the UI library and the API gallery are the same store was not tested. Generated from the Brevo
+    public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live
+    developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+ui_label_pt: Biblioteca > Multimídia

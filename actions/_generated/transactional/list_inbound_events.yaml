@@ -1,0 +1,95 @@
+id: transactional.list_inbound_events
+domain: transactional
+summary: Get the list of all the events for the received emails.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    sender:
+      type: string
+      description: Email address of the sender.
+    startDate:
+      type: string
+      format: datetime
+      description: Mandatory if endDate is used. Starting date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) from which
+        you want to fetch the list. Maximum time period that can be selected is one month.
+    endDate:
+      type: string
+      format: datetime
+      description: Mandatory if startDate is used. Ending date (YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.SSSZ) till which
+        you want to fetch the list. Maximum time period that can be selected is one month.
+    limit:
+      type: integer
+      format: int64
+      default: 100
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation
+outputs:
+  type: object
+  properties:
+    events:
+      type: array
+      items:
+        type: object
+        required:
+        - date
+        - recipient
+        - sender
+        - uuid
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            description: UUID that can be used to fetch additional data
+          date:
+            type: string
+            format: date-time
+            description: Date when email was received on SMTP relay
+          sender:
+            type: string
+            format: email
+            description: Sender’s email address
+          recipient:
+            type: string
+            format: email
+            description: Recipient’s email address
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /inbound/events
+    auth: api-key header (never store the value).
+    operation_id: getInboundEmailEvents
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

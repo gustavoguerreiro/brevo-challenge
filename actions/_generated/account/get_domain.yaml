@@ -1,0 +1,99 @@
+id: account.get_domain
+domain: account
+summary: Validate domain configuration.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'domainName' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    domainName:
+      type: string
+      description: Domain name
+  required:
+  - domainName
+outputs:
+  type: object
+  required:
+  - authenticated
+  - dns_records
+  - domain
+  - verified
+  properties:
+    domain:
+      type: string
+      description: Domain
+    verified:
+      type: boolean
+      description: Status of domain verification (true=verified, false=non verified)
+    authenticated:
+      type: boolean
+      description: Status of domain authentication (true=authenticated, false=non authenticated)
+    dns_records:
+      type: object
+      properties:
+        dkim_record:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+        brevo_code:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+        dmarc_record:
+          type: object
+          properties:
+            type:
+              type: string
+            value:
+              type: string
+            host_name:
+              type: string
+            status:
+              type: boolean
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Domain does not exist'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /senders/domains/{domainName}
+    auth: api-key header (never store the value).
+    operation_id: getDomainConfiguration
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Returns the DNS records to
+  configure.'

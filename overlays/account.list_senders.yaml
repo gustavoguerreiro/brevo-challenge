@@ -1,0 +1,19 @@
+id: account.list_senders
+plan_availability:
+  free: available
+ui_label_pt: Remetentes
+ui:
+  entry: /senders/list
+  steps:
+  - Open Configurações > Remetentes, domínios e IPs dedicados (/senders/list), tab 'Remetentes'. Each row shows
+    state, tags and links Editar, Endereço IP, Assinatura DKIM, DMARC.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_via:
+  - ui
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.read_pages.json
+  notes: Read in the UI. UI view read; field-level equality with the API response was not tested (no API key). The
+    sender address is deliberately not recorded.

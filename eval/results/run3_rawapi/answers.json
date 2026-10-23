@@ -1,0 +1,878 @@
+[
+ {
+  "task_id": "T01",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/lists/{listId}",
+   "GET /contacts/attributes",
+   "POST /contacts",
+   "GET /contacts/{identifier}"
+  ],
+  "route": {},
+  "inputs": {
+   "listId": 12,
+   "email": "maria@example.com",
+   "attributes": {
+    "<first-name attribute name from GET /contacts/attributes, usually FIRSTNAME>": "Maria"
+   },
+   "listIds": [
+    12
+   ],
+   "updateEnabled": false,
+   "identifier": "maria@example.com"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Do not assume the first-name attribute is called FIRSTNAME: older accounts use FNAME or NAME. GET /contacts/attributes shows the real name; a wrong name is rejected or ignored.",
+   "Check that list 12 is really 'Newsletter' before writing.",
+   "If maria@example.com already exists, POST /contacts returns a duplicate error; in that case update it (PUT /contacts/{identifier} with listIds) instead of creating again.",
+   "If she is blocklisted or unsubscribed, adding her to the list will not make her receive e-mail. Adding via API also records no consent: make sure she opted in (LGPD)."
+  ],
+  "summary": "Create the contact Maria with the correct first-name attribute and put her in list 12 (Newsletter). Low risk and reversible, but the owner must create an API key first."
+ },
+ {
+  "task_id": "T02",
+  "decision": "act",
+  "actions": [
+   "UI: Contatos > Segmentos > Criar segmento (Contacts > Segments > Create a segment)",
+   "UI: Name the segment (for example 'E-mail contem acme') and add the condition: contact attribute E-mail > contains > acme",
+   "UI: Check the preview count of matching contacts, then Save"
+  ],
+  "route": {},
+  "inputs": {
+   "segment_name": "<name, e.g. 'E-mail contains acme'>",
+   "condition": {
+    "attribute": "EMAIL",
+    "operator": "contains",
+    "value": "acme"
+   }
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Not possible through the public API: the only segment operation is GET /contacts/segments (list). There is no create, update or delete for segments, so this is web app only.",
+   "'contains acme' also matches the local part and unrelated domains (for example acmeindustries.com). Ask if only the @acme domain is meant.",
+   "Segment availability and its condition options on the Free plan are unverified; the app will show an upgrade prompt if it is gated.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "The public API cannot create segments (read-only listing only). It can be done in the web app under Contatos > Segmentos with an E-mail 'contains' acme condition."
+ },
+ {
+  "task_id": "T03",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /emailCampaigns/{campaignId}",
+   "GET /account",
+   "POST /emailCampaigns/{campaignId}/sendNow"
+  ],
+  "route": {},
+  "inputs": {
+   "campaignId": 7
+  },
+  "needs_confirmation": [
+   "POST /emailCampaigns/{campaignId}/sendNow"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Sending cannot be recalled. Show the person the campaign name, subject, sender and recipient count (from the GET) and get an explicit yes first.",
+   "Verify that id 7 is named 'Black Friday' and is a draft with sender, subject, content and recipient lists; otherwise the call errors (or re-sends something unintended).",
+   "Free plan limit is 300 e-mails per day with the Brevo logo; an audience above that cannot be fully sent in one go. Check recipient count against GET /account.",
+   "Black Friday 2026 is on 27 Nov and today is 22 Oct, so 'right now' may be a month early: confirm that is intended. A test send (POST /emailCampaigns/{campaignId}/sendTest) is a safer first step."
+  ],
+  "summary": "Sending campaign 7 now is irreversible and goes to real recipients, so I would verify it and ask for a clear yes before calling sendNow."
+ },
+ {
+  "task_id": "T04",
+  "decision": "act",
+  "actions": [
+   "UI: Contatos > Segmentos (Contacts > Segments); open the segment whose id is 4 (id is in the page URL; check the name too)",
+   "UI: Edit the segment (Editar), change only the name to 'VIP customers', keep the conditions unchanged, Save"
+  ],
+  "route": {},
+  "inputs": {
+   "segment_id": 4,
+   "new_name": "VIP customers"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Not possible through the public API: there is no update for segments (GET /contacts/segments is read-only). Web app only.",
+   "Do not alter the conditions while renaming; saving the edit form recalculates the segment.",
+   "Campaigns or automations that use the segment keep working after a rename, but check the id/name pair before saving so the right segment is renamed.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Segments cannot be renamed through the API; I would rename segment 4 to 'VIP customers' in the web app under Contatos > Segmentos, leaving its conditions untouched."
+ },
+ {
+  "task_id": "T05",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/{identifier}",
+   "DELETE /contacts/{identifier}"
+  ],
+  "route": {},
+  "inputs": {
+   "identifier": "old@example.com"
+  },
+  "needs_confirmation": [
+   "DELETE /contacts/{identifier}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Permanent: the contact and its history/statistics are removed and Brevo cannot restore them. Get an explicit yes.",
+   "If the real goal is just to stop e-mailing, blocklisting (PUT /contacts/{identifier} with emailBlacklisted true) is reversible and keeps a suppression record; if the address is re-imported later after deletion it becomes mailable again.",
+   "Show the contact's lists first (from the GET) so the person knows what is lost. The identifier is the e-mail address, URL-encoded."
+  ],
+  "summary": "Deleting old@example.com is permanent, so I would look the contact up, show what will be lost, and only delete after an explicit yes."
+ },
+ {
+  "task_id": "T06",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Automação (Automations); find workflow 5 (check name and id in the URL)",
+   "UI: '...' menu of that workflow > Duplicar (Duplicate)",
+   "UI: Open the copy, review trigger, lists, e-mails and sender, and confirm it is saved as inactive",
+   "UI: Switch the copy on (Ativar)"
+  ],
+  "route": {},
+  "inputs": {
+   "source_automation_id": 5,
+   "copy_name": "<original name> (copy)"
+  },
+  "needs_confirmation": [
+   "UI: Switch the copy on (Ativar)"
+  ],
+  "warnings": [
+   "There is no automation endpoint in the public API; everything is done in the web app.",
+   "The copy has the same trigger and lists as the original: with both active, the same contact may get every e-mail twice. Ask whether the original should be paused or the copy edited first.",
+   "Activating starts real e-mails to contacts that meet the trigger, so it needs a human yes after the review.",
+   "Free plan limits on workflows (number active, contacts per month, available steps) are unverified; activation may be refused with an upgrade prompt.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "I can duplicate automation 5 in the web app (no API for it) and review the copy, but I would ask before switching it on because it starts real e-mails and may overlap with the original."
+ },
+ {
+  "task_id": "T07",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Automação > Criar um fluxo de trabalho (Create a workflow) > start from scratch",
+   "UI: Trigger: contact added to a list > list 3",
+   "UI: Action: add contact to a list > list 6",
+   "UI: Name it and Save, leaving it inactive (do not activate)",
+   "UI: Switch the workflow on (Ativar)"
+  ],
+  "route": {},
+  "inputs": {
+   "trigger": {
+    "type": "contact added to list",
+    "listId": 3
+   },
+   "action": {
+    "type": "add to list",
+    "listId": 6
+   },
+   "initial_status": "inactive"
+  },
+  "needs_confirmation": [
+   "UI: Switch the workflow on (Ativar)"
+  ],
+  "warnings": [
+   "No automation endpoint exists in the public API; web app only.",
+   "'Leave everything ready' is ambiguous (built but off, or switched on). I would build it inactive and ask before activating.",
+   "The trigger only fires for contacts who join list 3 after activation; current members of list 3 are not moved. A one-off backfill would be a separate step (POST /contacts/lists/{listId}/contacts/add) and needs its own yes.",
+   "Check that nothing on list 6 triggers a workflow that adds people back to list 3 (loop). Free plan automation limits and whether the 'add to list' action is allowed are unverified.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "I would build the 'joins list 3 -> add to list 6' workflow in the web app and leave it inactive, then ask whether you want it switched on, since 'ready' is ambiguous."
+ },
+ {
+  "task_id": "T08",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /smtp/templates/{templateId}",
+   "PUT /smtp/templates/{templateId}",
+   "GET /smtp/templates/{templateId}"
+  ],
+  "route": {},
+  "inputs": {
+   "templateId": 9,
+   "htmlContent": "<p>Welcome!</p>",
+   "isActive": true
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Send the body and isActive:true in the same PUT; a template cannot be active without content.",
+   "First GET the template and check it really has no body yet (the person says it only has name and subject); if it already has content, stop and ask, because the PUT would overwrite it.",
+   "An active template needs a verified sender. If the template has none, the update is rejected: ask which sender to use rather than guessing.",
+   "Activation sends nothing by itself, but any integration or automation already pointing at template 9 will start using the one-line body 'Welcome!'."
+  ],
+  "summary": "Set the body of template 9 to <p>Welcome!</p> and activate it in one update, after checking it is still empty and has a sender."
+ },
+ {
+  "task_id": "T09",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /smtp/templates/{templateId}",
+   "GET /smtp/emails",
+   "PUT /smtp/templates/{templateId}",
+   "DELETE /smtp/templates/{templateId}"
+  ],
+  "route": {},
+  "inputs": {
+   "templateId": 3,
+   "deactivate_body": {
+    "isActive": false
+   },
+   "usage_check": {
+    "templateId": 3,
+    "startDate": "<last 30 days>"
+   }
+  },
+  "needs_confirmation": [
+   "PUT /smtp/templates/{templateId}",
+   "DELETE /smtp/templates/{templateId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "DELETE /smtp/templates/{templateId} only works on inactive templates, so the active template must be deactivated first; deactivating can break whatever uses it.",
+   "Check recent use first (GET /smtp/emails filtered by templateId, plus automations/integrations in the app); any live API call or automation using id 3 will fail afterwards.",
+   "Deletion is permanent; offer to save the HTML (GET /smtp/templates/{templateId}) before deleting. Confirm the name is 'Old promo'."
+  ],
+  "summary": "The template is active and the API only deletes inactive ones, so it needs deactivate then delete; both are destructive, so I would check usage and get a yes first."
+ },
+ {
+  "task_id": "T10",
+  "decision": "act",
+  "actions": [
+   "UI: Contatos > Listas (Contacts > Lists); open the list with id 3 (check the id in the URL and the current name)",
+   "UI: Edit the list name (Editar / lapis icon), type 'Customers 2026', Save"
+  ],
+  "route": {},
+  "inputs": {
+   "list_id": 3,
+   "new_name": "Customers 2026"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The person asked for the web app, so no API call is used and no API key is needed.",
+   "The web app shows names, not always ids: confirm that the list opened is the one with id 3 before saving.",
+   "Renaming does not change members, forms or automations that use the list.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Rename list 3 to 'Customers 2026' directly in the web app under Contatos > Listas. Harmless and reversible."
+ },
+ {
+  "task_id": "T11",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/attributes",
+   "POST /contacts/attributes/{attributeCategory}/{attributeName}"
+  ],
+  "route": {},
+  "inputs": {
+   "attributeCategory": "normal",
+   "attributeName": "BIRTHDAY",
+   "createAttribute": {
+    "type": "date"
+   }
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Attribute names are uppercase; type cannot be changed later (only delete and recreate, which loses the stored values). Check with GET /contacts/attributes that BIRTHDAY does not already exist.",
+   "Date format matters when filling it: the API expects ISO dates (YYYY-MM-DD, to verify) while CSV imports follow the format picked at import (Brazilian accounts usually use dd-mm-yyyy).",
+   "Same thing in the web app: Contatos > Configuracoes > Atributos de contato > Adicionar atributo (labels unverified)."
+  ],
+  "summary": "Create a 'normal' contact attribute BIRTHDAY of type date. Low risk, and it can be deleted again if wrong."
+ },
+ {
+  "task_id": "T12",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Marketing > Paginas de destino (Landing pages) > Criar uma pagina de destino",
+   "UI: Pick a spring-promotion template, fill in headline, offer, dates, images and call to action with the content the person approves",
+   "UI: Connect the sign-up form to the target list and add the consent text; Save as draft",
+   "UI: Preview on desktop and mobile and send the preview link to the person",
+   "UI: Publish the page"
+  ],
+  "route": {},
+  "inputs": {
+   "page_name": "Spring promotion",
+   "content": "<offer, copy, dates, images from the person>",
+   "signup_list_id": "<list to collect sign-ups>"
+  },
+  "needs_confirmation": [
+   "UI: Publish the page"
+  ],
+  "warnings": [
+   "There is no landing page endpoint in the public API; this is web app only.",
+   "Missing inputs: offer details, copy, images, validity dates, and which list should receive sign-ups. Ask before filling anything public.",
+   "Publishing makes a public page on a Brevo-hosted address (Free plan pages carry Brevo branding); availability and number of pages on the Free plan are unverified.",
+   "Add a consent checkbox/privacy link for LGPD if the form collects data.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Landing pages are web app only. I would build a draft for the spring promotion, show a preview, and publish only after your approval and the missing content."
+ },
+ {
+  "task_id": "T13",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /emailCampaigns",
+   "Local step (no API): add up statistics.globalStats.sent over every returned campaign for the total, and write one row per campaign to a CSV file"
+  ],
+  "route": {},
+  "inputs": {
+   "type": "classic",
+   "status": "sent",
+   "startDate": "2026-09-22T00:00:00-03:00",
+   "endDate": "2026-10-22T23:59:59-03:00",
+   "statistics": "globalStats",
+   "excludeHtmlContent": true,
+   "limit": 100,
+   "offset": 0,
+   "csv_columns": [
+    "id",
+    "name",
+    "subject",
+    "sentDate",
+    "sent",
+    "delivered",
+    "uniqueViews",
+    "uniqueClicks",
+    "unsubscriptions",
+    "hardBounces",
+    "softBounces",
+    "complaints"
+   ]
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Page through results (limit max 100, increase offset) until all sent campaigns in the window are read.",
+   "'Marketing e-mails' = campaign sends. Transactional e-mails (/smtp/statistics/...) and e-mails sent by automation workflows are not in this count; say so in the answer.",
+   "The total is the sum of 'sent' (attempts), not 'delivered'; report both. The 30-day window is 22 Sep to 22 Oct 2026 in Brasilia time.",
+   "No API endpoint produces a CSV; it is built locally from the JSON. The web app's statistics page also has an export if preferred."
+  ],
+  "summary": "Read the sent campaigns of the last 30 days with their statistics, add up the sends, and build the per-campaign CSV locally. Read-only."
+ },
+ {
+  "task_id": "T14",
+  "decision": "blocked",
+  "actions": [],
+  "route": {},
+  "inputs": {
+   "email": "ana@example.com"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The Free plan has a single user; multi-user access needs a paid plan (Business or above, to verify against the current price list).",
+   "POST /organization/user/invitation/send exists in the API, but it belongs to the multi-user/organization features and would be refused on this plan; do not try to work around it.",
+   "Do not share the owner's login with Ana as a workaround. After a plan upgrade the invitation can be sent from the web app (Usuarios) or that endpoint, with the right permissions chosen."
+  ],
+  "summary": "Cannot be done on the Free plan, which does not allow additional users. Upgrading the plan would be the first step; then Ana can be invited with limited permissions."
+ },
+ {
+  "task_id": "T15",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/lists/{listId}",
+   "PUT /contacts/lists/{listId}"
+  ],
+  "route": {},
+  "inputs": {
+   "listId": 3,
+   "updateList": {
+    "name": "Customers 2026"
+   }
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The API cannot create keys for a normal account (the only key endpoint is for sub-accounts of an Enterprise master account), so the key must come from the web app: account menu > SMTP e API > Chaves de API > Gerar uma nova chave de API. Free accounts can create keys.",
+   "The key is shown once; copy it into a password manager or environment variable and send it as 'api-key' header. Do not paste it in chat or commit it to code; revoke it if exposed.",
+   "If you do not want a key, renaming in the web app does the same thing (Contatos > Listas).",
+   "Check with GET that list 3 is the intended list; PUT only changes the name here (leave folderId out)."
+  ],
+  "summary": "Generate an API key in the web app (SMTP e API > Chaves de API), then rename list 3 with PUT /contacts/lists/{listId}. The key step has to be done by the account owner."
+ },
+ {
+  "task_id": "T16",
+  "decision": "not_in_catalog",
+  "actions": [],
+  "route": {},
+  "inputs": {
+   "channel": "Instagram organic post"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The API spec has no social-posting endpoint and I know of no Brevo feature that publishes or schedules organic Instagram posts.",
+   "Brevo can only work with Meta for ads and for messaging channels, which is not the same as posting on a page.",
+   "Use Meta Business Suite or another social scheduler; Brevo can still send the same announcement by e-mail, SMS or WhatsApp if wanted."
+  ],
+  "summary": "Brevo does not offer posting to an Instagram page, so this cannot be done with Brevo. Use Meta Business Suite, or I can prepare the announcement as an e-mail campaign instead."
+ },
+ {
+  "task_id": "T17",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /emailCampaigns/{campaignId}",
+   "PUT /emailCampaigns/{campaignId}/status",
+   "GET /emailCampaigns",
+   "PUT /emailCampaigns/{campaignId}"
+  ],
+  "route": {},
+  "inputs": {
+   "campaignId": 1,
+   "status_body": {
+    "status": "replicate"
+   },
+   "find_copy": {
+    "status": "draft",
+    "sort": "desc",
+    "limit": 5,
+    "excludeHtmlContent": true
+   },
+   "copy_update": {
+    "campaignId": "<new copy id>",
+    "recipients": {
+     "listIds": [
+      "<new audience list ids>"
+     ]
+    }
+   }
+  },
+  "needs_confirmation": [
+   "PUT /emailCampaigns/{campaignId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "There is no 'duplicate' endpoint, but the campaign status call accepts 'replicate', which makes a server-side copy (status value to verify; the web app's Duplicar does the same).",
+   "The copy initially keeps the old recipients. Replace them before anything else and never call sendNow or set scheduledAt; the copy must stay a draft. Re-read the copy at the end to check recipients and status.",
+   "The new audience (list or segment ids) is not given: ask for it. Also exclude the old lists if the new audience overlaps with them.",
+   "Do not rebuild the copy from htmlContent with POST /emailCampaigns: it loses the drag-and-drop design."
+  ],
+  "summary": "Duplicate campaign 1 as a draft with the 'replicate' status, then point the copy to the new audience once you tell me which one. Nothing is sent."
+ },
+ {
+  "task_id": "T18",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /smtp/templates/{templateId}",
+   "UI: Automacao > Criar um fluxo de trabalho > Trigger: contact added to a list > list 3",
+   "UI: Action: send an e-mail > choose template 'Welcome' (id 9)",
+   "UI: Name it and Save, leaving the workflow inactive",
+   "PUT /smtp/templates/{templateId}"
+  ],
+  "route": {},
+  "inputs": {
+   "templateId": 9,
+   "trigger_list_id": 3,
+   "workflow_status": "inactive",
+   "activate_template_body": {
+    "isActive": true
+   }
+  },
+  "needs_confirmation": [
+   "PUT /smtp/templates/{templateId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "No automation endpoint exists in the public API; the workflow is built in the web app.",
+   "Only run the template activation (PUT isActive true) if the workflow editor refuses an inactive template. The person said not to switch anything on, so that needs an explicit yes.",
+   "The e-mail step may copy the template into the workflow instead of linking to it; check this in the editor (unverified).",
+   "The workflow only e-mails contacts who join list 3 after it is activated, not current members. Free plan automation limits are unverified.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Build an inactive workflow (joins list 3 -> send template 9) in the web app; template 9 is activated only if the editor needs it and you say yes. Nothing is switched on."
+ },
+ {
+  "task_id": "T19",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Contatos > Segmentos; open the segment with id 2 (id in the URL) and note its name and where it is used",
+   "UI: Delete the segment (Excluir) and confirm in the dialog"
+  ],
+  "route": {},
+  "inputs": {
+   "segment_id": 2
+  },
+  "needs_confirmation": [
+   "UI: Delete the segment (Excluir) and confirm in the dialog"
+  ],
+  "warnings": [
+   "Not possible through the public API: there is no delete for segments (GET /contacts/segments only lists them). Web app only.",
+   "Deleting a segment keeps the contacts but loses the definition; it cannot be undone. Campaigns or automations that target it may break or lose their audience.",
+   "Show the person the segment's name and size, then get an explicit yes. The segment page does not always show the id; verify via the URL.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Segments can only be deleted in the web app. I would identify segment 2, show where it is used, and delete it only after an explicit yes."
+ },
+ {
+  "task_id": "T20",
+  "decision": "ask_confirmation",
+  "actions": [
+   "Ask the person what counts as test stuff (name patterns, dates, folders, addresses) and whether anything must be kept",
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/lists",
+   "GET /contacts/folders",
+   "GET /contacts/segments",
+   "GET /emailCampaigns",
+   "GET /smsCampaigns",
+   "GET /smtp/templates",
+   "GET /webhooks",
+   "Present one table of candidates and wait for a yes on each item or group",
+   "DELETE /contacts/lists/{listId}",
+   "DELETE /emailCampaigns/{campaignId}",
+   "DELETE /smsCampaigns/{campaignId}",
+   "DELETE /smtp/templates/{templateId}",
+   "DELETE /webhooks/{webhookId}",
+   "DELETE /contacts/{identifier}"
+  ],
+  "route": {},
+  "inputs": {
+   "test_markers": "<to be defined by the person: name patterns, creation dates, folders>",
+   "approved_items": "<explicit list of ids per object type>"
+  },
+  "needs_confirmation": [
+   "DELETE /contacts/lists/{listId}",
+   "DELETE /emailCampaigns/{campaignId}",
+   "DELETE /smsCampaigns/{campaignId}",
+   "DELETE /smtp/templates/{templateId}",
+   "DELETE /webhooks/{webhookId}",
+   "DELETE /contacts/{identifier}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "'Test stuff' is undefined and every delete here is permanent. Nothing is deleted from a guess; the read calls only build a candidate list.",
+   "Other requests in this batch use list 3, list 6, list 12, campaigns 1, 5, 7 and templates 3 and 9: protect them unless the person says otherwise.",
+   "Deleting a list keeps its contacts, but deleting contacts or campaigns removes history. Export or note them first if wanted. Segments and automations have no delete in the API and would be done in the web app, also with a yes.",
+   "Only the DELETE calls the person approves are run; drop the others."
+  ],
+  "summary": "The request is too vague to delete anything safely. I would list candidates read-only, ask you to approve them, and delete only those."
+ },
+ {
+  "task_id": "T21",
+  "decision": "not_in_catalog",
+  "actions": [],
+  "route": {},
+  "inputs": {
+   "program": "loyalty",
+   "tiers": [
+    "Bronze",
+    "Silver",
+    "Gold"
+   ]
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The API spec has no loyalty-program or tier endpoints, and I know of no loyalty feature available on a Free Brevo account. If your menu shows a loyalty app, it is web app only and unverified here.",
+   "Closest building blocks, only if you ask for a workaround: a TIER contact attribute (POST /contacts/attributes/{attributeCategory}/{attributeName}), segments per tier, and coupon collections (POST /couponCollections). Points, rewards and automatic tier upgrades would not exist.",
+   "Dedicated loyalty tools (or a Shopify/Woo loyalty app) can feed Brevo through attributes."
+  ],
+  "summary": "Brevo has no loyalty program with Bronze, Silver and Gold tiers that I can set up here. A manual workaround with attributes, segments and coupons is possible if you want it."
+ },
+ {
+  "task_id": "T22",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /smsCampaigns/{campaignId}",
+   "GET /contacts/lists/{listId}",
+   "GET /account",
+   "PUT /smsCampaigns/{campaignId}"
+  ],
+  "route": {},
+  "inputs": {
+   "campaignId": 5,
+   "listId": 3,
+   "updateSmsCampaign": {
+    "scheduledAt": "2026-10-23T09:00:00-03:00",
+    "recipients": {
+     "listIds": [
+      3
+     ]
+    }
+   },
+   "utc_equivalent": "2026-10-23T12:00:00Z"
+  },
+  "needs_confirmation": [
+   "PUT /smsCampaigns/{campaignId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Tomorrow is 23 Oct 2026; 09:00 Brasilia (UTC-3) is 12:00 UTC. Send the offset explicitly so the server does not read it as UTC.",
+   "SMS needs paid credits, and a Free account usually has none: check the sms entry in GET /account. Not enough credits means the campaign will not go out.",
+   "Contacts need an SMS number in international format (+55...); check how many of the list members have one. PUT with recipients replaces whatever audience campaign 5 has, so show the old one first.",
+   "The campaign must be a draft with sender and text; check Brazilian sender-name and opt-out rules. Scheduling can be undone before 09:00 (status back to draft), so ask for a yes on audience size and cost, not after."
+  ],
+  "summary": "Schedule SMS campaign 5 for 23 Oct 2026 09:00 Brasilia on list 3, after checking credits, audience and number format, and with your yes on the final call."
+ },
+ {
+  "task_id": "T23",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /webhooks",
+   "POST /webhooks"
+  ],
+  "route": {},
+  "inputs": {
+   "createWebhook": {
+    "url": "https://example.com/hooks/brevo",
+    "description": "Marketing unsubscribes",
+    "events": [
+     "unsubscribed"
+    ],
+    "type": "marketing"
+   },
+   "list_filter": {
+    "type": "marketing"
+   }
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Use type 'marketing' (campaign e-mails). The transactional unsubscribe is a different webhook type, so do not mix them.",
+   "https://example.com is a reserved placeholder domain and will not receive anything; ask for the real endpoint if this is not a test. The endpoint will receive contact e-mail addresses (personal data).",
+   "Check the existing webhooks first to avoid a duplicate; delete with DELETE /webhooks/{webhookId} if wrong.",
+   "Only 'unsubscribed' is subscribed to; add other events (hardBounce, spam) only if asked."
+  ],
+  "summary": "Create a marketing webhook for the 'unsubscribed' event that posts to https://example.com/hooks/brevo, after checking for duplicates. Reversible."
+ },
+ {
+  "task_id": "T24",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /companies",
+   "POST /companies",
+   "GET /crm/pipeline/details/all",
+   "POST /crm/deals",
+   "GET /crm/deals/{id}"
+  ],
+  "route": {},
+  "inputs": {
+   "company": {
+    "name": "Acme Ltda"
+   },
+   "deal": {
+    "name": "Acme renewal",
+    "attributes": {
+     "pipeline": "<pipeline id>",
+     "deal_stage": "<stage id>",
+     "amount": "<optional>"
+    },
+    "linkedCompaniesIds": [
+     "<id returned by POST /companies>"
+    ]
+   }
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Create the company first and use the returned id: the deal can be linked at creation (linkedCompaniesIds). If the link is missing afterwards, use PATCH /crm/deals/link-unlink/{id}.",
+   "Check GET /companies first for an existing 'Acme Ltda' to avoid a duplicate.",
+   "Pipeline and stage ids are needed (GET /crm/pipeline/details/all); amount, owner and close date were not given and are left empty unless the person provides them. CRM access on the Free plan is assumed; deal/pipeline limits unverified."
+  ],
+  "summary": "Create the company Acme Ltda, then the deal 'Acme renewal' linked to it in the default pipeline, and verify the link. Low risk."
+ },
+ {
+  "task_id": "T25",
+  "decision": "act",
+  "actions": [
+   "UI: Automacao > Criar um fluxo de trabalho (Create a workflow) > start from scratch",
+   "UI: Trigger: contact added to a list > list 3",
+   "UI: Step: wait (Aguardar) 2 days",
+   "UI: Action: add contact to a list > list 6",
+   "UI: Name it and Save, leaving it switched off (do not activate)"
+  ],
+  "route": {},
+  "inputs": {
+   "trigger": {
+    "type": "contact added to list",
+    "listId": 3
+   },
+   "delay": {
+    "days": 2
+   },
+   "action": {
+    "type": "add to list",
+    "listId": 6
+   },
+   "initial_status": "inactive"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "No automation endpoint exists in the public API; web app only.",
+   "Leave it inactive as asked; activating needs a separate yes.",
+   "When active, it only handles contacts who join list 3 after that point, not existing members.",
+   "Free plan automation limits (steps allowed, 'wait' and 'add to list' availability, contacts per month) are unverified; the app will show an upgrade prompt if gated.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "Build the workflow 'joins list 3 -> wait 2 days -> add to list 6' in the web app and leave it switched off. Nothing goes live."
+ },
+ {
+  "task_id": "T26",
+  "decision": "act_then_confirm",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /emailCampaigns/{campaignId}",
+   "GET /account",
+   "PUT /emailCampaigns/{campaignId}"
+  ],
+  "route": {},
+  "inputs": {
+   "campaignId": 7,
+   "emailCampaign": {
+    "scheduledAt": "2026-10-23T09:00:00-03:00"
+   },
+   "utc_equivalent": "2026-10-23T12:00:00Z"
+  },
+  "needs_confirmation": [
+   "PUT /emailCampaigns/{campaignId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Use PUT with scheduledAt only. Do NOT call POST /emailCampaigns/{campaignId}/sendNow: that sends immediately.",
+   "Tomorrow is 23 Oct 2026; 09:00 Brasilia (UTC-3) is 12:00 UTC. Send the offset. Black Friday 2026 is 27 Nov, so confirm tomorrow is really the intended date.",
+   "Check the campaign is a draft with sender, subject, content and recipient lists, and that the audience fits the Free plan limit of 300 e-mails per day; a bigger audience will not go out fully.",
+   "Scheduling can be undone before the send time (set the status back to draft), but a real send cannot; show the audience size and ask for a yes."
+  ],
+  "summary": "Schedule campaign 7 for 23 Oct 2026 09:00 Brasilia with scheduledAt (never sendNow), after checking draft state and the audience size, and with your yes on the final call."
+ },
+ {
+  "task_id": "T27",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/{identifier}",
+   "PUT /contacts/{identifier}",
+   "POST /contacts/lists/{listId}/contacts/add"
+  ],
+  "route": {},
+  "inputs": {
+   "identifier": "maria@example.com",
+   "updateContact": {
+    "emailBlacklisted": false
+   },
+   "listId": "<newsletter list id; probably 12, confirm>",
+   "contactEmails": [
+    "maria@example.com"
+   ]
+  },
+  "needs_confirmation": [
+   "PUT /contacts/{identifier}",
+   "POST /contacts/lists/{listId}/contacts/add"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Find out why she is blocklisted (GET shows emailBlacklisted and list-level unsubscriptions). If she unsubscribed herself or reported spam, re-subscribing without fresh consent breaches LGPD and Brevo's terms; ask whether she asked to come back.",
+   "Safer path when consent is unclear: send a double opt-in request (POST /contacts/doubleOptinConfirmation, needs a DOI template and redirect URL) so she confirms herself.",
+   "Hard-bounced addresses should not be reactivated; they will bounce again.",
+   "Do not use DELETE /smtp/blockedContacts/{email}: that only unblocks the transactional blocklist, not the marketing one. The newsletter list id was not given (T01 mentions list 12); confirm it."
+  ],
+  "summary": "Reverse the blocklist (emailBlacklisted false) and re-add her to the newsletter list, but only after you confirm why she was blocked and that she wants the newsletter again."
+ },
+ {
+  "task_id": "T28",
+  "decision": "not_in_catalog",
+  "actions": [],
+  "route": {},
+  "inputs": {
+   "channel": "web push"
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "The API spec has no web push endpoint, and I cannot confirm a web push channel in Brevo for this account; do not assume one exists.",
+   "If the web app does show a web push option, it would be web app only, would need a subscriber-collection script on the website, and a mass send would need your explicit yes.",
+   "Alternatives: e-mail or SMS campaign to the same audience, or a dedicated web push service (for example OneSignal)."
+  ],
+  "summary": "I cannot send a web push through Brevo from here: there is no API for it and I cannot confirm the feature exists. An e-mail or SMS announcement is the available alternative."
+ },
+ {
+  "task_id": "T29",
+  "decision": "ask_confirmation",
+  "actions": [
+   "Ask the person to confirm how the key will be delivered: pasting it in chat is not recommended",
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API; name it 'zapier'",
+   "UI: Copy the key straight into the Zapier connection for Brevo; do not put it in chat",
+   "Display or paste the generated key in the chat"
+  ],
+  "route": {},
+  "inputs": {
+   "key_name": "zapier",
+   "scope": "full access (the only kind of v3 key; no scopes to choose, to verify)"
+  },
+  "needs_confirmation": [
+   "Display or paste the generated key in the chat"
+  ],
+  "warnings": [
+   "The API cannot create keys for a normal account (only for sub-accounts of an Enterprise master account), so this is a web app step done by the account owner.",
+   "The key is shown once and acts like a password. Pasting it in the chat leaves it in transcripts and logs. Put it into Zapier directly; if it was exposed, revoke it and make a new one.",
+   "If authorized IPs are enabled in the account security settings, Zapier's changing addresses will be refused; check that setting.",
+   "Menu labels are quoted from memory of the Brazilian Portuguese web app and are unverified; check the real wording on screen."
+  ],
+  "summary": "The key has to be generated by you in the web app (SMTP e API > Chaves de API), and I would advise typing it straight into Zapier rather than pasting it in chat. I will only show it in chat if you confirm that."
+ },
+ {
+  "task_id": "T30",
+  "decision": "act",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /emailCampaigns/{campaignId}",
+   "POST /emailCampaigns/{campaignId}/sendTest"
+  ],
+  "route": {},
+  "inputs": {
+   "campaignId": 1,
+   "emailTo": []
+  },
+  "needs_confirmation": [],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "sendTest delivers only to the account's test list (omitting emailTo uses the whole test list); it does not go to the campaign audience. Never use sendNow here.",
+   "The test list must already exist and hold addresses; if it is empty the call fails. Limit is 50 test e-mails per day.",
+   "Campaign 1 must have sender, subject and content. Test copies are marked as test and links are not tracked normally."
+  ],
+  "summary": "Send a test copy of campaign 1 to the test list only, after checking the campaign. No audience contact receives anything."
+ },
+ {
+  "task_id": "T31",
+  "decision": "ask_confirmation",
+  "actions": [
+   "UI: Menu da conta > SMTP e API > Chaves de API > Gerar uma nova chave de API (one-time prerequisite done by the account owner; the account has no key yet)",
+   "GET /contacts/lists/{listId}",
+   "POST /contacts/export",
+   "DELETE /contacts/lists/{listId}"
+  ],
+  "route": {},
+  "inputs": {
+   "listId": 3,
+   "export": {
+    "customContactFilter": {
+     "actionForContacts": "allContacts",
+     "listId": 3
+    }
+   }
+  },
+  "needs_confirmation": [
+   "DELETE /contacts/lists/{listId}"
+  ],
+  "warnings": [
+   "Account has no API key yet: the owner must generate one in the web app first and keep it secret (not in chat, not in code).",
+   "Deleting a list is permanent: the membership is lost, but the contacts stay in the account (not deleted).",
+   "Other requests in this batch use list 3 (rename in T10 and T15, workflows in T07, T18 and T25, SMS campaign 5 in T22). Deleting it would break all of them: confirm which is meant.",
+   "Show the name and number of members first. Offer an export (POST /contacts/export) as a backup. Forms, workflows and campaigns that use the list lose their audience."
+  ],
+  "summary": "Deleting list 3 is permanent and conflicts with other requests that use it, so I would show its details, offer a backup export, and delete only after an explicit yes."
+ }
+]

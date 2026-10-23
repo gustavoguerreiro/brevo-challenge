@@ -1,0 +1,142 @@
+id: reporting.list_email_daily_reports
+domain: reporting
+summary: Get your transactional email activity aggregated per day.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 10
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting date of the report (YYYY-MM-DD)
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending date of the report (YYYY-MM-DD)
+    days:
+      type: integer
+      format: int64
+      description: Number of days in the past including today (positive integer). Not compatible with 'startDate'
+        and 'endDate'
+    tag:
+      type: string
+      description: Tag of the emails
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+outputs:
+  type: object
+  properties:
+    reports:
+      type: array
+      items:
+        type: object
+        required:
+        - blocked
+        - clicks
+        - date
+        - delivered
+        - hardBounces
+        - invalid
+        - opens
+        - requests
+        - softBounces
+        - spamReports
+        - uniqueClicks
+        - uniqueOpens
+        - unsubscribed
+        properties:
+          date:
+            type: string
+            format: date
+            description: Date of the statistics
+          requests:
+            type: integer
+            format: int64
+            description: Number of requests for the date
+          delivered:
+            type: integer
+            format: int64
+            description: Number of delivered emails for the date
+          hardBounces:
+            type: integer
+            format: int64
+            description: Number of hardbounces for the date
+          softBounces:
+            type: integer
+            format: int64
+            description: Number of softbounces for the date
+          clicks:
+            type: integer
+            format: int64
+            description: Number of clicks for the date
+          uniqueClicks:
+            type: integer
+            format: int64
+            description: Number of unique clicks for the date
+          opens:
+            type: integer
+            format: int64
+            description: Number of openings for the date
+          uniqueOpens:
+            type: integer
+            format: int64
+            description: Number of unique openings for the date
+          spamReports:
+            type: integer
+            format: int64
+            description: Number of complaints (spam reports) for the date
+          blocked:
+            type: integer
+            format: int64
+            description: Number of blocked emails for the date
+          invalid:
+            type: integer
+            format: int64
+            description: Number of invalid emails for the date
+          unsubscribed:
+            type: integer
+            format: int64
+            description: Number of unsubscribed emails for the date
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/statistics/reports
+    auth: api-key header (never store the value).
+    operation_id: getSmtpReport
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

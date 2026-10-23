@@ -1,0 +1,147 @@
+id: contacts.import_contacts
+domain: contacts
+summary: Import contacts from a file or a JSON body into chosen lists; runs asynchronously.
+risk: write
+reversible: false
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Inputs emailBlacklist, smsBlacklist change e-mail/SMS consent. Set them only on an explicit yes from the person,
+  naming the contact or list; never set them to false to re-enable someone who unsubscribed or was blocked.
+inputs:
+  type: object
+  properties:
+    fileUrl:
+      type: string
+      format: url
+      description: 'Mandatory if fileBody or jsonBody is not defined. URL of the file to be imported (no local file).
+        Possible file formats: .txt, .csv, .json'
+      x-in: body
+    fileBody:
+      type: string
+      description: Mandatory if fileUrl and jsonBody is not defined. CSV content to be imported. Use semicolon to
+        separate multiple attributes. Maximum allowed file body size is 10MB . However we recommend a safe limit
+        of around 8 MB to avoid the issues …
+      x-in: body
+    jsonBody:
+      type: array
+      description: '**Mandatory if fileUrl and fileBody is not defined.** JSON content to be imported. **Maximum
+        allowed json body size is 10MB** . However we recommend a safe limit of around 8 MB to avoid the issues
+        caused due to increase of json body size …'
+      items:
+        type: object
+        properties:
+          email:
+            type: string
+          attributes:
+            type: object
+            description: List of attributes to be imported
+            properties: {}
+      x-in: body
+    listIds:
+      type: array
+      description: Mandatory if newList is not defined. Ids of the lists in which the contacts shall be imported.
+        For example, [2, 4, 7].
+      items:
+        type: integer
+        format: int64
+        description: List Id in which the contacts shall be imported
+      x-in: body
+    notifyUrl:
+      type: string
+      format: url
+      description: URL that will be called once the import process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479
+      x-in: body
+    newList:
+      type: object
+      properties:
+        listName:
+          type: string
+          description: List with listName will be created first and users will be imported in it (Mandatory if listIds
+            is empty).
+        folderId:
+          type: integer
+          format: int64
+          description: Id of the folder where this new list shall be created (Mandatory if listName is not empty).
+      description: To create a new list and import the contacts into it, pass the listName and an optional folderId.
+      x-in: body
+    emailBlacklist:
+      type: boolean
+      description: To blacklist all the contacts for email
+      default: false
+      x-in: body
+    disableNotification:
+      type: boolean
+      description: To disable email notification
+      default: false
+      x-in: body
+    smsBlacklist:
+      type: boolean
+      description: To blacklist all the contacts for sms
+      default: false
+      x-in: body
+    updateExistingContacts:
+      type: boolean
+      description: To facilitate the choice to update the existing contacts
+      default: true
+      x-in: body
+    emptyContactsAttributes:
+      type: boolean
+      description: To facilitate the choice to erase any attribute of the existing contacts with empty value. emptyContactsAttributes
+        = true means the empty fields in your import will erase any attribute that currently contain data in Brevo,
+        & …
+      default: false
+      x-in: body
+outputs:
+  type: object
+  required:
+  - processId
+  properties:
+    processId:
+      type: integer
+      format: int64
+      description: Id of the process created
+side_effects:
+- 'Expected (from the API docs, not verified): The import runs asynchronously; the response carries a process id.'
+- 'Expected (not observed): the import runs asynchronously; contacts appear after the process finishes, not when
+  the request returns.'
+postcondition_check: 'Imports run as a background process. Read the process with account.get_process (API returns
+  a processId) or watch the import page; then read the list or contact count. Not observed: the import was never
+  started.'
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/import
+    auth: api-key header (never store the value).
+    operation_id: importContacts
+  ui:
+    entry: /contact/import/options
+    steps:
+    - 'Open CRM > Contatos and press ''Importar contatos''. Dialog ''Importar seus dados para a Brevo'': choose
+      Contatos, Empresas, Oportunidades or Notas (order: contacts, then companies/deals/tasks, then notes).'
+    - 'Page ''Importar contatos para criação ou atualização em massa'': ''Importar de um arquivo'' (csv, xlsx, txt),
+      ''Copiar e colar'', ''Importar de outra ferramenta''.'
+    - '''Importar de um arquivo'' opens /contact/import/upload, step 1 ''Carregue seu arquivo'' (drag and drop,
+      link to a sample .csv). Later steps (column mapping, list choice) were NOT reached.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Observed up to the upload step; nothing was uploaded. Generated from the Brevo public API spec (SDK snapshot,
+    Feb 2025). Not executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Asynchronous; returns a process
+  id.'
+related:
+- account.get_process
+ui_label_pt: Importar contatos

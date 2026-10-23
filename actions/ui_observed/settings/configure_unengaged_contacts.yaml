@@ -1,0 +1,36 @@
+id: contacts.configure_unengaged_contacts
+domain: contacts
+summary: Define unengaged contacts so they can be excluded from campaigns (Configurações > Contatos > Contatos não
+  engajados).
+ui_label_pt: Contatos não engajados
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/settings
+    steps:
+    - Open Settings > CRM > Contatos and the card 'Contatos não engajados' (identify unengaged contacts to exclude
+      from campaigns).
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Card and one-line description seen only.

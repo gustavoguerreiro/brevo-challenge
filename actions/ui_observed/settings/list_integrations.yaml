@@ -1,0 +1,43 @@
+id: integrations.list_integrations
+domain: integrations
+summary: 'Browse the integration marketplace (/app-store): 144 integrations, filters by creator and 20 categories.'
+ui_label_pt: Integrações
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    category:
+      type: string
+      description: One of the 20 categories.
+    created_by:
+      type: string
+      enum:
+      - Brevo
+      - Parceiros Brevo
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /app-store
+    steps:
+    - 'Open the account menu > Integrações (/app-store). Tabs: ''Todas as integrações'', ''Minhas integrações'',
+      Webhooks.'
+    - '144 integrations in 15 pages of 10; filters ''Criado por'' (Brevo, Parceiros Brevo) and 20 categories. First
+      page: WordPress, WooCommerce, Shopify, BigCommerce, Google Ads, HubSpot, Salesforce, MailChimp, Klaviyo.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Pages read; no integration was opened.

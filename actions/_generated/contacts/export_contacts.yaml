@@ -1,0 +1,123 @@
+id: contacts.export_contacts
+domain: contacts
+summary: Export contacts (all, or a list or segment) to a file you can download.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    exportAttributes:
+      type: array
+      description: List of all the attributes that you want to export. These attributes must be present in your
+        contact database. For example, ['fname', 'lname', 'email'].
+      items:
+        type: string
+      x-in: body
+    customContactFilter:
+      type: object
+      properties:
+        actionForContacts:
+          type: string
+          description: Mandatory if neither actionForEmailCampaigns nor actionForSmsCampaigns is passed. This will
+            export the contacts on the basis of provided action applied on contacts as per the list id. * allContacts
+            - Fetch the list of all contacts for a …
+          enum:
+          - allContacts
+          - subscribed
+          - unsubscribed
+          - unsubscribedPerList
+        actionForEmailCampaigns:
+          type: string
+          description: Mandatory if neither actionForContacts nor actionForSmsCampaigns is passed. This will export
+            the contacts on the basis of provided action applied on email campaigns. * openers & nonOpeners - emailCampaignId
+            is mandatory. Fetch the list of …
+          enum:
+          - openers
+          - nonOpeners
+          - clickers
+          - nonClickers
+          - unsubscribed
+          - hardBounces
+          - softBounces
+        actionForSmsCampaigns:
+          type: string
+          description: Mandatory if neither actionForContacts nor actionForEmailCampaigns is passed. This will export
+            the contacts on the basis of provided action applied on sms campaigns. * unsubscribed - Fetch the list
+            of all unsubscribed (blacklisted via any …
+          enum:
+          - hardBounces
+          - softBounces
+          - unsubscribed
+        listId:
+          type: integer
+          format: int64
+          description: Mandatory if actionForContacts is passed, ignored otherwise. Id of the list for which the
+            corresponding action shall be applied in the filter.
+        emailCampaignId:
+          type: integer
+          format: int64
+          description: Considered only if actionForEmailCampaigns is passed, ignored otherwise. Mandatory if action
+            is one of the following - openers, nonOpeners, clickers, nonClickers, unsubscribed. The id of the email
+            campaign for which the corresponding …
+        smsCampaignId:
+          type: integer
+          format: int64
+          description: Considered only if actionForSmsCampaigns is passed, ignored otherwise. The id of sms campaign
+            for which the corresponding action shall be applied in the filter.
+      description: Set the filter for the contacts to be exported.
+      x-in: body
+    notifyUrl:
+      type: string
+      format: url
+      description: Webhook that will be called once the export process is finished. For reference, https://help.brevo.com/hc/en-us/articles/360007666479
+      x-in: body
+  required:
+  - customContactFilter
+outputs:
+  type: object
+  required:
+  - processId
+  properties:
+    processId:
+      type: integer
+      format: int64
+      description: Id of the process created
+side_effects:
+- 'Expected (from the API docs, not verified): The export runs asynchronously; poll the process.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /contacts/export
+    auth: api-key header (never store the value).
+    operation_id: requestContactExport
+  ui:
+    entry: /contact/list
+    steps:
+    - 'Open CRM > Contatos, tick one or more rows, press ''Mais ações'' and choose ''Exportar''. NOT EXECUTED: the
+      dialog was not seen. Other entries of that menu: Modificar, Atribuir, Copie o número de SMS para o WhatsApp,
+      Adicionar à automação, Excluir definitivamente.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Menu entry only. Marketing > Estatísticas also has ''Exportar (arquivo .csv)'' for campaign tables. Generated
+    from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present
+    in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.misc_pages_pass5.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Starts an asynchronous export;
+  poll the process.'
+ui_label_pt: Mais ações > Exportar

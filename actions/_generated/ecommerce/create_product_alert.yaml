@@ -1,0 +1,49 @@
+id: ecommerce.create_product_alert
+domain: ecommerce
+summary: Create product alert (POST /products/{id}/alerts/{type}).
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+- Path value 'type' selects the kind of record to create; allowed values were not captured, read the live spec.
+inputs:
+  type: object
+  properties:
+    id:
+      description: Type not captured.
+      x-in: path
+    type:
+      description: Type not captured.
+      x-in: path
+    contactIdentifiers:
+      description: Type not captured.
+      x-in: body
+  required:
+  - id
+  - type
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /products/{id}/alerts/{type}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

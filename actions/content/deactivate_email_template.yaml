@@ -1,0 +1,45 @@
+id: content.deactivate_email_template
+domain: content
+summary: Deactivate an e-mail template. It can no longer be used in Automações and Transacional.
+ui_label_pt: Desativar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  properties:
+    template_id:
+      type: integer
+      description: Template to deactivate.
+side_effects:
+- 'Not observed: automation steps or transactional sends that point at the template may stop working (not checked).'
+postcondition_check: The row shows status Inativo.
+errors: []
+limits: []
+depends_on:
+- content.activate_email_template
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - Open Marketing > Modelos and the row menu of an active template; choose 'Desativar'.
+    - 'Dialog ''Desativar esse modelo?'' (text: when a model is deactivated you cannot use it in Automações and
+      Transacional). Press ''Desativar modelo'' (or ''Manter o modelo ativado'' to cancel).'
+    - Toast 'Seu modelo foi desativado.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Executed on the test copy.
+related:
+- transactional.update_template

@@ -1,0 +1,61 @@
+id: account.update_user_invitation
+domain: account
+summary: Resend / Cancel invitation.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- 'Path value ''action'' must be one of: resend, cancel.'
+- Path value 'email' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    action:
+      type: string
+      enum:
+      - resend
+      - cancel
+      description: action
+    email:
+      type: string
+      description: Email of the invited user.
+  required:
+  - action
+  - email
+outputs:
+  type: object
+  required:
+  - email
+  properties:
+    email:
+      type: string
+      description: Email address of the user.
+  description: Revoke user permission
+side_effects:
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 403: Unauthorized access'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /organization/user/invitation/{action}/{email}
+    auth: api-key header (never store the value).
+    operation_id: putresendcancelinvitation
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): action is resend or cancel.'

@@ -1,0 +1,76 @@
+id: sms_whatsapp.send_whatsapp_message
+domain: sms_whatsapp
+summary: Send a WhatsApp message to a contact's number.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    templateId:
+      type: integer
+      description: ID of the template to send
+      x-in: body
+    text:
+      type: string
+      description: Text to be sent as message body (will be overridden if templateId is passed in the same request)
+      x-in: body
+    senderNumber:
+      type: string
+      format: mobile
+      description: WhatsApp Number with country code. Example, 85264318721
+      x-in: body
+    params:
+      type: object
+      description: Pass the set of attributes to customize the template. For example, {"FNAME":"Joe", "LNAME":"Doe"}.
+      properties: {}
+      x-in: body
+    contactNumbers:
+      type: array
+      description: List of phone numbers of the contacts
+      items:
+        type: string
+        format: mobile
+        description: WhatsApp Number with country code. Example, 85264318721
+      x-in: body
+  required:
+  - contactNumbers
+  - senderNumber
+outputs:
+  type: object
+  required:
+  - messageId
+  properties:
+    messageId:
+      type: string
+      format: uuidv4
+      description: messageId of sent message
+side_effects:
+- 'Expected (from the API docs, not verified): Sends a real WhatsApp message.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /whatsapp/sendMessage
+    auth: api-key header (never store the value).
+    operation_id: sendWhatsappMessage
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

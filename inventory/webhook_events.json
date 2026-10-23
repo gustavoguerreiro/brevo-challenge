@@ -1,0 +1,192 @@
+{
+  "observed_at": "2026-10-22",
+  "source": "UI: /webhooks/outbound/create step 3 (not saved)",
+  "categories": {
+    "Transactional email": {
+      "count": 15,
+      "events": [
+        "Soft bounce",
+        "Entregues",
+        "Enviado",
+        "Clicado",
+        "Abertura única",
+        "Primeira abertura",
+        "Reclamação",
+        "Diferido",
+        "Inscrição cancelada",
+        "Bloqueado",
+        "Invalid",
+        "Carregado por proxy",
+        "Aberto",
+        "Erro",
+        "Hard bounce"
+      ]
+    },
+    "Transactional sms": {
+      "count": 11,
+      "events": [
+        "Inscrição cancelada",
+        "Responder",
+        "Colocado em lista bloqueada",
+        "Hard bounce",
+        "Inscrito",
+        "Enviado",
+        "Ignorado",
+        "Rejected",
+        "Accepted",
+        "Entregues",
+        "Soft bounce"
+      ]
+    },
+    "Marketing email": {
+      "count": 11,
+      "events": [
+        "Entregues",
+        "Inscrição cancelada",
+        "Atualizado",
+        "Excluído",
+        "Hard bounce",
+        "Soft bounce",
+        "Reclamação",
+        "Clicado",
+        "Aberto",
+        "Adicionado a uma lista",
+        "Carregado por proxy"
+      ]
+    },
+    "Marketing sms": {
+      "count": 9,
+      "events": [
+        "Inscrição cancelada",
+        "Responder",
+        "Inscrito",
+        "Enviado",
+        "Ignorado",
+        "Accepted",
+        "Entregues",
+        "Soft bounce",
+        "Hard bounce"
+      ]
+    },
+    "Conversations": {
+      "count": 5,
+      "events": [
+        "Conversa encerrada",
+        "Conversa iniciada",
+        "Mensagem recebida",
+        "E-mail de vendas clicado",
+        "E-mail de vendas aberto"
+      ]
+    },
+    "Meetings": {
+      "count": 3,
+      "events": [
+        "Reunião agendada",
+        "Reunião cancelada",
+        "Reunião iniciada"
+      ]
+    },
+    "Phone": {
+      "count": 1,
+      "events": [
+        "Chamada encerrada"
+      ]
+    },
+    "WhatsApp": {
+      "count": 1,
+      "events": [
+        "Whatsapp-reply"
+      ]
+    },
+    "Cohort": {
+      "count": 15,
+      "events": [
+        "App conectado",
+        "Selo ganho",
+        "Selo perdido",
+        "Desafio concluído",
+        "Desafio abandonado",
+        "Nova etapa do desafio disponível",
+        "Desafio com opt-in",
+        "Etapa do desafio concluída",
+        "CTA do conteúdo clicado",
+        "Conteúdo visualizado",
+        "Cohort_perk_received",
+        "Vantagem usada",
+        "Indicação concluída",
+        "Caixa de recompensa recebida",
+        "Visita ao centro de missões"
+      ]
+    },
+    "Company": {
+      "count": 1,
+      "events": [
+        "Company_merge"
+      ]
+    },
+    "Coupon": {
+      "count": 1,
+      "events": [
+        "Unique_coupon_sent"
+      ]
+    },
+    "Deals": {
+      "count": 6,
+      "events": [
+        "Deal_association_updated",
+        "Deal_attributes_updated",
+        "Oportunidade criada",
+        "Etapa da oportunidade atualizada",
+        "Tarefa concluída",
+        "Tarefa criada"
+      ]
+    },
+    "Loyalty": {
+      "count": 24,
+      "events": [
+        "Lembrete de expiração de saldo",
+        "Valor máximo de saldo atingido",
+        "Valor mínimo de saldo atingido",
+        "Transação de saldo não autorizada",
+        "Valor do saldo expirado",
+        "Valor de saldo atualizado",
+        "Lembrete de aniversário da assinatura",
+        "Assinatura criada",
+        "Membro de assinatura adicionado",
+        "Membro de assinatura removido",
+        "Mês de aniversário da assinatura",
+        "Assinatura revogada",
+        "Ano de aniversário da assinatura",
+        "Lembrete de aniversário de nível",
+        "Mês de aniversário da associação ao nível",
+        "Associação de nível passou por atualização",
+        "Ano de aniversário da associação ao nível",
+        "Falha na atribuição do cupom",
+        "Cupom criado",
+        "Lembrete de expiração do voucher",
+        "Cupom vencido",
+        "Resgate de cupons não autorizado",
+        "Cupom resgatado",
+        "Cupom revogado"
+      ]
+    },
+    "Push": {
+      "count": 5,
+      "events": [
+        "Notificação push clicada",
+        "Push_notification_received",
+        "Sessão iniciada",
+        "Inscrito no notificações push",
+        "Cancelamento de inscrições dos notificações push"
+      ]
+    },
+    "Website": {
+      "count": 1,
+      "events": [
+        "Página visitada"
+      ]
+    }
+  },
+  "total_events": 109,
+  "total_categories": 15
+}

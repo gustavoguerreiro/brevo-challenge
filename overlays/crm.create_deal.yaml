@@ -1,0 +1,17 @@
+id: crm.create_deal
+plan_availability:
+  free: unknown
+  note: Needs the CRM to be activated first (observed).
+ui_label_pt: Contato > Mais > Oportunidade / CRM > Oportunidades
+ui:
+  entry: /crm/deals
+  steps:
+  - From a contact page open 'Mais' and choose 'Oportunidade', or open CRM > Oportunidades (/crm/deals), which needs
+    the CRM to be activated first. NOT EXECUTED.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Entry points seen; not pressed.

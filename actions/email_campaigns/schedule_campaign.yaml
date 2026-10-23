@@ -1,0 +1,51 @@
+id: email_campaigns.schedule_campaign
+domain: email_campaigns
+summary: Schedule a prepared e-mail campaign to be sent to real recipients at a chosen date and time.
+ui_label_pt: "Programar"
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: limited
+  note: "Capped at 300 e-mails per day. In the observed account marketing e-mail sending is suspended."
+preconditions:
+  - "The campaign exists and has sender, recipients, subject and content."
+  - "The sender is verified. Phone verification may be required for a first campaign (banner seen)."
+  - "The account is not suspended for marketing e-mails (red banner seen in Automations)."
+  - "A human must confirm the audience size, the content and the exact date, time and time zone before this runs."
+  - "API route: this is PUT /emailCampaigns/{id} with scheduledAt (the generated action email_campaigns.update_campaign). The same call without scheduledAt only edits the draft."
+inputs:
+  type: object
+  required: [campaign_id, scheduled_at]
+  properties:
+    campaign_id: {type: integer}
+    scheduled_at: {type: string, format: date-time, description: "When to send. Pass the time zone explicitly. The UI dialog behind 'Programar' was never opened, so its fields are not known."}
+outputs:
+  type: object
+  properties:
+    status: {type: string, description: "Expected: scheduled. Not observed."}
+side_effects:
+  - "Expected (not observed): real e-mails go to every recipient in the selected lists and segments at the chosen time."
+  - "Expected (not observed): consumes the daily allowance (300 on Free)."
+postcondition_check: "Not observed. Expected: the campaign status in /campaigns/listing changes from Rascunho to a scheduled state and shows the date."
+errors:
+  - condition: "Insufficient credits, daily cap reached or sending suspended"
+    symptom: "Not observed."
+    recovery: "Wait for the reset, buy credits or fix the compliance issue; do not retry in a loop."
+limits:
+  - "300 e-mails per day on Free."
+depends_on: [email_campaigns.create_campaign]
+execution:
+  preferred: ui
+  ui:
+    entry: "/marketing-campaign/edit/<id>"
+    steps:
+      - "Open the campaign editor and make sure every section is complete."
+      - "Press the header button 'Programar' (button seen, not pressed)."
+      - "Choose a date and time and confirm. NOT EXECUTED: the dialog was never opened, so the exact wording and the choices it offers are unknown."
+provenance:
+  sources: [ui, api_docs]
+  verification: observed_not_executed
+  verified_at: "2026-10-22"
+  evidence: evidence/email_campaigns.create_campaign.json
+  notes: "Deliberately not executed: it would send real e-mail. Only the button label 'Programar' was seen. The API route is documented (PUT /emailCampaigns/{id} with scheduledAt) and was not called. Sending immediately is email_campaigns.send_campaign_now."

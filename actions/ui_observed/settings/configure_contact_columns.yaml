@@ -1,0 +1,39 @@
+id: contacts.configure_contact_columns
+domain: contacts
+summary: Choose which columns the contacts table shows ('Personalizar colunas').
+ui_label_pt: Contatos > Personalizar colunas
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    columns:
+      type: array
+      items:
+        type: string
+      description: Column names.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - On CRM > Contatos press 'Personalizar colunas'.
+    - 'Default columns: CONTATO, INSCRITO, COLOCADO EM LISTA BLOQUEADA, E-MAIL, WHATSAPP, LANDLINE_NUMBER, ÚLTIMA
+      ALTERAÇÃO, DATA DE CRIAÇÃO. The dialog was not opened.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.contacts_pages_pass3.json
+  notes: Button and default columns seen.

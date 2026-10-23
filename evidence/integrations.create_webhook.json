@@ -1,0 +1,23 @@
+{
+  "action": "integrations.create_webhook",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR. Wizard walked to step 3 and abandoned with 'Sair'. Nothing was saved.",
+  "steps_run": [
+    "Opened Aplicativos > Webhooks (/app-store/webhooks), tab 'Webhooks'; toggle 'Webhook de saída' / 'Webhook de entrada' (inbound is plan-gated)",
+    "Pressed 'Adicionar webhook': a type picker (outbound or inbound) opened; chose outbound; URL became /webhooks/outbound/create",
+    "Step 1 'Criar webhook de saída': field 'Nome' (required, max 64 characters)",
+    "Step 2 'Ponto de extremidade': field 'URL' (required), select 'Método de autenticação' (Sem autenticação, Básico, Token), link '+ Adicionar objeto' (extra headers, inferred from the label)",
+    "Step 3 'Ações': single select 'Categoria de evento' (15 categories) then one on/off toggle per event, all on by default; final button 'Ativar webhook'; 'Cancelar' asks 'Descartar alterações?'",
+    "Left the wizard with 'Sair'"
+  ],
+  "results": [
+    "Webhook list still empty afterwards (nothing created)",
+    "109 outbound events across 15 categories captured in inventory/webhook_events.json"
+  ],
+  "limitations": [
+    "No webhook was created, so the response, the resulting ID and the webhook detail page were not observed.",
+    "The mapping between the UI field 'Nome' and the API field 'description' is inferred.",
+    "The 15 UI categories do not map one-to-one to the 3 API types (transactional, marketing, inbound) and the event label to API enum mapping is only partly known.",
+    "Creating a live webhook would start sending contact data to the chosen URL, so it was not run without a URL under the account owner's control."
+  ]
+}

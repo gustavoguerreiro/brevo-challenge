@@ -1,0 +1,37 @@
+id: contacts.configure_lead_scoring
+domain: contacts
+summary: 'Set up lead scoring (''Pontuações''). Blocked on the Free plan: the contact card and the settings card
+  are locked.'
+ui_label_pt: Configurações > Contatos > Pontuações
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/settings
+    steps:
+    - 'Open Settings > CRM > Contatos: the card ''Pontuações'' carries a crown. The contact page also has a locked
+      card ''Pontuações''.'
+    - Neither was opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Crowns seen; the feature's options are unknown.

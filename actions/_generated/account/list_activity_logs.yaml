@@ -1,0 +1,93 @@
+id: account.list_activity_logs
+domain: account
+summary: Get user activity logs.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Enter start date in UTC date (YYYY-MM-DD) format to filter the
+        activity in your account. Maximum time period that can be selected is one month. Additionally, you can retrieve
+        activity logs from the past 12 …
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Enter end date in UTC date (YYYY-MM-DD) format to filter the
+        activity in your account. Maximum time period that can be selected is one month.
+    limit:
+      type: integer
+      format: int64
+      default: 10
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document in the page.
+outputs:
+  type: object
+  properties:
+    logs:
+      type: array
+      description: Get user activity logs
+      items:
+        type: object
+        required:
+        - action
+        - date
+        - user_agent
+        - user_email
+        - user_ip
+        properties:
+          action:
+            type: string
+            description: Type of activity in the account.
+          date:
+            type: string
+            description: Time of the activity.
+          user_email:
+            type: string
+            description: Email address of the user who performed activity in the account.
+          user_ip:
+            type: string
+            description: IP address of the user who performed activity in the account.
+          user_agent:
+            type: string
+            description: Browser details of the user who performed the activity.
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /organization/activities
+    auth: api-key header (never store the value).
+    operation_id: getAccountActivity
+  ui:
+    entry: /settings/users
+    steps:
+    - Open the settings gear > Usuários and the tab 'Logs de atividades'.
+    - The tab was named in the crawl; its table was not read.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Tab name seen only. The API action was not run. Generated from the Brevo public API spec (SDK snapshot,
+    Feb 2025). Not executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/ui.settings_pages_read.json
+ui_label_pt: Configurações > Usuários > Logs de atividades

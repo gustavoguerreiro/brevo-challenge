@@ -1,0 +1,38 @@
+id: account.purchase_licenses
+domain: account
+summary: Add user licences ('Adicionar licenças', crown). Buys capacity; blocked on the Free plan.
+ui_label_pt: Usuários > Adicionar licenças
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run. Expected: the licence counters on Configurações > Usuários change and the plan or
+  billing page shows a charge. Confirm item and total with the person first.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/users
+    steps:
+    - Open Settings > Usuários. The licence counters (Marketing 1/1, Sales 1/1) each have a button 'Adicionar licenças'
+      (crown).
+    - Not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Counters and crown seen; the purchase flow is unknown. A purchase needs the person's explicit yes with
+    item and total.

@@ -1,0 +1,38 @@
+id: content.create_template_folder
+domain: content
+summary: Create a folder for e-mail templates. Blocked on the Free plan ('Criar pasta' on Modelos carries a crown).
+ui_label_pt: Modelos > Criar pasta
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Folder name. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - On Marketing > Modelos press 'Criar pasta' (crown).
+    - Not pressed; the campaign-folder button behind the same crown opens an upgrade dialog.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Crown seen on the templates page; the dialog was seen for the campaign folder button.

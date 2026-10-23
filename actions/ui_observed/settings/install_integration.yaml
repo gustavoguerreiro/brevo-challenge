@@ -1,0 +1,37 @@
+id: integrations.install_integration
+domain: integrations
+summary: Install or connect one integration from the marketplace. No integration was opened, so the flow is unknown.
+ui_label_pt: Integrações > Todas as integrações
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    integration:
+      type: string
+      description: Integration name.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /app-store
+    steps:
+    - Open /app-store, pick an integration card and follow its set-up (not opened for any integration).
+    - 'Each integration is likely to ask for a sign-in or a key on the partner side: a person must do that.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Only the list was seen.

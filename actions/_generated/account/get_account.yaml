@@ -1,0 +1,182 @@
+id: account.get_account
+domain: account
+summary: Get your account information, plan and credits details.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  allOf:
+  - allOf:
+    - type: object
+      required:
+      - companyName
+      - email
+      - firstName
+      - lastName
+      properties:
+        email:
+          type: string
+          format: email
+          description: Login Email
+        firstName:
+          type: string
+          description: First Name
+        lastName:
+          type: string
+          description: Last Name
+        companyName:
+          type: string
+          description: Name of the company
+    - type: object
+      required:
+      - address
+      properties:
+        address:
+          type: object
+          required:
+          - city
+          - country
+          - street
+          - zipCode
+          properties:
+            street:
+              type: string
+              description: Street information
+            city:
+              type: string
+              description: City information
+            zipCode:
+              type: string
+              description: Zip Code information
+            country:
+              type: string
+              description: Country information
+          description: Address informations
+  - type: object
+    required:
+    - plan
+    - relay
+    properties:
+      plan:
+        type: array
+        description: Information about your plans and credits
+        items:
+          type: object
+          required:
+          - credits
+          - creditsType
+          - type
+          properties:
+            type:
+              type: string
+              description: Displays the plan type of the user
+              enum:
+              - payAsYouGo
+              - free
+              - subscription
+              - sms
+              - reseller
+            creditsType:
+              type: string
+              description: This is the type of the credit, "Send Limit" is one of the possible types of credit of
+                a user. "Send Limit" implies the total number of emails you can send to the subscribers in your
+                account.
+              enum:
+              - sendLimit
+            credits:
+              type: number
+              format: float
+              description: Remaining credits of the user
+            startDate:
+              type: string
+              format: date
+              description: Date of the period from which the plan will start (only available for "subscription"
+                and "reseller" plan type)
+            endDate:
+              type: string
+              format: date
+              description: Date of the period from which the plan will end (only available for "subscription" and
+                "reseller" plan type)
+            userLimit:
+              type: integer
+              description: Only in case of reseller account. It implies the total number of child accounts you can
+                add to your account.
+      relay:
+        type: object
+        required:
+        - data
+        - enabled
+        properties:
+          enabled:
+            type: boolean
+            description: Status of your transactional email Account (true=Enabled, false=Disabled)
+          data:
+            type: object
+            required:
+            - port
+            - relay
+            - userName
+            properties:
+              userName:
+                type: string
+                format: email
+                description: Email to use as login on transactional platform
+              relay:
+                type: string
+                description: URL of the SMTP Relay
+              port:
+                type: integer
+                description: Port used for SMTP Relay
+            description: Data regarding the transactional email account
+        description: Information about your transactional email account
+      marketingAutomation:
+        type: object
+        required:
+        - enabled
+        properties:
+          key:
+            type: string
+            description: Marketing Automation Tracker ID
+          enabled:
+            type: boolean
+            description: Status of Marketing Automation Plateform activation for your account (true=enabled, false=disabled)
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /account
+    auth: api-key header (never store the value).
+    operation_id: getAccount
+  ui:
+    entry: /
+    steps:
+    - Press 'Uso e plano' in the top bar for the plan, the daily e-mail allowance and the pre-paid e-mail and SMS
+      credits; 'Meu plano' in the account menu has the plan page.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).
+    Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key.
+    Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.read_pages.json
+ui_label_pt: Uso e plano

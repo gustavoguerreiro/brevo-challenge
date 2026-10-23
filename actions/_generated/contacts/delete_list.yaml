@@ -1,0 +1,57 @@
+id: contacts.delete_list
+domain: contacts
+summary: Delete a contact list (destructive; confirm first). Its contacts are expected to stay in the account.
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'listId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    listId:
+      type: integer
+      format: int64
+      description: Id of the list
+  required:
+  - listId
+side_effects:
+- 'Expected (from the API docs, not verified): Contacts stay in the account but leave the list; automations and
+  campaigns that used the list lose that audience.'
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); then a get_ of the same id should answer 404 (expected, not tested).
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: List ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /contacts/lists/{listId}
+    auth: api-key header (never store the value).
+    operation_id: deleteList
+  ui:
+    entry: /contact/list-listing
+    steps:
+    - Open the Ações menu of the list row and choose 'Excluir lista' (red entry).
+    - 'Confirm in the dialog. NOT EXECUTED: deletion was not allowed in this test, so the dialog and its wording
+      were not seen.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'Only the menu entry was observed. Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not
+    executed: the account had no API key. Also present in the live developer-site spec read on 2026-10-22.'
+  evidence: evidence/contacts.create_list.json
+description: 'Author''s note (from the docs or from reading the spec; not verified): Contacts stay in the account;
+  automations on the list stop matching.'
+ui_label_pt: Excluir lista

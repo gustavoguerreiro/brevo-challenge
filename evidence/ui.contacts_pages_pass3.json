@@ -1,0 +1,19 @@
+{
+ "action": "contacts and campaign pages, read only (crawl pass 3)",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR. Pages were opened and read; see inventory/ui_crawl_pass3_crm_marketing.md. Self-reported.",
+ "pages": {
+  "/contact/list": "Header 'Contatos', buttons 'Adicionar contatos' and 'Importar contatos'; view tabs 'Todos os contatos' and '+' (save a new view), gear for view settings; controls 'Carregar uma lista ou um segmento', 'Adicionar filtro', 'Personalizar colunas', search box; selecting rows shows the bulk bar (see evidence/ui.pass6_misc_pages.json).",
+  "/contact/list-listing": "Buttons 'Criar uma lista' and 'Recalcular agora'.",
+  "/contact/index/<id>": "Tabs Visão geral, Histórico, Listas, Preferences; action bar Anotação, E-mail, Ligar, SMS, Tarefa, Mais (Reunião, Oportunidade, Arquivo, Adicionar à automação, Excluir definitivamente).",
+  "/companies": "'Importar empresas', 'Criar empresa'.",
+  "/campaigns/listing": "Row menu: Editar, Pré-visualizar e testar, Duplicar, Adicionar à pasta (crown), Atribuir etiqueta (crown), Compartilhar modelo, Excluir; header 'Gerar campanha com IA'.",
+  "/templates/listing": "'Criar modelo' asks for Modelo de e-mail, Modelo do WhatsApp or Modelo push (crown).",
+  "/senders/list": "'Adicionar remetente' opens /senders/add with From Name* and From Email*."
+ },
+ "limitations": [
+  "Buttons such as 'Recalcular agora', 'Gerar campanha com IA', 'Ligar', 'E-mail', 'SMS', 'Tarefa' and the bulk entries were seen, not pressed",
+  "Nothing was changed"
+ ],
+ "test_data_left_in_account": "none"
+}

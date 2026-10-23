@@ -1,0 +1,79 @@
+id: crm.get_note
+domain: crm
+summary: Get a note.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      description: Note ID to get
+  required:
+  - id
+outputs:
+  type: object
+  required:
+  - text
+  properties:
+    id:
+      type: string
+      description: Unique note Id
+    text:
+      type: string
+      description: Text content of a note
+      minLength: 1
+      maxLength: 3000
+    contactIds:
+      type: array
+      description: Contact ids linked to a note
+      items:
+        type: integer
+    dealIds:
+      type: array
+      description: Deal ids linked to a note
+      items:
+        type: string
+    authorId:
+      type: object
+      description: Account details of user which created the note
+      properties: {}
+    createdAt:
+      type: string
+      format: date-time
+      description: Note created date/time
+    updatedAt:
+      type: string
+      format: date-time
+      description: Note updated date/time
+  description: Note Details
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Returned when invalid data posted'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Returned when item not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /crm/notes/{id}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

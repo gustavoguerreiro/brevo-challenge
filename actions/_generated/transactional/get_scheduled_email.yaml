@@ -1,0 +1,111 @@
+id: transactional.get_scheduled_email
+domain: transactional
+summary: Fetch scheduled emails by batchId.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'batchId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    batchId:
+      type: string
+      description: The batchId of scheduled emails batch (Should be a valid UUIDv4)
+    startDate:
+      type: string
+      format: date
+      description: Mandatory if `endDate` is used. Starting date (YYYY-MM-DD) from which you want to fetch the list.
+        Can be maximum 30 days older tha current date.
+    endDate:
+      type: string
+      format: date
+      description: Mandatory if `startDate` is used. Ending date (YYYY-MM-DD) till which you want to fetch the list.
+        Maximum time period that can be selected is one month.
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+    status:
+      type: string
+      enum:
+      - processed
+      - inProgress
+      - queued
+      description: Filter the records by `status` of the scheduled email batch or message.
+    limit:
+      type: integer
+      format: int64
+      default: 100
+      description: Number of documents returned per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page
+  required:
+  - batchId
+outputs:
+  type: object
+  properties:
+    count:
+      type: integer
+      description: Total number of batches
+    batches:
+      type: array
+      items:
+        type: object
+        required:
+        - createdAt
+        - scheduledAt
+        - status
+        properties:
+          scheduledAt:
+            type: string
+            format: date-time
+            description: Datetime for which the batch was scheduled
+          createdAt:
+            type: string
+            format: date-time
+            description: Datetime on which the batch was scheduled
+          status:
+            type: string
+            description: Current status of the scheduled batch
+            enum:
+            - inProgress
+            - queued
+            - processed
+            - error
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Invalid parameters passed'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Records for batchId not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /smtp/emailStatus/{batchId}
+    auth: api-key header (never store the value).
+    operation_id: getScheduledEmailByBatchId
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): By batchId or messageId.'

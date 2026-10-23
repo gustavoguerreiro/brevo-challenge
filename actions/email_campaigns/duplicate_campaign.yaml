@@ -1,0 +1,66 @@
+id: email_campaigns.duplicate_campaign
+domain: email_campaigns
+summary: Duplicate an e-mail campaign, choosing which parts to keep. The copy is a draft.
+ui_label_pt: Duplicar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - campaign_id
+  properties:
+    campaign_id:
+      type: integer
+    keep_sender:
+      type: boolean
+      default: true
+    keep_recipients:
+      type: boolean
+      default: true
+    keep_subject:
+      type: boolean
+      default: true
+    keep_design:
+      type: boolean
+      default: true
+    keep_additional_settings:
+      type: boolean
+      default: true
+outputs:
+  type: object
+  properties:
+    campaign_id:
+      type: integer
+side_effects:
+- 'Observed: the dialog ticks Remetente, Destinatários, Assunto, Design and Configurações adicionais by default,
+  and the copy is a draft named ''<name>_copy''.'
+- 'Expected (not verified: the source draft had no recipients): keeping Destinatários points the copy at the same
+  lists or segments, so sending it later would reach the same audience. Untick it unless that is wanted.'
+postcondition_check: The list has a new draft row '<name>_copy' with the next free id.
+errors: []
+limits: []
+depends_on:
+- email_campaigns.create_campaign
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Open Marketing > Campanhas and the three-dot menu of the row.
+    - 'Choose ''Duplicar''. Dialog ''Duplicar campanha?'' with check boxes, all on by default: Remetente, Destinatários,
+      Assunto, Design, Configurações adicionais. Untick what must not be copied.'
+    - Press 'Duplicar campanha' (or 'Cancelar'). Toast 'Campanha "<name>" duplicada.' and the copy '<name>_copy'
+      appears first with status Rascunho.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Executed once on the test campaign (ID 1 -> ID 4) with every box ticked. Individual boxes were not varied.

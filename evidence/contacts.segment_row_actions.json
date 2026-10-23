@@ -1,0 +1,15 @@
+{
+  "action": "contacts.rename_segment / duplicate_segment / recalculate_segment / move_segment / delete_segment",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome, the test account, pt-BR, on ZZ_TEST_segment_1 (ID 1).",
+  "steps_run": [
+    "Segmentos > row menu (6 entries: Renomear, Duplicar, Mover segmento, Dividir em listas [crown], Atualizar dados, Excluir segmento)",
+    "Renomear: side panel 'Renomear segmento', field 'Novo nome do segmento*' (max 50): renamed to ZZ_TEST_segment_1_renamed (toast 'Segmento renomeado para ...', Última edição updated), then renamed back",
+    "Mover segmento: panel 'Mova segmento para outra pasta', select 'Pasta*' showed no other folder and a button 'Criar uma nova pasta'; cancelled",
+    "Duplicar: panel 'Duplicar segmento', 'Nome*' prefilled 'Duplicado de <name>' (max 50) and 'Pasta de destino*' (default My segments): created ZZ_TEST_segment_2_dup (toast 'Segmento ... duplicado', new ID 2, same filter, 1 contact)",
+    "Atualizar dados: clicked, no toast or visible change (count stayed 1)"
+  ],
+  "not_executed": ["Excluir segmento (deletion not allowed in this test)", "Dividir em listas (plan-gated)", "Mover segmento (no second folder)"],
+  "limitations": ["Request bodies and internal service hosts not captured for the segment actions."],
+  "test_data_left_in_account": "segment ID 2 ZZ_TEST_segment_2_dup"
+}

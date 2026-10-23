@@ -1,0 +1,105 @@
+id: sms_whatsapp.update_sms_campaign
+domain: sms_whatsapp
+summary: Edit an SMS campaign; with a schedule field set it schedules a real send.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: id of the SMS campaign
+    name:
+      type: string
+      description: Name of the campaign
+      x-in: body
+    sender:
+      type: string
+      description: Name of the sender. **The number of characters is limited to 11 for alphanumeric characters and
+        15 for numeric characters**
+      maxLength: 15
+      x-in: body
+    content:
+      type: string
+      description: Content of the message. The maximum characters used per SMS is 160, if used more than that, it
+        will be counted as more than one SMS
+      x-in: body
+    recipients:
+      type: object
+      required:
+      - listIds
+      properties:
+        listIds:
+          type: array
+          description: Lists Ids to send the campaign to. REQUIRED if scheduledAt is not empty
+          items:
+            type: integer
+            format: int64
+            description: List Id to send the campaign to
+        exclusionListIds:
+          type: array
+          description: List ids which have to be excluded from a campaign
+          items:
+            type: integer
+            format: int64
+            description: List Id to exclude from the campaign
+      x-in: body
+    scheduledAt:
+      type: string
+      description: UTC date-time on which the campaign has to run (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your
+        timezone in date-time format for accurate result.
+      x-in: body
+    unicodeEnabled:
+      type: boolean
+      description: Format of the message. It indicates whether the content should be treated as unicode or not.
+      default: false
+      x-in: body
+    organisationPrefix:
+      type: string
+      description: A recognizable prefix will ensure your audience knows who you are. Recommended by U.S. carriers.
+        This will be added as your Brand Name before the message content. **Prefer verifying maximum length of 160
+        characters including this prefix in …
+      x-in: body
+    unsubscribeInstruction:
+      type: string
+      description: Instructions to unsubscribe from future communications. Recommended by U.S. carriers. Must include
+        **STOP** keyword. This will be added as instructions after the end of message content. **Prefer verifying
+        maximum length of 160 characters …
+      x-in: body
+  required:
+  - campaignId
+side_effects:
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /smsCampaigns/{campaignId}
+    auth: api-key header (never store the value).
+    operation_id: updateSmsCampaign
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Marked external_effect because
+  the body carries scheduledAt (schedules a real SMS send).'

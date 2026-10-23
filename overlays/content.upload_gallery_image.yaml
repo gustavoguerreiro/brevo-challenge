@@ -1,0 +1,18 @@
+id: content.upload_gallery_image
+plan_availability:
+  free: available
+ui_label_pt: Biblioteca > Multimídia
+ui:
+  entry: /content-hub
+  steps:
+  - 'Open Biblioteca > Multimídia (page title ''Mídia''). Press ''Adicionar arquivo'' (black button, top right).
+    Entries: ''Carregar'' (file picker) and ''Importar via URL''.'
+  - '''Criar pasta'' creates a media folder; ''Gerar imagem'' makes an image with AI. NOT EXECUTED: nothing was
+    uploaded.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Whether the UI library and the API gallery are the same store was not tested.

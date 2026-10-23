@@ -1,0 +1,31 @@
+{
+  "action": "contacts.create_segment",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR",
+  "steps_run": [
+    "Opened CRM > Contatos > Segmentos, pressed 'Criar um segmento' (lands on /contact/segment/templates, a template picker with tabs Marketing por e-mail, Marketing por SMS, Dados demográficos, Vendas)",
+    "Chose to build from scratch (URL /contact/segment/id/new)",
+    "Added one filter: category 'Atributos de contato', attribute 'E-mail (endereço)', operator 'Contém', value tag 'zz_test'. The live counter showed the matching contacts.",
+    "Pressed 'Salvar como segmento'; dialog 'Criar segmento' with Nome* (max 50) and Pasta* (default 'My segments'); typed ZZ_TEST_segment_1 and confirmed"
+  ],
+  "results": [
+    "Toast 'Segmentos salvos com sucesso!'",
+    "Navigated to /contact/segment/id/1",
+    "Re-opened later: header ZZ_TEST_segment_1, saved filter 'E-mail (endereço) Contém zz_test', '1 contato' (ZZ_TEST, zz_test_contact_1@example.com, subscribed by e-mail)",
+    "Segment list /contact/segment: row ZZ_TEST_segment_1, ID #1, folder My segments, Contatos 1, Última edição 22 out 2026 16:43",
+    "Resource timing showed segments-api/segment on save"
+  ],
+  "ui_structure_observed": {
+    "filter_groups": "Conditions inside a group are joined by 'E' (AND); groups are joined by 'Ou' (OR).",
+    "filter_categories": ["Atributos de contato", "Eventos de contato (Marketing > E-mail/SMS, Conversas, Comércio)", "Objetos associados (Oportunidade, Empresa, ...)"],
+    "text_operators": ["É igual a", "Não é igual a", "Contém", "Não contém", "Começa com", "Não começa com", "Termina com", "Não termina com"],
+    "value_input": "multi-tag, up to 50 values",
+    "buttons": ["Limpar filtros", "Salvar como segmento"],
+    "list_row_actions_observed_not_executed": ["Renomear", "Duplicar", "Mover segmento", "Dividir em listas (crown, plan-gated)", "Atualizar dados", "Excluir segmento"]
+  },
+  "limitations": [
+    "The save request body was not captured.",
+    "Only one operator family (text) and one attribute were exercised; other attribute types (number, date, boolean, category) and event filters were seen as menu entries only."
+  ],
+  "test_data_left_in_account": "segment ZZ_TEST_segment_1 (ID 1), to be removed by the account owner"
+}

@@ -1,0 +1,350 @@
+# Curated map from Brevo public API operations to catalog action ids.
+# This file is the human/AI-reviewed layer on top of the machine-generated inventory.
+# Columns: METHOD path | id | flags | note
+# flags (space separated):
+#   ext        risk external_effect (reaches real recipients, third parties, billing or credentials)
+#   conf       requires_human_confirmation
+#   write      force risk=write (default for DELETE is destructive)
+#   destructive force risk=destructive
+#   read       force risk=read (POST used as a read)
+#   live       operation exists only in the live developer-site spec (not in the Feb 2025 SDK snapshot)
+#   removed    operation is in the Feb 2025 snapshot but absent from the live spec: not catalogued
+#   dup        collapsed into another row in the live spec: not catalogued
+#   handwritten covered by a hand-written action file; the generator skips it
+#   deprecated marked deprecated in the spec
+# Verbs allowed in ids: see schema/action.schema.json.
+
+# ---- account
+GET /account | account.get_account | |
+GET /organization/activities | account.list_activity_logs | |
+GET /senders/domains | account.list_domains | |
+POST /senders/domains | account.create_domain | conf | Registers a sender domain; DNS records must then be added at the DNS host.
+DELETE /senders/domains/{domainName} | account.delete_domain | conf |
+GET /senders/domains/{domainName} | account.get_domain | | Returns the DNS records to configure.
+PUT /senders/domains/{domainName}/authenticate | account.verify_domain | | Asks Brevo to check the DNS records.
+GET /senders | account.list_senders | |
+POST /senders | account.create_sender | ext conf | Brevo sends a verification message to the sender address.
+GET /senders/ips | account.list_dedicated_ips | |
+DELETE /senders/{senderId} | account.delete_sender | conf |
+PUT /senders/{senderId} | account.update_sender | |
+GET /senders/{senderId}/ips | account.list_sender_ips | |
+PUT /senders/{senderId}/validate | account.verify_sender | | Completes verification with the OTP received by e-mail.
+GET /processes | account.list_processes | |
+GET /processes/{processId} | account.get_process | |
+GET /organization/invited/users | account.list_user_invitations | |
+PUT /organization/user/invitation/revoke/{email} | account.remove_user | destructive conf | Revokes the user's access to the organization.
+POST /organization/user/invitation/send | account.invite_user | ext conf | Sends an invitation e-mail. Free plan has 1 user seat.
+PUT /organization/user/invitation/{action}/{email} | account.update_user_invitation | ext conf | action is resend or cancel.
+POST /organization/user/update/permissions | account.update_user_permissions | conf |
+GET /organization/user/{email}/permissions | account.get_user_permissions | |
+# master account (corporate) endpoints
+POST /corporate/group | account.create_sub_account_group | |
+PUT /corporate/group/unlink/{groupId}/subAccounts | account.remove_sub_accounts_from_group | conf |
+DELETE /corporate/group/{id} | account.delete_sub_account_group | conf |
+GET /corporate/group/{id} | account.get_sub_account_group | |
+PUT /corporate/group/{id} | account.update_sub_account_group | |
+GET /corporate/groups | account.list_sub_account_groups | |
+GET /corporate/invited/users | account.list_admin_invitations | |
+GET /corporate/masterAccount | account.get_master_account | |
+POST /corporate/ssoToken | account.create_admin_sso_token | conf | Creates a login token for the admin user.
+GET /corporate/subAccount | account.list_sub_accounts | |
+POST /corporate/subAccount | account.create_sub_account | conf | May incur plan costs.
+POST /corporate/subAccount/ip/associate | account.add_ip_to_sub_accounts | conf |
+PUT /corporate/subAccount/ip/dissociate | account.remove_ip_from_sub_account | conf |
+POST /corporate/subAccount/key | account.create_sub_account_api_key | conf | Creates a credential; never store the value.
+POST /corporate/subAccount/ssoToken | account.create_sub_account_sso_token | conf |
+DELETE /corporate/subAccount/{id} | account.delete_sub_account | conf |
+GET /corporate/subAccount/{id} | account.get_sub_account | |
+PUT /corporate/subAccount/{id}/applications/toggle | account.configure_sub_account_apps | conf |
+PUT /corporate/subAccount/{id}/plan | account.update_sub_account_plan | conf | Changes credits and features of a sub-account.
+POST /corporate/user/invitation/send | account.invite_admin_user | ext conf |
+PUT /corporate/user/invitation/{action}/{email} | account.update_admin_invitation | ext conf |
+DELETE /corporate/user/revoke/{email} | account.remove_admin_user | conf |
+GET /corporate/user/{email}/permissions | account.get_admin_user_permissions | |
+PUT /corporate/subAccounts/plan | account.update_sub_accounts_plan | live conf | Bulk plan update across sub-accounts.
+GET /corporate/ip | account.list_corporate_ips | live |
+PUT /corporate/user/{email}/permissions | account.update_admin_user_permissions | live conf |
+
+# ---- contacts
+GET /contacts | contacts.list_contacts | |
+POST /contacts | contacts.create_contact | handwritten |
+GET /contacts/attributes | contacts.list_attributes | |
+DELETE /contacts/attributes/{attributeCategory}/{attributeName} | contacts.delete_attribute | conf | Removes the attribute and its values from all contacts.
+POST /contacts/attributes/{attributeCategory}/{attributeName} | contacts.create_attribute | |
+PUT /contacts/attributes/{attributeCategory}/{attributeName} | contacts.update_attribute | |
+POST /contacts/batch | - | removed | Not in the live spec; use POST /contacts/import or per-contact PUT.
+POST /contacts/doubleOptinConfirmation | contacts.create_doi_contact | ext conf | Sends a double opt-in confirmation e-mail to the contact.
+POST /contacts/export | contacts.export_contacts | write | Starts an asynchronous export; poll the process.
+GET /contacts/folders | contacts.list_folders | |
+POST /contacts/folders | contacts.create_folder | |
+DELETE /contacts/folders/{folderId} | contacts.delete_folder | conf | Deletes the lists inside the folder (contacts themselves stay).
+GET /contacts/folders/{folderId} | contacts.get_folder | |
+PUT /contacts/folders/{folderId} | contacts.update_folder | |
+GET /contacts/folders/{folderId}/lists | contacts.list_folder_lists | |
+POST /contacts/import | contacts.import_contacts | | Asynchronous; returns a process id.
+GET /contacts/lists | contacts.list_lists | |
+POST /contacts/lists | contacts.create_list | handwritten |
+DELETE /contacts/lists/{listId} | contacts.delete_list | conf | Contacts stay in the account; automations on the list stop matching.
+GET /contacts/lists/{listId} | contacts.get_list | |
+PUT /contacts/lists/{listId} | contacts.update_list | |
+GET /contacts/lists/{listId}/contacts | contacts.list_list_contacts | |
+POST /contacts/lists/{listId}/contacts/add | contacts.add_contact_to_list | | Can fire automations triggered by 'Contato adicionado à lista'.
+POST /contacts/lists/{listId}/contacts/remove | contacts.remove_contact_from_list | |
+GET /contacts/segments | contacts.list_segments | | Read only; segments cannot be created through the API.
+DELETE /contacts/{identifier} | contacts.delete_contact | conf | Removes the contact and its history.
+GET /contacts/{identifier} | contacts.get_contact | |
+PUT /contacts/{identifier} | contacts.update_contact | |
+GET /contacts/{identifier}/campaignStats | contacts.get_contact_campaign_stats | |
+GET /contacts/consent-groups | contacts.list_consent_groups | live |
+POST /contacts/consent-groups | contacts.create_consent_group | live |
+GET /contacts/consent-groups/{id} | contacts.get_consent_group | live |
+PUT /contacts/consent-groups/{id} | contacts.update_consent_group | live |
+DELETE /contacts/consent-groups/{id} | contacts.delete_consent_group | live conf |
+DELETE /contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption} | contacts.remove_attribute_option | live conf |
+
+# ---- crm
+GET /companies | crm.list_companies | |
+POST /companies | crm.create_company | |
+GET /companies/attributes | - | removed | Moved to GET /crm/attributes/companies in the live spec.
+PATCH /companies/link-unlink/{id} | crm.update_company_links | | Links or unlinks contacts and deals.
+DELETE /companies/{id} | crm.delete_company | conf |
+GET /companies/{id} | crm.get_company | |
+PATCH /companies/{id} | crm.update_company | |
+GET /crm/attributes/deals | crm.list_deal_attributes | |
+GET /crm/deals | crm.list_deals | |
+POST /crm/deals | crm.create_deal | |
+POST /crm/deals/import | crm.import_deals | |
+PATCH /crm/deals/link-unlink/{id} | crm.update_deal_links | |
+DELETE /crm/deals/{id} | crm.delete_deal | conf |
+GET /crm/deals/{id} | crm.get_deal | |
+PATCH /crm/deals/{id} | crm.update_deal | |
+GET /crm/pipeline/details | crm.get_default_pipeline | deprecated | Deprecated in the spec; prefer crm.list_pipelines.
+GET /crm/pipeline/details/all | crm.list_pipelines | |
+GET /crm/pipeline/details/{pipelineID} | crm.get_pipeline | |
+GET /crm/files | crm.list_files | |
+POST /crm/files | crm.create_file | | Uploads a file and links it to a contact, company or deal.
+DELETE /crm/files/{id} | crm.delete_file | conf |
+GET /crm/files/{id} | crm.get_file | |
+GET /crm/files/{id}/data | crm.get_file_data | |
+GET /crm/notes | crm.list_notes | |
+POST /crm/notes | crm.create_note | |
+DELETE /crm/notes/{id} | crm.delete_note | conf |
+GET /crm/notes/{id} | crm.get_note | |
+PATCH /crm/notes/{id} | crm.update_note | |
+GET /crm/tasks | crm.list_tasks | |
+POST /crm/tasks | crm.create_task | | Can fire automations triggered by 'Tarefa criada'.
+DELETE /crm/tasks/{id} | crm.delete_task | conf |
+GET /crm/tasks/{id} | crm.get_task | |
+PATCH /crm/tasks/{id} | crm.update_task | | Setting a task done can fire 'Tarefa concluída' automations.
+GET /crm/tasktypes | crm.list_task_types | |
+POST /crm/attributes | crm.create_attribute | live | Creates a company or deal attribute.
+GET /crm/attributes/companies | crm.list_company_attributes | live |
+POST /companies/import | crm.import_companies | live |
+
+# ---- conversations
+POST /conversations/agentOnlinePing | conversations.update_agent_status | |
+POST /conversations/messages | conversations.send_visitor_message | ext conf |
+DELETE /conversations/messages/{id} | conversations.delete_message | conf |
+GET /conversations/messages/{id} | conversations.get_message | |
+PUT /conversations/messages/{id} | conversations.update_message | |
+POST /conversations/pushedMessages | conversations.send_automated_message | ext conf | Pushes an automated chat message to a visitor.
+DELETE /conversations/pushedMessages/{id} | conversations.delete_automated_message | conf |
+GET /conversations/pushedMessages/{id} | conversations.get_automated_message | |
+PUT /conversations/pushedMessages/{id} | conversations.update_automated_message | |
+PUT /conversations/visitorGroup | conversations.update_visitor_group | live |
+
+# ---- e-mail campaigns and content
+GET /emailCampaigns | email_campaigns.list_campaigns | |
+POST /emailCampaigns | email_campaigns.create_campaign | handwritten |
+POST /emailCampaigns/images | content.upload_gallery_image | |
+DELETE /emailCampaigns/{campaignId} | email_campaigns.delete_campaign | conf |
+GET /emailCampaigns/{campaignId} | email_campaigns.get_campaign | |
+PUT /emailCampaigns/{campaignId} | email_campaigns.update_campaign | ext conf | Marked external_effect because this call carries scheduledAt and sendAtBestTime: with recipients set it schedules a real send. Without those fields it only edits the draft; still ask for a yes before sending the call.
+GET /emailCampaigns/{campaignId}/abTestCampaignResult | email_campaigns.get_ab_test_result | |
+POST /emailCampaigns/{campaignId}/exportRecipients | email_campaigns.export_recipients | write |
+POST /emailCampaigns/{campaignId}/sendNow | email_campaigns.send_campaign_now | handwritten |
+POST /emailCampaigns/{campaignId}/sendReport | email_campaigns.send_report | ext conf | E-mails the campaign report to the given addresses.
+POST /emailCampaigns/{campaignId}/sendTest | email_campaigns.send_test_email | ext conf | Sends the campaign to test addresses only.
+GET /emailCampaigns/{campaignId}/sharedUrl | email_campaigns.get_shared_url | |
+PUT /emailCampaigns/{campaignId}/status | email_campaigns.update_campaign_status | ext conf | Status values can queue a send, suspend or archive a campaign.
+
+# ---- sms and whatsapp
+GET /smsCampaigns | sms_whatsapp.list_sms_campaigns | |
+POST /smsCampaigns | sms_whatsapp.create_sms_campaign | handwritten |
+DELETE /smsCampaigns/{campaignId} | sms_whatsapp.delete_sms_campaign | conf |
+GET /smsCampaigns/{campaignId} | sms_whatsapp.get_sms_campaign | |
+PUT /smsCampaigns/{campaignId} | sms_whatsapp.update_sms_campaign | ext conf | Marked external_effect because the body carries scheduledAt (schedules a real SMS send).
+POST /smsCampaigns/{campaignId}/exportRecipients | sms_whatsapp.export_sms_recipients | write |
+POST /smsCampaigns/{campaignId}/sendNow | sms_whatsapp.send_sms_campaign | ext conf |
+POST /smsCampaigns/{campaignId}/sendReport | sms_whatsapp.send_sms_report | ext conf |
+POST /smsCampaigns/{campaignId}/sendTest | sms_whatsapp.send_test_sms | ext conf |
+PUT /smsCampaigns/{campaignId}/status | sms_whatsapp.update_sms_campaign_status | ext conf |
+POST /transactionalSMS/sms | - | removed | Renamed to POST /transactionalSMS/send in the live spec.
+POST /transactionalSMS/send | sms_whatsapp.send_transactional_sms | live ext conf |
+POST /whatsapp/sendMessage | sms_whatsapp.send_whatsapp_message | ext conf |
+GET /whatsappCampaigns | sms_whatsapp.list_whatsapp_campaigns | |
+POST /whatsappCampaigns | sms_whatsapp.create_whatsapp_campaign | ext conf | The API summary says 'Create and Send': the body carries scheduledAt and the call can send to real recipients.
+GET /whatsappCampaigns/config | sms_whatsapp.get_whatsapp_config | |
+GET /whatsappCampaigns/template-list | sms_whatsapp.list_whatsapp_templates | |
+POST /whatsappCampaigns/template/approval/{templateId} | sms_whatsapp.send_whatsapp_template_approval | ext conf | Submits the template to Meta for approval.
+DELETE /whatsappCampaigns/{campaignId} | sms_whatsapp.delete_whatsapp_campaign | conf |
+GET /whatsappCampaigns/{campaignId} | sms_whatsapp.get_whatsapp_campaign | |
+PUT /whatsappCampaigns/{campaignId} | sms_whatsapp.update_whatsapp_campaign | ext conf | Marked external_effect because the body carries rescheduleFor (changes when real messages go out).
+POST /whatsppCampaigns/template | - | removed | Path typo fixed in the live spec: POST /whatsappCampaigns/template.
+POST /whatsappCampaigns/template | sms_whatsapp.create_whatsapp_template | live |
+
+# ---- transactional e-mail
+GET /smtp/blockedContacts | transactional.list_blocked_contacts | |
+DELETE /smtp/blockedContacts/{email} | transactional.remove_blocked_contact | write conf | Unblocks an address so it can receive transactional e-mail again.
+GET /smtp/blockedDomains | transactional.list_blocked_domains | |
+POST /smtp/blockedDomains | transactional.add_blocked_domain | |
+DELETE /smtp/blockedDomains/{domain} | transactional.remove_blocked_domain | write conf |
+POST /smtp/deleteHardbounces | transactional.delete_hardbounces | destructive conf |
+POST /smtp/email | transactional.send_email | ext conf | Sends real e-mail. Can also schedule with scheduledAt.
+DELETE /smtp/email/{identifier} | transactional.delete_scheduled_email | conf | Cancels a scheduled send.
+GET /smtp/emailStatus/{batchId} | transactional.get_scheduled_email | | By batchId or messageId.
+GET /smtp/emailStatus/{messageId} | - | dup | Same path in the live spec (identifier).
+GET /smtp/emails | transactional.list_emails | |
+GET /smtp/emails/{uuid} | transactional.get_email_content | |
+DELETE /smtp/log/{identifier} | transactional.delete_email_log | conf |
+GET /smtp/templates | transactional.list_templates | |
+POST /smtp/templates | content.create_email_template | handwritten |
+DELETE /smtp/templates/{templateId} | transactional.delete_template | conf |
+GET /smtp/templates/{templateId} | transactional.get_template | |
+PUT /smtp/templates/{templateId} | transactional.update_template | |
+POST /smtp/templates/{templateId}/sendTest | transactional.send_test_template | ext conf |
+POST /smtp/template/preview | transactional.get_template_preview | live read |
+GET /inbound/attachments/{downloadToken} | transactional.get_inbound_attachment | |
+GET /inbound/events | transactional.list_inbound_events | |
+GET /inbound/events/{uuid} | transactional.get_inbound_event | |
+
+# ---- reporting
+GET /smtp/statistics/aggregatedReport | reporting.get_email_aggregate_report | |
+GET /smtp/statistics/events | reporting.list_email_events | |
+GET /smtp/statistics/reports | reporting.list_email_daily_reports | |
+GET /transactionalSMS/statistics/aggregatedReport | reporting.get_sms_aggregate_report | |
+GET /transactionalSMS/statistics/events | reporting.list_sms_events | |
+GET /transactionalSMS/statistics/reports | reporting.list_sms_daily_reports | |
+GET /whatsapp/statistics/events | reporting.list_whatsapp_events | |
+
+# ---- integrations (webhooks, feeds, events)
+GET /webhooks | integrations.list_webhooks | |
+POST /webhooks | integrations.create_webhook | handwritten |
+POST /webhooks/export | integrations.export_webhook_history | write |
+DELETE /webhooks/{webhookId} | integrations.delete_webhook | conf |
+GET /webhooks/{webhookId} | integrations.get_webhook | |
+PUT /webhooks/{webhookId} | integrations.update_webhook | ext conf | Changing the URL sends contact data to the new address.
+GET /feeds | integrations.list_external_feeds | |
+POST /feeds | integrations.create_external_feed | |
+DELETE /feeds/{uuid} | integrations.delete_external_feed | conf |
+GET /feeds/{uuid} | integrations.get_external_feed | |
+PUT /feeds/{uuid} | integrations.update_external_feed | |
+POST /events | integrations.create_event | | Custom events can trigger automations and appear in segments.
+GET /events | integrations.list_events | live |
+POST /events/batch | integrations.create_events | live |
+
+# ---- ecommerce
+GET /categories | ecommerce.list_categories | |
+POST /categories | ecommerce.create_category | | Creates or updates.
+POST /categories/batch | ecommerce.create_categories | |
+GET /categories/{id} | ecommerce.get_category | |
+POST /ecommerce/activate | ecommerce.activate_ecommerce | |
+GET /ecommerce/attribution/metrics | ecommerce.list_attribution_metrics | |
+GET /ecommerce/attribution/metrics/{conversionSource}/{conversionSourceId} | ecommerce.get_attribution_metrics | |
+GET /ecommerce/attribution/products/{conversionSource}/{conversionSourceId} | ecommerce.list_attribution_products | |
+GET /ecommerce/config/displayCurrency | ecommerce.get_display_currency | |
+POST /ecommerce/config/displayCurrency | ecommerce.configure_display_currency | |
+GET /orders | ecommerce.list_orders | |
+POST /orders/status | ecommerce.create_order | ext | Order events can trigger automations that send messages.
+POST /orders/status/batch | ecommerce.create_orders | ext |
+GET /products | ecommerce.list_products | |
+POST /products | ecommerce.create_product | | Creates or updates.
+POST /products/batch | ecommerce.create_products | |
+GET /products/{id} | ecommerce.get_product | |
+POST /products/{id}/alerts/{type} | ecommerce.create_product_alert | live |
+GET /couponCollections | ecommerce.list_coupon_collections | |
+POST /couponCollections | ecommerce.create_coupon_collection | |
+GET /couponCollections/{id} | ecommerce.get_coupon_collection | |
+PATCH /couponCollections/{id} | ecommerce.update_coupon_collection | |
+POST /coupons | ecommerce.create_coupons | |
+POST /payments/requests | ecommerce.create_payment_request | ext conf | Sends a payment request to a customer.
+DELETE /payments/requests/{id} | ecommerce.delete_payment_request | conf |
+GET /payments/requests/{id} | ecommerce.get_payment_request | |
+
+# ---- custom objects (live only)
+POST /objects/{object_type}/batch/upsert | custom_objects.update_object_records | live | Upserts records.
+GET /objects/{object_type}/records | custom_objects.list_object_records | live |
+POST /objects/{object_type}/batch/delete | custom_objects.delete_object_records | live destructive conf |
+GET /objects/{object_type}/associated-records | custom_objects.list_associated_records | live |
+
+# ---- loyalty and wallet (live only)
+GET /loyalty/config/programs | loyalty.list_programs | live |
+POST /loyalty/config/programs | loyalty.create_program | live |
+GET /loyalty/config/programs/{pid} | loyalty.get_program | live |
+PUT /loyalty/config/programs/{pid} | loyalty.update_program | live |
+PATCH /loyalty/config/programs/{pid} | loyalty.configure_program | live | Partial update.
+DELETE /loyalty/config/programs/{pid} | loyalty.delete_program | live conf |
+POST /loyalty/config/programs/{pid}/publish | loyalty.publish_program | live ext conf | Makes the program live for members.
+POST /loyalty/config/programs/{pid}/subscriptions | loyalty.create_subscription | live |
+POST /loyalty/config/programs/{pid}/subscription-members | loyalty.add_subscription_members | live |
+DELETE /loyalty/config/programs/{pid}/subscription-members | loyalty.remove_subscription_members | live conf |
+DELETE /loyalty/config/programs/{pid}/contact/{cid} | loyalty.remove_contact | live conf |
+GET /loyalty/config/programs/{pid}/account-info | loyalty.get_program_account_info | live |
+GET /loyalty/offer/programs/{pid}/code-pools/{cpid}/codes-count | loyalty.get_code_pool_count | live |
+GET /loyalty/offer/programs/{pid}/vouchers | loyalty.list_vouchers | live |
+GET /loyalty/offer/programs/{pid}/offers | loyalty.list_offers | live |
+POST /loyalty/offer/programs/{pid}/offers | loyalty.create_offer | live |
+GET /loyalty/offer/programs/{pid}/rewards/{rid} | loyalty.get_reward | live |
+POST /loyalty/offer/programs/{pid}/rewards/attribute | loyalty.add_reward_to_contact | live |
+POST /loyalty/offer/programs/{pid}/rewards/redeem | loyalty.redeem_reward | live conf |
+POST /loyalty/offer/programs/{pid}/rewards/redeem/{tid}/complete | loyalty.complete_reward_redemption | live conf |
+DELETE /loyalty/offer/programs/{pid}/rewards/revoke | loyalty.remove_reward | live conf |
+POST /loyalty/offer/programs/{pid}/rewards/validate | loyalty.verify_reward | live read |
+GET /loyalty/balance/programs/{pid}/balance-definitions | loyalty.list_balance_definitions | live |
+POST /loyalty/balance/programs/{pid}/balance-definitions | loyalty.create_balance_definition | live |
+GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid} | loyalty.get_balance_definition | live |
+PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid} | loyalty.update_balance_definition | live |
+DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid} | loyalty.delete_balance_definition | live conf |
+POST /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits | loyalty.create_balance_limit | live |
+GET /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid} | loyalty.get_balance_limit | live |
+DELETE /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid} | loyalty.delete_balance_limit | live conf |
+PUT /loyalty/balance/programs/{pid}/balance-definitions/{bdid}/limits/{blid} | loyalty.update_balance_limit | live |
+GET /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances | loyalty.list_subscription_balances | live |
+POST /loyalty/balance/programs/{pid}/subscriptions/{cid}/balances | loyalty.create_subscription_balance | live |
+GET /loyalty/balance/programs/{pid}/contact-balances | loyalty.list_contact_balances | live |
+POST /loyalty/balance/programs/{pid}/transactions | loyalty.create_transaction | live conf |
+POST /loyalty/balance/programs/{pid}/transactions/{tid}/complete | loyalty.complete_transaction | live conf |
+POST /loyalty/balance/programs/{pid}/transactions/{tid}/cancel | loyalty.cancel_transaction | live conf |
+POST /loyalty/balance/programs/{pid}/create-order | loyalty.create_order | live |
+GET /loyalty/balance/programs/{pid}/active-balance | loyalty.get_active_balance | live |
+GET /loyalty/balance/programs/{pid}/transaction-history | loyalty.list_transactions | live |
+POST /loyalty/tier/programs/{pid}/tier-groups | loyalty.create_tier_group | live |
+GET /loyalty/tier/programs/{pid}/tier-groups | loyalty.list_tier_groups | live |
+PUT /loyalty/tier/programs/{pid}/tier-groups/{gid} | loyalty.update_tier_group | live |
+DELETE /loyalty/tier/programs/{pid}/tier-groups/{gid} | loyalty.delete_tier_group | live conf |
+GET /loyalty/tier/programs/{pid}/tier-groups/{gid} | loyalty.get_tier_group | live |
+GET /loyalty/tier/programs/{pid}/tiers | loyalty.list_tiers | live |
+POST /loyalty/tier/programs/{pid}/tier-groups/{gid}/tiers | loyalty.create_tier | live |
+DELETE /loyalty/tier/programs/{pid}/tiers/{tid} | loyalty.delete_tier | live conf |
+PUT /loyalty/tier/programs/{pid}/tiers/{tid} | loyalty.update_tier | live |
+POST /loyalty/tier/programs/{pid}/contacts/{cid}/tiers/{tid} | loyalty.add_contact_to_tier | live |
+GET /wallet/passes/{passId}/installUrl/{contactId} | loyalty.get_wallet_pass_install_url | live |
+POST /wallet/passes/{installationId}/redeem | loyalty.redeem_wallet_pass | live conf |
+
+# ---- reseller API: all 16 operations are absent from the live spec
+GET /reseller/children | - | removed |
+POST /reseller/children | - | removed |
+DELETE /reseller/children/{childIdentifier} | - | removed |
+GET /reseller/children/{childIdentifier} | - | removed |
+PUT /reseller/children/{childIdentifier} | - | removed |
+GET /reseller/children/{childIdentifier}/accountCreationStatus | - | removed |
+PUT /reseller/children/{childIdentifier}/accountStatus | - | removed |
+GET /reseller/children/{childIdentifier}/auth | - | removed |
+POST /reseller/children/{childIdentifier}/credits/add | - | removed |
+POST /reseller/children/{childIdentifier}/credits/remove | - | removed |
+GET /reseller/children/{childIdentifier}/domains | - | removed |
+POST /reseller/children/{childIdentifier}/domains | - | removed |
+DELETE /reseller/children/{childIdentifier}/domains/{domainName} | - | removed |
+PUT /reseller/children/{childIdentifier}/domains/{domainName} | - | removed |
+POST /reseller/children/{childIdentifier}/ips/associate | - | removed |
+POST /reseller/children/{childIdentifier}/ips/dissociate | - | removed |

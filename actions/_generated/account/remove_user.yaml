@@ -1,0 +1,53 @@
+id: account.remove_user
+domain: account
+summary: Revoke a user's access to the account.
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'email' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      description: Email of the invited user.
+  required:
+  - email
+outputs:
+  type: object
+  required:
+  - email
+  properties:
+    email:
+      type: string
+      description: Email address of the user.
+  description: Revoke user permission
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); list the parent collection and confirm the item is gone.
+errors:
+- condition: 'HTTP 403: Unauthorized access'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /organization/user/invitation/revoke/{email}
+    auth: api-key header (never store the value).
+    operation_id: putRevokeUserPermission
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Revokes the user''s access
+  to the organization.'

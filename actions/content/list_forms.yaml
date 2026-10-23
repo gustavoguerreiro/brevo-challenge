@@ -1,0 +1,46 @@
+id: content.list_forms
+domain: content
+summary: 'List sign-up, unsubscribe and profile-update forms. UI only: there is no public API for forms.'
+ui_label_pt: Marketing > Formulários
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    form_type:
+      type: string
+      enum:
+      - subscription
+      - unsubscribe
+      - profile_update
+      default: subscription
+    search:
+      type: string
+side_effects:
+- None; read only.
+postcondition_check: The tab shows rows, or an empty state with a 'Criar ...' button.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/forms-app/subscription
+    steps:
+    - Open Marketing > Formulários (/contact/forms-app/subscription).
+    - 'Tabs: ''Inscrição'', ''Cancelamento de assinatura'', ''Atualização de perfil'' (/contact/forms-app/update).
+      Rows show name, type, creation date, ''Enviados'' and a three-dot menu; search ''Pesquisar por nome''.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  verified_via:
+  - ui
+  notes: The three tabs were opened. The account had no sign-up or unsubscribe form and one default profile-update
+    form. The row menu entries were not opened.

@@ -1,0 +1,38 @@
+id: sms_whatsapp.create_sms_sender_id
+domain: sms_whatsapp
+summary: Request an SMS sender ID (card 'ID do remetente SMS' on /campaign-settings). The request goes to Brevo;
+  not run.
+ui_label_pt: Campanhas > ID do remetente SMS
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    sender_id:
+      type: string
+      description: Requested sender ID. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaign-settings
+    steps:
+    - Open /campaign-settings and press the button of the card 'ID do remetente SMS (request a sender ID)'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Card seen only. The SMS editor's field 'ID do remetente*' takes this value.

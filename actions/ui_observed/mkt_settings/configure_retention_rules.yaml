@@ -1,0 +1,39 @@
+id: transactional.configure_retention_rules
+domain: transactional
+summary: Set how long transactional logs and previews are kept (card 'Regras de retenção'), for e-mail and for SMS.
+ui_label_pt: Transacional > Regras de retenção
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    channel:
+      type: string
+      enum:
+      - email
+      - sms
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /transactional/email/settings
+    steps:
+    - Open Settings > E-mails transacionais or SMS transacionais (/transactional/sms/settings) and press the card
+      'Regras de retenção'.
+    - For e-mail, logs and previews have separate rules. Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Cards seen only. Shorter retention deletes history; ask first.

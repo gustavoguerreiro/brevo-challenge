@@ -1,0 +1,25 @@
+id: transactional.update_template
+plan_availability:
+  free: available
+ui_label_pt: Adicionar conteúdo > Código HTML personalizado
+ui:
+  entry: /templates/email/edit/<template_id>
+  steps:
+  - 'Open /templates/email/edit/<id>. Edit the name with the pencil, the subject in ''Linha de assunto'', the sender
+    fields, then ''Salvar'' (menu: Salvar, Salvar e ativar).'
+  - To replace the body use 'Adicionar conteúdo' or 'Editar' on the card 'Conteúdo' (see content.update_email_template_content)
+    and 'Salvar e Sair' in the editor.
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: UI equivalent verified for the body and for the first save. The API call itself was not executed. Subject
+    and sender edits were not changed in this test.
+  verified_via:
+  - ui
+related:
+- content.update_email_template_content
+- content.activate_email_template
+- content.deactivate_email_template

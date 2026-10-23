@@ -1,0 +1,725 @@
+id: email_campaigns.list_campaigns
+domain: email_campaigns
+summary: Return all your created email campaigns.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    type:
+      type: string
+      enum:
+      - classic
+      - trigger
+      description: Filter on the type of the campaigns
+    status:
+      type: string
+      enum:
+      - suspended
+      - archive
+      - sent
+      - queued
+      - draft
+      - inProcess
+      description: Filter on the status of the campaign
+    statistics:
+      type: string
+      enum:
+      - globalStats
+      - linksStats
+      - statsByDomain
+      description: Filter on the type of statistics required. Example **globalStats** value will only fetch globalStats
+        info of the campaign in returned response.This option only returns data for events occurred in the last
+        6 months.For older campaigns, it’s …
+    startDate:
+      type: string
+      description: Mandatory if endDate is used. Starting (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)
+        to filter the sent email campaigns. Prefer to pass your timezone in date-time format for accurate result
+        ( only available if either 'status' not …
+    endDate:
+      type: string
+      description: Mandatory if startDate is used. Ending (urlencoded) UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ)
+        to filter the sent email campaigns. Prefer to pass your timezone in date-time format for accurate result
+        ( only available if either 'status' not …
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document in the page
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+    excludeHtmlContent:
+      type: boolean
+      enum:
+      - 'true'
+      - 'false'
+      description: Use this flag to exclude htmlContent from the response body. If set to **true**, htmlContent
+        field will be returned as empty string in the response body
+outputs:
+  type: object
+  properties:
+    campaigns:
+      type: array
+      items:
+        type: object
+        allOf:
+        - allOf:
+          - type: object
+            required:
+            - id
+            - name
+            - status
+            - type
+            properties:
+              id:
+                type: integer
+                format: int64
+                description: ID of the campaign
+              name:
+                type: string
+                description: Name of the campaign
+              subject:
+                type: string
+                description: Subject of the campaign. Only available if `abTesting` flag of the campaign is `false`
+              previewText:
+                type: string
+                description: Preview text or preheader of the email campaign
+              type:
+                type: string
+                description: Type of campaign
+                enum:
+                - classic
+                - trigger
+              status:
+                type: string
+                description: Status of the campaign
+                enum:
+                - draft
+                - sent
+                - archive
+                - queued
+                - suspended
+                - in_process
+              scheduledAt:
+                type: string
+                description: UTC date-time on which campaign is scheduled (YYYY-MM-DDTHH:mm:ss.SSSZ)
+              abTesting:
+                type: boolean
+                description: Status of A/B Test for the campaign. abTesting = false means it is disabled, & abTesting
+                  = true means it is enabled.
+              subjectA:
+                type: string
+                description: Subject A of the ab-test campaign. Only available if `abTesting` flag of the campaign
+                  is `true`
+              subjectB:
+                type: string
+                description: Subject B of the ab-test campaign. Only available if `abTesting` flag of the campaign
+                  is `true`
+              splitRule:
+                type: integer
+                description: The size of your ab-test groups. Only available if `abTesting` flag of the campaign
+                  is `true`
+              winnerCriteria:
+                type: string
+                description: Criteria for the winning version. Only available if `abTesting` flag of the campaign
+                  is `true`
+              winnerDelay:
+                type: integer
+                description: The duration of the test in hours at the end of which the winning version will be sent.
+                  Only available if `abTesting` flag of the campaign is `true`
+              sendAtBestTime:
+                type: boolean
+                description: It is true if you have chosen to send your campaign at best time, otherwise it is false
+          - type: object
+            required:
+            - createdAt
+            - footer
+            - header
+            - htmlContent
+            - modifiedAt
+            - replyTo
+            - sender
+            - testSent
+            properties:
+              utmCampaignValue:
+                type: string
+                description: utm parameter associated with campaign
+              utmSource:
+                type: string
+                description: source of utm parameter
+              utmMedium:
+                type: string
+                description: medium parameter
+              utmID:
+                type: integer
+                description: utm id
+              testSent:
+                type: boolean
+                description: Retrieved the status of test email sending. (true=Test email has been sent false=Test
+                  email has not been sent)
+              header:
+                type: string
+                description: Header of the campaign
+              footer:
+                type: string
+                description: Footer of the campaign
+              sender:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Sender name of the campaign
+                  email:
+                    type: string
+                    format: email
+                    description: Sender email of the campaign
+                  id:
+                    type: integer
+                    format: int64
+                    description: Sender id of the campaign
+              replyTo:
+                type: string
+                format: email
+                description: Email defined as the "Reply to" of the campaign
+              toField:
+                type: string
+                description: Customisation of the "to" field of the campaign
+              htmlContent:
+                type: string
+                description: HTML content of the campaign
+              shareLink:
+                type: string
+                format: url
+                description: Link to share the campaign on social medias
+              tag:
+                type: string
+                description: Tag of the campaign
+              createdAt:
+                type: string
+                description: Creation UTC date-time of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)
+              modifiedAt:
+                type: string
+                description: UTC date-time of last modification of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ)
+              inlineImageActivation:
+                type: boolean
+                description: Status of inline image. inlineImageActivation = false means image can’t be embedded,
+                  & inlineImageActivation = true means image can be embedded, in the email.
+              mirrorActive:
+                type: boolean
+                description: Status of mirror links in campaign. mirrorActive = false means mirror links are deactivated,
+                  & mirrorActive = true means mirror links are activated, in the campaign
+              recurring:
+                type: boolean
+                description: FOR TRIGGER ONLY ! Type of trigger campaign.recurring = false means contact can receive
+                  the same Trigger campaign only once, & recurring = true means contact can receive the same Trigger
+                  campaign several times
+              sentDate:
+                type: string
+                description: Sent UTC date-time of the campaign (YYYY-MM-DDTHH:mm:ss.SSSZ). Only available if 'status'
+                  of the campaign is 'sent'
+              returnBounce:
+                type: integer
+                format: int64
+                description: Total number of non-delivered campaigns for a particular campaign id.
+        - type: object
+          properties:
+            recipients:
+              type: object
+              allOf:
+              - type: object
+                required:
+                - exclusionLists
+                - lists
+                properties:
+                  lists:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      description: List IDs included in the campaign
+                  exclusionLists:
+                    type: array
+                    items:
+                      type: integer
+                      format: int64
+                      description: List IDs excluded of the campaign
+            statistics:
+              type: object
+              allOf:
+              - type: object
+                required:
+                - campaignStats
+                - globalStats
+                - linksStats
+                - mirrorClick
+                - remaining
+                - statsByBrowser
+                - statsByDevice
+                - statsByDomain
+                properties:
+                  globalStats:
+                    type: object
+                    description: Overall statistics of the campaign
+                    allOf:
+                    - type: object
+                      required:
+                      - clickers
+                      - complaints
+                      - delivered
+                      - hardBounces
+                      - sent
+                      - softBounces
+                      - trackableViews
+                      - uniqueClicks
+                      - uniqueViews
+                      - unsubscriptions
+                      - viewed
+                      properties:
+                        listId:
+                          type: integer
+                          format: int64
+                          description: List Id of email campaign (only in case of get email campaign(s)(not for
+                            global stats))
+                        uniqueClicks:
+                          type: integer
+                          format: int64
+                          description: Number of unique clicks for the campaign
+                        clickers:
+                          type: integer
+                          format: int64
+                          description: Number of total clicks for the campaign
+                        complaints:
+                          type: integer
+                          format: int64
+                          description: Number of complaints (Spam reports) for the campaign
+                        delivered:
+                          type: integer
+                          format: int64
+                          description: Number of delivered emails for the campaign
+                        sent:
+                          type: integer
+                          format: int64
+                          description: Number of sent emails for the campaign
+                        softBounces:
+                          type: integer
+                          format: int64
+                          description: Number of softbounce for the campaign
+                        hardBounces:
+                          type: integer
+                          format: int64
+                          description: Number of harbounce for the campaign
+                        uniqueViews:
+                          type: integer
+                          format: int64
+                          description: Number of unique openings for the campaign
+                        trackableViews:
+                          type: integer
+                          format: int64
+                          description: Recipients without any privacy protection option enabled in their email client
+                        trackableViewsRate:
+                          type: number
+                          format: float
+                          description: Rate of recipients without any privacy protection option enabled in their
+                            email client
+                        estimatedViews:
+                          type: integer
+                          format: int64
+                          description: Rate of recipients without any privacy protection option enabled in their
+                            email client, applied to all delivered emails
+                        unsubscriptions:
+                          type: integer
+                          format: int64
+                          description: Number of unsubscription for the campaign
+                        viewed:
+                          type: integer
+                          format: int64
+                          description: Number of openings for the campaign
+                        deferred:
+                          type: integer
+                          format: int64
+                          description: Number of deferred emails for the campaign
+                        returnBounce:
+                          type: integer
+                          format: int64
+                          description: Total number of non-delivered campaigns for a particular campaign id.
+                  campaignStats:
+                    type: array
+                    description: List-wise statistics of the campaign.
+                    items:
+                      type: object
+                      allOf:
+                      - type: object
+                        required:
+                        - clickers
+                        - complaints
+                        - delivered
+                        - hardBounces
+                        - sent
+                        - softBounces
+                        - trackableViews
+                        - uniqueClicks
+                        - uniqueViews
+                        - unsubscriptions
+                        - viewed
+                        properties:
+                          listId:
+                            type: integer
+                            format: int64
+                            description: List Id of email campaign (only in case of get email campaign(s)(not for
+                              global stats))
+                          uniqueClicks:
+                            type: integer
+                            format: int64
+                            description: Number of unique clicks for the campaign
+                          clickers:
+                            type: integer
+                            format: int64
+                            description: Number of total clicks for the campaign
+                          complaints:
+                            type: integer
+                            format: int64
+                            description: Number of complaints (Spam reports) for the campaign
+                          delivered:
+                            type: integer
+                            format: int64
+                            description: Number of delivered emails for the campaign
+                          sent:
+                            type: integer
+                            format: int64
+                            description: Number of sent emails for the campaign
+                          softBounces:
+                            type: integer
+                            format: int64
+                            description: Number of softbounce for the campaign
+                          hardBounces:
+                            type: integer
+                            format: int64
+                            description: Number of harbounce for the campaign
+                          uniqueViews:
+                            type: integer
+                            format: int64
+                            description: Number of unique openings for the campaign
+                          trackableViews:
+                            type: integer
+                            format: int64
+                            description: Recipients without any privacy protection option enabled in their email
+                              client
+                          trackableViewsRate:
+                            type: number
+                            format: float
+                            description: Rate of recipients without any privacy protection option enabled in their
+                              email client
+                          estimatedViews:
+                            type: integer
+                            format: int64
+                            description: Rate of recipients without any privacy protection option enabled in their
+                              email client, applied to all delivered emails
+                          unsubscriptions:
+                            type: integer
+                            format: int64
+                            description: Number of unsubscription for the campaign
+                          viewed:
+                            type: integer
+                            format: int64
+                            description: Number of openings for the campaign
+                          deferred:
+                            type: integer
+                            format: int64
+                            description: Number of deferred emails for the campaign
+                          returnBounce:
+                            type: integer
+                            format: int64
+                            description: Total number of non-delivered campaigns for a particular campaign id.
+                  mirrorClick:
+                    type: integer
+                    format: int64
+                    description: Number of clicks on mirror link
+                  remaining:
+                    type: integer
+                    format: int64
+                    description: Number of remaning emails to send
+                  linksStats:
+                    type: object
+                    description: Statistics about the number of clicks for the links
+                    properties: {}
+                  statsByDomain:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      required:
+                      - clickers
+                      - complaints
+                      - delivered
+                      - hardBounces
+                      - sent
+                      - softBounces
+                      - trackableViews
+                      - uniqueClicks
+                      - uniqueViews
+                      - unsubscriptions
+                      - viewed
+                      properties:
+                        listId:
+                          type: integer
+                          format: int64
+                          description: List Id of email campaign (only in case of get email campaign(s)(not for
+                            global stats))
+                        uniqueClicks:
+                          type: integer
+                          format: int64
+                          description: Number of unique clicks for the campaign
+                        clickers:
+                          type: integer
+                          format: int64
+                          description: Number of total clicks for the campaign
+                        complaints:
+                          type: integer
+                          format: int64
+                          description: Number of complaints (Spam reports) for the campaign
+                        delivered:
+                          type: integer
+                          format: int64
+                          description: Number of delivered emails for the campaign
+                        sent:
+                          type: integer
+                          format: int64
+                          description: Number of sent emails for the campaign
+                        softBounces:
+                          type: integer
+                          format: int64
+                          description: Number of softbounce for the campaign
+                        hardBounces:
+                          type: integer
+                          format: int64
+                          description: Number of harbounce for the campaign
+                        uniqueViews:
+                          type: integer
+                          format: int64
+                          description: Number of unique openings for the campaign
+                        trackableViews:
+                          type: integer
+                          format: int64
+                          description: Recipients without any privacy protection option enabled in their email client
+                        trackableViewsRate:
+                          type: number
+                          format: float
+                          description: Rate of recipients without any privacy protection option enabled in their
+                            email client
+                        estimatedViews:
+                          type: integer
+                          format: int64
+                          description: Rate of recipients without any privacy protection option enabled in their
+                            email client, applied to all delivered emails
+                        unsubscriptions:
+                          type: integer
+                          format: int64
+                          description: Number of unsubscription for the campaign
+                        viewed:
+                          type: integer
+                          format: int64
+                          description: Number of openings for the campaign
+                        deferred:
+                          type: integer
+                          format: int64
+                          description: Number of deferred emails for the campaign
+                        returnBounce:
+                          type: integer
+                          format: int64
+                          description: Total number of non-delivered campaigns for a particular campaign id.
+                  statsByDevice:
+                    type: object
+                    properties:
+                      desktop:
+                        type: object
+                        description: Statistics of the campaign on the basis of desktop devices
+                        additionalProperties:
+                          type: object
+                          required:
+                          - clickers
+                          - uniqueClicks
+                          - uniqueViews
+                          - viewed
+                          properties:
+                            clickers:
+                              type: integer
+                              format: int64
+                              description: Number of total clicks for the campaign using the particular browser
+                            uniqueClicks:
+                              type: integer
+                              format: int64
+                              description: Number of unique clicks for the campaign using the particular browser
+                            viewed:
+                              type: integer
+                              format: int64
+                              description: Number of openings for the campaign using the particular browser
+                            uniqueViews:
+                              type: integer
+                              format: int64
+                              description: Number of unique openings for the campaign using the particular browser
+                      mobile:
+                        type: object
+                        description: Statistics of the campaign on the basis of mobile devices
+                        additionalProperties:
+                          type: object
+                          required:
+                          - clickers
+                          - uniqueClicks
+                          - uniqueViews
+                          - viewed
+                          properties:
+                            clickers:
+                              type: integer
+                              format: int64
+                              description: Number of total clicks for the campaign using the particular browser
+                            uniqueClicks:
+                              type: integer
+                              format: int64
+                              description: Number of unique clicks for the campaign using the particular browser
+                            viewed:
+                              type: integer
+                              format: int64
+                              description: Number of openings for the campaign using the particular browser
+                            uniqueViews:
+                              type: integer
+                              format: int64
+                              description: Number of unique openings for the campaign using the particular browser
+                      tablet:
+                        type: object
+                        description: Statistics of the campaign on the basis of tablet devices
+                        additionalProperties:
+                          type: object
+                          required:
+                          - clickers
+                          - uniqueClicks
+                          - uniqueViews
+                          - viewed
+                          properties:
+                            clickers:
+                              type: integer
+                              format: int64
+                              description: Number of total clicks for the campaign using the particular browser
+                            uniqueClicks:
+                              type: integer
+                              format: int64
+                              description: Number of unique clicks for the campaign using the particular browser
+                            viewed:
+                              type: integer
+                              format: int64
+                              description: Number of openings for the campaign using the particular browser
+                            uniqueViews:
+                              type: integer
+                              format: int64
+                              description: Number of unique openings for the campaign using the particular browser
+                      unknown:
+                        type: object
+                        description: Statistics of the campaign on the basis of unknown devices
+                        additionalProperties:
+                          type: object
+                          required:
+                          - clickers
+                          - uniqueClicks
+                          - uniqueViews
+                          - viewed
+                          properties:
+                            clickers:
+                              type: integer
+                              format: int64
+                              description: Number of total clicks for the campaign using the particular browser
+                            uniqueClicks:
+                              type: integer
+                              format: int64
+                              description: Number of unique clicks for the campaign using the particular browser
+                            viewed:
+                              type: integer
+                              format: int64
+                              description: Number of openings for the campaign using the particular browser
+                            uniqueViews:
+                              type: integer
+                              format: int64
+                              description: Number of unique openings for the campaign using the particular browser
+                  statsByBrowser:
+                    type: object
+                    additionalProperties:
+                      type: object
+                      required:
+                      - clickers
+                      - uniqueClicks
+                      - uniqueViews
+                      - viewed
+                      properties:
+                        clickers:
+                          type: integer
+                          format: int64
+                          description: Number of total clicks for the campaign using the particular browser
+                        uniqueClicks:
+                          type: integer
+                          format: int64
+                          description: Number of unique clicks for the campaign using the particular browser
+                        viewed:
+                          type: integer
+                          format: int64
+                          description: Number of openings for the campaign using the particular browser
+                        uniqueViews:
+                          type: integer
+                          format: int64
+                          description: Number of unique openings for the campaign using the particular browser
+            shareLink:
+              type: string
+              format: url
+              description: Link to share the campaign on social medias
+          required:
+          - recipients
+          - statistics
+    count:
+      type: integer
+      format: int64
+      description: Number of Email campaigns retrieved
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /emailCampaigns
+    auth: api-key header (never store the value).
+    operation_id: getEmailCampaigns
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - 'Open Marketing > Campanhas. Filter by search and status; each row shows status, last edit, #id and the result
+      columns.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).
+    Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key.
+    Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.read_pages.json
+ui_label_pt: Marketing > Campanhas

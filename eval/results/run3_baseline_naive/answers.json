@@ -1,0 +1,436 @@
+[
+ {
+  "task_id": "T01",
+  "decision": "act",
+  "actions": [
+   "transactional.add_blocked_domain"
+  ],
+  "route": {
+   "transactional.add_blocked_domain": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T02",
+  "decision": "act",
+  "actions": [
+   "contacts.create_segment"
+  ],
+  "route": {
+   "contacts.create_segment": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T03",
+  "decision": "act",
+  "actions": [
+   "email_campaigns.send_report"
+  ],
+  "route": {
+   "email_campaigns.send_report": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T04",
+  "decision": "act",
+  "actions": [
+   "contacts.rename_segment"
+  ],
+  "route": {
+   "contacts.rename_segment": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T05",
+  "decision": "act",
+  "actions": [
+   "account.delete_domain"
+  ],
+  "route": {
+   "account.delete_domain": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T06",
+  "decision": "act",
+  "actions": [
+   "automations.add_action_duplicate_deal"
+  ],
+  "route": {
+   "automations.add_action_duplicate_deal": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T07",
+  "decision": "act",
+  "actions": [
+   "automations.add_action_add_contact_to_list"
+  ],
+  "route": {
+   "automations.add_action_add_contact_to_list": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T08",
+  "decision": "act",
+  "actions": [
+   "content.activate_email_template"
+  ],
+  "route": {
+   "content.activate_email_template": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T09",
+  "decision": "act",
+  "actions": [
+   "content.delete_email_template"
+  ],
+  "route": {
+   "content.delete_email_template": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T10",
+  "decision": "act",
+  "actions": [
+   "automations.list_automations"
+  ],
+  "route": {
+   "automations.list_automations": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T11",
+  "decision": "act",
+  "actions": [
+   "loyalty.add_reward_to_contact"
+  ],
+  "route": {
+   "loyalty.add_reward_to_contact": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T12",
+  "decision": "act",
+  "actions": [
+   "landing_pages.create_landing_page"
+  ],
+  "route": {
+   "landing_pages.create_landing_page": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T13",
+  "decision": "act",
+  "actions": [
+   "reporting.get_marketing_statistics"
+  ],
+  "route": {
+   "reporting.get_marketing_statistics": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T14",
+  "decision": "act",
+  "actions": [
+   "account.invite_admin_user"
+  ],
+  "route": {
+   "account.invite_admin_user": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T15",
+  "decision": "act",
+  "actions": [
+   "account.create_sub_account_api_key"
+  ],
+  "route": {
+   "account.create_sub_account_api_key": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T16",
+  "decision": "act",
+  "actions": [
+   "ecommerce.create_product_alert"
+  ],
+  "route": {
+   "ecommerce.create_product_alert": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T17",
+  "decision": "act",
+  "actions": [
+   "email_campaigns.schedule_campaign"
+  ],
+  "route": {
+   "email_campaigns.schedule_campaign": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T18",
+  "decision": "act",
+  "actions": [
+   "automations.configure_trigger_email_unsubscribed"
+  ],
+  "route": {
+   "automations.configure_trigger_email_unsubscribed": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T19",
+  "decision": "act",
+  "actions": [
+   "contacts.delete_segment"
+  ],
+  "route": {
+   "contacts.delete_segment": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T20",
+  "decision": "act",
+  "actions": [
+   "account.add_ip_to_sub_accounts"
+  ],
+  "route": {
+   "account.add_ip_to_sub_accounts": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T21",
+  "decision": "act",
+  "actions": [
+   "loyalty.add_contact_to_tier"
+  ],
+  "route": {
+   "loyalty.add_contact_to_tier": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T22",
+  "decision": "act",
+  "actions": [
+   "email_campaigns.schedule_campaign"
+  ],
+  "route": {
+   "email_campaigns.schedule_campaign": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T23",
+  "decision": "act",
+  "actions": [
+   "integrations.create_webhook"
+  ],
+  "route": {
+   "integrations.create_webhook": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T24",
+  "decision": "act",
+  "actions": [
+   "crm.create_company"
+  ],
+  "route": {
+   "crm.create_company": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T25",
+  "decision": "act",
+  "actions": [
+   "automations.add_action_add_contact_to_list"
+  ],
+  "route": {
+   "automations.add_action_add_contact_to_list": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T26",
+  "decision": "act",
+  "actions": [
+   "email_campaigns.schedule_campaign"
+  ],
+  "route": {
+   "email_campaigns.schedule_campaign": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T27",
+  "decision": "act",
+  "actions": [
+   "contacts.update_contact_subscription"
+  ],
+  "route": {
+   "contacts.update_contact_subscription": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T28",
+  "decision": "act",
+  "actions": [
+   "automations.configure_trigger_web_page_visited"
+  ],
+  "route": {
+   "automations.configure_trigger_web_page_visited": "ui"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T29",
+  "decision": "act",
+  "actions": [
+   "account.create_sub_account_api_key"
+  ],
+  "route": {
+   "account.create_sub_account_api_key": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T30",
+  "decision": "act",
+  "actions": [
+   "email_campaigns.send_test_email"
+  ],
+  "route": {
+   "email_campaigns.send_test_email": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ },
+ {
+  "task_id": "T31",
+  "decision": "act",
+  "actions": [
+   "contacts.remove_contact_from_list"
+  ],
+  "route": {
+   "contacts.remove_contact_from_list": "api"
+  },
+  "inputs": {},
+  "needs_confirmation": [],
+  "warnings": [],
+  "summary": ""
+ }
+]

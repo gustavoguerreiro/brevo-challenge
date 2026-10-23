@@ -1,0 +1,24 @@
+{
+ "action": "contacts.update_contact",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR, on test contact ID 2.",
+ "steps_run": [
+  "Opened /contact/index/2, card 'Informações': clicked the SOBRENOME value, typed ZZ_TEST_LAST, pressed Enter: toast 'Atributo atualizado', page title became 'ZZ_TEST ZZ_TEST_LAST'",
+  "Tab 'Listas' > 'Adicionar à lista' (opens side panel 'Administrar listas'): picked the folder 'Your First Folder' > ticked '#6 ZZ_TEST_list_2_dup' > 'Salvar alterações': toast 'A lista foi atualizada para o contato', tab shows 'Listas 1'",
+  "Tab 'Preferences' > Campanhas dropdown (options: Inscrito, Colocado em lista bloqueada): chose 'Colocado em lista bloqueada' (toast 'As inscrições do contato foram atualizadas.', no confirmation dialog), then chose 'Inscrito' to restore"
+ ],
+ "internal_services": [
+  "contacts-api.brevo.com /contact/backend/contacts/update (GET) for the attribute edit",
+  "contacts-api.brevo.com /contact/backend/contacts/lists for list membership"
+ ],
+ "observations": [
+  "Edits save immediately, there is no Save button for single attributes.",
+  "The 'Remetentes' pencil under Transacional restricts which senders may e-mail this contact (not changed)."
+ ],
+ "limitations": [
+  "Request bodies not captured.",
+  "SMS and WhatsApp subscription controls were not visible for this contact."
+ ],
+ "test_data_left_in_account": "contact ID 2 now has SOBRENOME ZZ_TEST_LAST and is a member of list ID 6",
+ "read_back": "Re-read on 2026-10-22 about four hours after the change: the Preferences card shows 'Subscribed' for Campanhas and E-mails transacionais. The contact's history keeps both events as separate entries ('O e-mail do contato foi cancelado: por você a partir dos dados do contato' and 'O e-mail do contato foi assinado novamente: por você, usando os dados do contato'), so a block followed by a restore leaves a permanent trail in the contact history."
+}

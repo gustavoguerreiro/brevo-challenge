@@ -1,0 +1,45 @@
+id: transactional.remove_blocked_contact
+domain: transactional
+summary: Unblock or resubscribe a transactional contact.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'email' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      description: contact email (urlencoded) to unblock.
+  required:
+  - email
+side_effects:
+- 'Expected (from the API docs, not verified): The address can receive transactional e-mail again.'
+postcondition_check: HTTP 204 (or 200); list the parent collection and confirm the item is gone.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Contact email not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /smtp/blockedContacts/{email}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Unblocks an address so it can
+  receive transactional e-mail again.'

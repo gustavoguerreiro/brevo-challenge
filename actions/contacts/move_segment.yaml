@@ -1,0 +1,43 @@
+id: contacts.move_segment
+domain: contacts
+summary: Move a segment to another segment folder.
+ui_label_pt: Mover segmento
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- At least one other segment folder must exist.
+inputs:
+  type: object
+  required:
+  - segment_id
+  - folder
+  properties:
+    segment_id:
+      type: integer
+    folder:
+      type: string
+side_effects:
+- 'Expected (not observed): Changes account data.'
+postcondition_check: The Pasta column of the row shows the new folder.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - Open the Ações menu of the segment row and choose 'Mover segmento'.
+    - In the panel 'Mova segmento para outra pasta' choose 'Pasta' and press 'Mover segmento'. The dropdown offers
+      'Criar uma nova pasta' when no other folder exists.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  notes: 'The panel was opened and cancelled: the account had only the default folder ''My segments'' and creating
+    a folder was not part of the test-data permission.'

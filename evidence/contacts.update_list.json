@@ -1,0 +1,24 @@
+{
+  "action": "contacts.update_list",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome, the test account, pt-BR. A page-side hook logged host, method and path (not query strings or bodies).",
+  "steps_run": [
+    "CRM > Contatos > Listas, row menu of list ZZ_TEST_list_1 (ID 3) > Renomear: side panel 'Renomear lista', field 'Nome da lista*' (max 255), buttons Cancelar and 'Renomear lista'",
+    "Renamed to ZZ_TEST_list_1_renamed: toast 'Lista renomeada para ...', table updated",
+    "Renamed back to ZZ_TEST_list_1: toast shown, table updated",
+    "Re-submitting an unchanged name sent no update request (only a dependency check)",
+    "Row menu > Mover (observed only)"
+  ],
+  "unexpected_side_effect": {
+    "what": "The system folder that holds the list 'identified_contacts' (ID 4) was renamed together with the list. It showed 'marketing_automation' before, then 'ZZ_TEST_list_1_renamed', then 'ZZ_TEST_list_1' after each rename of list ID 3, and the new name survived a full reload.",
+    "probable_cause": "The internal call GET contacts-api-v2/lists/update appears to apply the new name to the folder whose numeric ID equals the list ID (both are 3). This is inferred from the behaviour, the request body was not captured.",
+    "repair": "Renamed list 3 to 'marketing_automation': the folder name went back to 'marketing_automation' (original name confirmed from Brevo's help article on the identified_contacts list). List 3 therefore keeps the name 'marketing_automation' and is test data to delete.",
+    "agent_guidance": "After renaming a list, re-read the folder list. Do not rename a list whose numeric ID equals the ID of a system folder, or use the public API PUT /contacts/lists/{listId}, whose behaviour was not tested."
+  },
+  "internal_service": "contacts-api-v2.brevo.com /lists/update (GET), then /lists/get-folders and /lists/get-lists to refresh the table",
+  "limitations": [
+    "Request body not captured.",
+    "The Mover dialog was not completed (needs a second folder; creating folders was outside the test-data permission)."
+  ],
+  "test_data_left_in_account": "list ID 3 (named marketing_automation, originally ZZ_TEST_list_1) and ID 6 ZZ_TEST_list_2_dup"
+}

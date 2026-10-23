@@ -1,0 +1,38 @@
+id: contacts.create_lists_from_segment
+domain: contacts
+summary: Split a segment into lists (row menu 'Dividir em listas'). Blocked on the Free plan.
+ui_label_pt: Segmentos > Ações > Dividir em listas
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    segment_id:
+      type: integer
+      description: Segment to split.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - 'Open the row menu of a segment: ''Dividir em listas'' carries a crown.'
+    - Not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  notes: Entry and crown seen; the dialog was not opened, so how the split works is unknown.

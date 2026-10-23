@@ -1,0 +1,43 @@
+id: email_campaigns.add_campaign_tag
+domain: email_campaigns
+summary: Tag an e-mail campaign (row menu 'Atribuir etiqueta', also a 'Tags' field in the setup form). Blocked on
+  Free.
+ui_label_pt: Campanhas > Ações > Atribuir etiqueta
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    campaign_id:
+      type: integer
+      description: Campaign to tag.
+    tag:
+      type: string
+      description: Tag name. The API accepts a tag on POST /emailCampaigns.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - 'Open the row menu of a campaign: ''Atribuir etiqueta'' carries a crown. The setup form of a new campaign
+      also has a ''Tags'' field (crown).'
+    - Neither was used.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Crowns seen; not pressed.

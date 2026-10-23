@@ -1,0 +1,51 @@
+id: sms_whatsapp.send_test_sms
+domain: sms_whatsapp
+summary: Send a test SMS of a campaign to the numbers you give (uses SMS credits).
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the SMS campaign
+    phoneNumber:
+      type: string
+      description: Mobile number of the recipient with the country code. This number must belong to one of your
+        contacts in Brevo account and must not be blacklisted
+      x-in: body
+  required:
+  - campaignId
+side_effects:
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: 'HTTP 400: Test SMS could not be sent to the following email addresses'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smsCampaigns/{campaignId}/sendTest
+    auth: api-key header (never store the value).
+    operation_id: sendTestSms
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

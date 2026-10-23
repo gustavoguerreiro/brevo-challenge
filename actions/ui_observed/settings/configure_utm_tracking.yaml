@@ -1,0 +1,37 @@
+id: account.configure_utm_tracking
+domain: account
+summary: Turn automatic UTM parameters on or off for campaigns, templates and scenarios (Parâmetros de UTM).
+ui_label_pt: Configurações > Parâmetros de UTM
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    enabled:
+      type: boolean
+      description: '''Ativar rastreamento UTM''.'
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /global/utms
+    steps:
+    - Open the settings gear > Parâmetros de UTM (/global/utms).
+    - Toggle 'Ativar rastreamento UTM'. Brevo then adds UTM parameters to campaigns, templates and scenarios; each
+      can override it. Not changed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Toggle read; not changed.

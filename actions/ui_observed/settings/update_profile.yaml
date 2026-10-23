@@ -1,0 +1,34 @@
+id: account.update_profile
+domain: account
+summary: 'Edit the user''s profile: personal information, company information, communication preferences (Meu perfil).'
+ui_label_pt: Meu perfil
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /profile/information
+    steps:
+    - 'Open the account menu > Meu perfil (/profile/information). Tabs: Informações and Senha.'
+    - 'Sections: ''Informações pessoais'', ''Informações da Empresa'', ''Preferências de comunicação''. Nothing
+      was edited.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Sections read; field names were not recorded. The tab 'Senha' (password) is deliberately not catalogued.

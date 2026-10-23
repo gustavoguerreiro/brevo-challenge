@@ -1,0 +1,39 @@
+id: phone.purchase_package
+domain: phone
+summary: Buy the Telefone package ('Adicionar pacote'). Calls need the Sales Advanced module; not pressed.
+ui_label_pt: Telefone > Adicionar pacote
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account. The page says it is available in the Sales Advanced module.
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not run. Expected: /phone/onboarding is replaced by the phone dashboard and a charge appears.
+  Confirm item and total with the person first.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /phone/onboarding
+    steps:
+    - 'Open Conversas > Telefone (/phone/onboarding): ''Primeiros passos com o Telefone'', ''Disponível no módulo
+      Sales Advanced''.'
+    - Press 'Adicionar pacote' (seen, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: 'Page read. Features listed by the page: choose a business number, call data, advanced call settings (welcome
+    message, menu, working hours, voicemail with transcription, number assignment), call analytics, AI follow-up
+    e-mail from a call.'

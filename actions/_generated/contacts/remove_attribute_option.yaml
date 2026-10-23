@@ -1,0 +1,51 @@
+id: contacts.remove_attribute_option
+domain: contacts
+summary: Remove attribute option (DELETE /contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption}).
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'attributeType' must identify an existing record.
+- Path value 'multipleChoiceAttribute' must identify an existing record.
+- Path value 'multipleChoiceAttributeOption' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    attributeType:
+      description: Type not captured.
+      x-in: path
+    multipleChoiceAttribute:
+      description: Type not captured.
+      x-in: path
+    multipleChoiceAttributeOption:
+      description: Type not captured.
+      x-in: path
+  required:
+  - attributeType
+  - multipleChoiceAttribute
+  - multipleChoiceAttributeOption
+side_effects:
+- 'Expected (from the API docs, not verified): removes data; the public API documents no undo.'
+postcondition_check: HTTP 204 (or 200); list the parent collection and confirm the item is gone.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: DELETE
+    path: /contacts/attributes/{attributeType}/{multipleChoiceAttribute}/{multipleChoiceAttributeOption}
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

@@ -1,0 +1,49 @@
+id: account.update_language_settings
+domain: account
+summary: Change the interface language and time zone (Idioma). Seven languages are offered.
+ui_label_pt: Configurações > Idioma
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    language:
+      type: string
+      enum:
+      - en-US
+      - en-GB
+      - fr
+      - it
+      - es
+      - pt-BR
+      - de
+      description: Interface language.
+    time_zone:
+      type: string
+      description: Time zone.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/localization
+    steps:
+    - Open the settings gear > Idioma (/settings/localization).
+    - Choose a language (English US/UK, Français, Italiano, Español, Português Brasil, Deutsch) and a time zone,
+      then press 'Salvar as preferências'. Not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Changing the language changes every label and attribute id an agent relies on (see the guide on localised
+    attribute ids).

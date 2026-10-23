@@ -1,0 +1,38 @@
+id: account.list_users
+domain: account
+summary: List the account's users with status and roles (Configurações > Usuários). Inviting users is blocked on
+  Free.
+ui_label_pt: Configurações > Usuários
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    email:
+      type: string
+      description: Search by e-mail.
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/users
+    steps:
+    - Open the settings gear > Usuários.
+    - 'Tabs: Usuários, Usuário parceiro, Logs de atividades. Table columns: e-mail, status, marketing role, sales
+      role. Search by e-mail. Licence counters Marketing 1/1 and Sales 1/1.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Seen with a single row (the owner).

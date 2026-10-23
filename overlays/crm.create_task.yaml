@@ -1,0 +1,17 @@
+id: crm.create_task
+plan_availability:
+  free: unknown
+  note: Needs the CRM to be activated first (observed).
+ui_label_pt: Contato > Tarefa / CRM > Tarefas
+ui:
+  entry: /tasks
+  steps:
+  - From a contact page press 'Tarefa' in the action bar, or open CRM > Tarefas (/tasks), which needs the CRM to
+    be activated first. NOT EXECUTED.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Entry points seen; not pressed.

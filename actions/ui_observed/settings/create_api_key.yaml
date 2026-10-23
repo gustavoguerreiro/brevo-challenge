@@ -1,0 +1,60 @@
+id: account.create_api_key
+domain: account
+summary: Create an API or MCP key (Configurações > SMTP & API > Chaves API e MCP > Gerar chave API). Form read,
+  not submitted.
+ui_label_pt: Gerar chave API
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- The person asks for exactly this key.
+- Prefer 'Restrito' with the smallest set of permissions.
+- Never log, store, echo or put the key value in a file or message; it is shown once.
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: '''Nome da chave*'', max 128.'
+    expires:
+      type: string
+      description: '''Vencimento''; default one year.'
+    access:
+      type: string
+      enum:
+      - total
+      - restricted
+      description: '''Total'' or ''Restrito'' (recommended).'
+    permissions:
+      type: object
+      description: 'Per resource level for ''Restrito''. Resources seen: e-mails transacionais, SMS transacionais,
+        WhatsApp transacional, campanha de e-mail, campanhas de SMS, campanhas de WhatsApp, contato, oportunidade,
+        Conversas, E-commerce, fidelização, Eventos, Objetos, Conta, Webhooks, Organização, Wallet, Brevo Functions.'
+  required:
+  - name
+side_effects:
+- 'Not observed. Expected: a new key appears in the table (Nome, permissão, Status, Expira em, Última utilização
+  em) and its value is shown once.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/keys/api/new
+    steps:
+    - Open Settings > SMTP & API, tab 'Chaves API e MCP', press 'Gerar chave API' (opens /settings/keys/api/new).
+    - Fill 'Nome da chave*' (max 128) and 'Vencimento' (default one year; keys also expire after 90 days of inactivity).
+    - 'Choose ''Acesso'': ''Total'' (all current and future resources) or ''Restrito'' (recommended) and, for ''Restrito'',
+      one level per resource (for example Nenhum, Lidas, Leitura e gravação, Todos).'
+    - 'Press ''Criar''. NOT EXECUTED: the key value would be shown once and is a secret.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: 'Form fields read live. Never run by the cataloguing session: a key is a credential.'

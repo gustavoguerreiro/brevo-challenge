@@ -1,0 +1,43 @@
+id: contacts.update_contact_owner
+domain: contacts
+summary: Assign the selected contacts to a user ('Mais ações > Atribuir').
+ui_label_pt: Contatos > Mais ações > Atribuir
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    contact_ids:
+      type: array
+      items:
+        type: integer
+      description: Selected rows.
+    user:
+      type: string
+      description: User to assign.
+  required:
+  - contact_ids
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - Tick rows, press 'Mais ações' and choose 'Atribuir' (assign owner; seen, not pressed). The automation block
+      'Atribuir um usuário a um contato' has 'Atribuir para*' and a 'Round robin' toggle.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Menu entry seen; the dialog was not opened.

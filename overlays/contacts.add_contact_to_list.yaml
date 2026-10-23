@@ -1,0 +1,31 @@
+id: contacts.add_contact_to_list
+plan_availability:
+  free: available
+ui_label_pt: Administrar listas / Adicionar a uma(s) lista(s)
+side_effects:
+- 'Expected (not verified: no automation was active): adding a contact can start automations whose trigger is ''Contato
+  adicionado à lista'' (only for additions after the automation was activated).'
+postcondition_check: 'UI: toast ''A lista foi atualizada para o contato'', the contact tab ''Listas'' shows a counter
+  and the list row. API: HTTP 201 with the contacts that were added.'
+ui:
+  entry: /contact/index/<contact_id>
+  steps:
+  - Open the contact page and the tab 'Listas', press 'Adicionar à lista' (or 'Administrar listas' when it already
+    has lists).
+  - In the side panel 'Administrar listas' open the dropdown 'Adicionar um contato a uma lista', pick the folder,
+    tick the list(s).
+  - Click outside the dropdown to close it; the panel summarises 'Adicionado em N lista'. Press 'Salvar alterações'.
+  - 'Bulk alternative (observed, not run): in CRM > Contatos select rows and press ''Adicionar a uma(s) lista(s)''
+    in the selection bar.'
+  internal_service: contacts-api/contact/backend/contacts/lists
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_contact.json
+  notes: Executed from the contact page with the test contact and test list ID 6. The bulk bar variant was only
+    observed.

@@ -1,0 +1,42 @@
+id: email_campaigns.add_campaign_to_folder
+domain: email_campaigns
+summary: Move an e-mail campaign into a folder (row menu 'Adicionar à pasta'). Blocked on the Free plan.
+ui_label_pt: Campanhas > Ações > Adicionar à pasta
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    campaign_id:
+      type: integer
+      description: Campaign to move.
+    folder:
+      type: string
+      description: Target folder.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on:
+- email_campaigns.create_campaign_folder
+execution:
+  preferred: ui
+  ui:
+    entry: /campaigns/listing
+    steps:
+    - Open the row menu of a campaign. The entry 'Adicionar à pasta' carries a crown.
+    - It was not pressed.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.plan_gating.json
+  notes: Crown seen in the row menu; not pressed.

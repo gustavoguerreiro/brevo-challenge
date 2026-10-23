@@ -1,0 +1,152 @@
+id: integrations.list_external_feeds
+domain: integrations
+summary: Fetch all external feeds.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    search:
+      type: string
+      description: Can be used to filter records by search keyword on feed name
+    startDate:
+      type: string
+      format: date
+      description: Mandatory if `endDate` is used. Starting date (YYYY-MM-DD) from which you want to fetch the list.
+        Can be maximum 30 days older than current date.
+    endDate:
+      type: string
+      format: date
+      description: Mandatory if `startDate` is used. Ending date (YYYY-MM-DD) till which you want to fetch the list.
+        Maximum time period that can be selected is one month.
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed.
+    authType:
+      type: string
+      enum:
+      - basic
+      - token
+      - noAuth
+      description: Filter the records by `authType` of the feed.
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents returned per page.
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document on the page.
+outputs:
+  type: object
+  properties:
+    count:
+      type: integer
+      description: Total number of batches
+    feeds:
+      type: array
+      items:
+        type: object
+        required:
+        - authType
+        - cache
+        - createdAt
+        - headers
+        - id
+        - maxRetries
+        - modifiedAt
+        - name
+        - url
+        properties:
+          id:
+            type: string
+            format: uuidv4
+            description: ID of the feed
+          name:
+            type: string
+            description: Name of the feed
+          url:
+            type: string
+            format: url
+            description: URL of the feed
+          authType:
+            type: string
+            description: 'Auth type of the feed: * `basic` * `token` * `noAuth`'
+            enum:
+            - basic
+            - token
+            - noAuth
+          username:
+            type: string
+            description: Username for authType `basic`
+          password:
+            type: string
+            description: Password for authType `basic`
+          token:
+            type: string
+            description: Token for authType `token`
+          headers:
+            type: array
+            description: Custom headers for the feed
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the header
+                value:
+                  type: string
+                  description: Value of the header
+          maxRetries:
+            type: integer
+            description: Maximum number of retries on the feed url
+            minimum: 0
+            maximum: 5
+          cache:
+            type: boolean
+            description: Toggle caching of feed url response
+          createdAt:
+            type: string
+            format: date-time
+            description: Datetime on which the feed was created
+          modifiedAt:
+            type: string
+            format: date-time
+            description: Datetime on which the feed was modified
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: Invalid parameters passed'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Record not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /feeds
+    auth: api-key header (never store the value).
+    operation_id: getAllExternalFeeds
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

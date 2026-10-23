@@ -1,0 +1,20 @@
+id: contacts.create_attribute
+plan_availability:
+  free: available
+ui_label_pt: Atributos de contato > Criar um atributo
+ui:
+  entry: /objects/settings/contact
+  steps:
+  - Open Configurações > CRM > Contatos > Atributos de contato (/objects/settings/contact) and press the create
+    button.
+  - 'Dialog: pick the type, fill ''Nome'' (up to 50 characters); an advanced section holds ''ID do atributo''. NOT
+    EXECUTED: attribute creation was not covered by the test-data permission.'
+  - 'Attribute ids are localised: in this pt-BR account the first and last name attributes are NOME and SOBRENOME.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.misc_pages_pass5.json
+  notes: Dialog observed in an earlier pass (inventory/ui_crawl_pass4_settings_detail.md). Transactional attributes
+    live on a legacy page, my.brevo.com/lists/add-attributes.

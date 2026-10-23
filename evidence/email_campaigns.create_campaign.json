@@ -1,0 +1,32 @@
+{
+  "action": "email_campaigns.create_campaign",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR. Nothing was scheduled or sent.",
+  "steps_run": [
+    "Opened Marketing > Campanhas (/campaigns/listing, empty). Channel choices shown: Gerar e-mail com IA, E-mail, SMS, WhatsApp (crown), Push (crown), Pop-up (crown)",
+    "Chose E-mail; landed on /marketing-campaign/campaign-setup",
+    "Setup form: tabs Regular and Teste A/B (crown); Nome da campanha (counter 0/128); Tags (crown); Pasta (crown). Typed ZZ_TEST_campaign_1 and continued",
+    "Landed on /marketing-campaign/edit/1 (the campaign is created as soon as the setup step is saved); status Rascunho",
+    "In section Assunto typed 'ZZ_TEST subject line' and saved"
+  ],
+  "results": [
+    "Campaign ID 1 exists with status Rascunho (draft)",
+    "Resource timing showed email-campaigns-backend/email-campaign/api/regular/setup on creation",
+    "Subject persisted on the edit page"
+  ],
+  "editor_sections_observed": {
+    "Remetente": "Preset sender (the account name) <the account e-mail>; link 'Gerenciar remetente'",
+    "Destinatários": "'Enviar para' (lists, segments or contacts); checkbox 'Não envie para contatos não reativos'; advanced options 'Não enviar para' (exclusions) and 'Filtrar destinatários' > 'Adicionar uma condição'; counter '0 destinatários / 300 e-mails restantes'. Not saved.",
+    "Assunto": "Assunto*; buttons Adicionar emoji, Adicionar variável, Escreva com IA; field 'Pré-visualização do texto' (preheader)",
+    "Criação": "Button 'Comece a criar' opens modal 'Criar um e-mail': editors 'Editor de arrastar e soltar', 'Editor simples', 'Código HTML personalizado'; sources 'Seus e-mails/Campanhas de e-mail', 'Seus modelos', 'Modelos básicos', 'Prontos para uso'. Closed without choosing.",
+    "Configurações adicionais": "Personalização (campo 'Enviar para'); Envio e rastreamento (different reply-to, UTM tracking, ignore list custom settings, attachment, assign tag, expiry date); Assinatura (custom unsubscribe page, profile-update form); Criação (default header/footer, 'Ver no navegador' link)",
+    "Header buttons": ["Pré-visualizar e teste", "Programar"]
+  },
+  "not_executed_on_purpose": ["Programar (schedule/send)", "Pré-visualizar e teste > send test", "choosing an editor and building content"],
+  "banners_seen": "A first-campaign banner asks for phone verification (observed on the editor).",
+  "limitations": [
+    "Recipients, content and schedule were not set, so the minimum set of fields needed before 'Programar' becomes available is not established.",
+    "The setup and subject save requests were not captured."
+  ],
+  "test_data_left_in_account": "draft campaign ZZ_TEST_campaign_1 (ID 1), to be removed by the account owner"
+}

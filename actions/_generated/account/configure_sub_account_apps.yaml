@@ -1,0 +1,97 @@
+id: account.configure_sub_account_apps
+domain: account
+summary: Enable/disable sub-account application(s).
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'id' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: Id of the sub-account organization (mandatory)
+    inbox:
+      type: boolean
+      description: Set this field to enable or disable Inbox on the sub-account / Not applicable on ENTv2
+      x-in: body
+    whatsapp:
+      type: boolean
+      description: Set this field to enable or disable Whatsapp campaigns on the sub-account
+      x-in: body
+    automation:
+      type: boolean
+      description: Set this field to enable or disable Automation on the sub-account
+      x-in: body
+    email-campaigns:
+      type: boolean
+      description: Set this field to enable or disable Email Campaigns on the sub-account
+      x-in: body
+    sms-campaigns:
+      type: boolean
+      description: Set this field to enable or disable SMS Marketing on the sub-account
+      x-in: body
+    landing-pages:
+      type: boolean
+      description: Set this field to enable or disable Landing pages on the sub-account
+      x-in: body
+    transactional-emails:
+      type: boolean
+      description: Set this field to enable or disable Transactional Email on the sub-account
+      x-in: body
+    transactional-sms:
+      type: boolean
+      description: Set this field to enable or disable Transactional SMS on the sub-account
+      x-in: body
+    facebook-ads:
+      type: boolean
+      description: Set this field to enable or disable Facebook ads on the sub-account
+      x-in: body
+    web-push:
+      type: boolean
+      description: Set this field to enable or disable Web Push on the sub-account
+      x-in: body
+    meetings:
+      type: boolean
+      description: Set this field to enable or disable Meetings on the sub-account
+      x-in: body
+    conversations:
+      type: boolean
+      description: Set this field to enable or disable Conversations on the sub-account
+      x-in: body
+    crm:
+      type: boolean
+      description: Set this field to enable or disable Sales CRM on the sub-account
+      x-in: body
+  required:
+  - id
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 403: Current account is not a master account'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /corporate/subAccount/{id}/applications/toggle
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

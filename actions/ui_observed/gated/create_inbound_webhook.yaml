@@ -1,0 +1,39 @@
+id: integrations.create_inbound_webhook
+domain: integrations
+summary: Create an inbound webhook ('Webhook de entrada'). Blocked on the Free plan; only the outbound type can
+  be created.
+ui_label_pt: Integrações > Webhooks > Webhook de entrada
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: blocked
+  note: Marked with a crown on the Free plan; the UI opens an upgrade dialog (see evidence/ui.plan_gating.json).
+    Not expected to work on a Free account.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    name:
+      type: string
+      description: Webhook name. Assumed.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /app-store/webhooks
+    steps:
+    - Open Integrações > Webhooks. A toggle switches between 'Webhook de saída' and 'Webhook de entrada' (crown).
+    - Only the outbound wizard was walked (see integrations.create_webhook).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/integrations.create_webhook.json
+  notes: Crown on the toggle seen; the inbound flow was not opened.

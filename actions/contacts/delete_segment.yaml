@@ -1,0 +1,41 @@
+id: contacts.delete_segment
+domain: contacts
+summary: Delete a saved segment. UI only; the delete was not executed.
+ui_label_pt: Excluir segmento
+risk: destructive
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - segment_id
+  properties:
+    segment_id:
+      type: integer
+      description: Segment to delete.
+side_effects:
+- 'Expected (not verified): removes the saved filter, not the contacts. Automations triggered by ''O contato está em um segmento'' and campaign audiences that use it lose their audience.'
+postcondition_check: The row disappears from /contact/segment. Automations that use the segment as trigger or campaigns
+  that target it should be checked first.
+errors:
+- condition: Segment is in use by an automation or campaign
+  recovery: Not observed. Remove it from the automation or campaign before deleting.
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - Open the Ações menu of the segment row and choose 'Excluir segmento' (red entry).
+    - 'Confirm in the dialog. NOT EXECUTED: deletion was not allowed, so the dialog was not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  notes: Menu entry only.

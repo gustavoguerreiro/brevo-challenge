@@ -1,0 +1,37 @@
+id: account.list_api_keys
+domain: account
+summary: List the account's API and MCP keys (table on Configurações > SMTP & API > Chaves API e MCP). Values are
+  secrets.
+ui_label_pt: Chaves API e MCP
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- None; read only.
+postcondition_check: The page shows the described content (or an empty state).
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /settings/keys/api
+    steps:
+    - Open Settings > SMTP & API and the tab 'Chaves API e MCP'.
+    - 'Columns: Nome, permissão, Status, Expira em, Última utilização em. The test account had none (''Você não
+      tem nenhuma chave API'').'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: The page and its empty table were seen (inventory/ui_crawl_pass2_settings.md); the evidence file holds
+    the key creation form. How a populated table looks, and whether any value is shown, is unknown. Do not read
+    or copy key values.

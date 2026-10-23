@@ -1,0 +1,51 @@
+id: account.add_ip_to_sub_accounts
+domain: account
+summary: Associate an IP to sub-accounts.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    ip:
+      type: string
+      description: IP Address
+      x-in: body
+    ids:
+      type: array
+      description: Pass the list of sub-account Ids to be associated with the IP address
+      items:
+        type: integer
+        format: int64
+      x-in: body
+  required:
+  - ids
+  - ip
+outputs:
+  type: object
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /corporate/subAccount/ip/associate
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

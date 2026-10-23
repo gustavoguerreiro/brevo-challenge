@@ -1,0 +1,864 @@
+{
+ "observed_at": "2026-10-22",
+ "source": "UI palette and panels of the automation editor, free plan, pt-BR; see evidence/automations.build_steps.json",
+ "levels": {
+  "executed_saved": "dropped on the canvas, configured and saved in the draft",
+  "panel_observed": "dropped, settings panel read, cancelled (not saved)",
+  "palette_only": "only the palette entry was seen"
+ },
+ "nodes": [
+  {
+   "slug": "contact_added_to_list",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "Contato adicionado à lista",
+   "level": "executed_saved",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "list_ids",
+     "ui_label_pt": "Lista",
+     "type": "array",
+     "required": true,
+     "description": "Multi-select of list IDs."
+    }
+   ],
+   "notes": "Only contacts added after the automation is activated are considered (note shown in the panel).",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "contact_removed_from_list",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "Contato removido da lista",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "contact_matches_filters",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "O contato atende a filtros personalizados",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "contact_in_segment",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "O contato está em um segmento",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "birthday",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "Aniversário",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "contact_added_manually",
+   "kind": "trigger",
+   "group": "Contatos",
+   "label_pt": "Contato adicionado manualmente",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "form_submitted",
+   "kind": "trigger",
+   "group": "Formulários",
+   "label_pt": "Formulário enviado",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "whatsapp_reply_received",
+   "kind": "trigger",
+   "group": "WhatsApp",
+   "label_pt": "Resposta do WhatsApp recebida",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "email_opened",
+   "kind": "trigger",
+   "group": "E-mail",
+   "label_pt": "E-mail aberto",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "email_link_clicked",
+   "kind": "trigger",
+   "group": "E-mail",
+   "label_pt": "Link clicado em um e-mail",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "email_unsubscribed",
+   "kind": "trigger",
+   "group": "E-mail",
+   "label_pt": "Cancelamento da assinatura de e-mails",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "deal_created",
+   "kind": "trigger",
+   "group": "Oportunidades",
+   "label_pt": "Oportunidade criada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "deal_stage_updated",
+   "kind": "trigger",
+   "group": "Oportunidades",
+   "label_pt": "Etapa da oportunidade atualizada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "task_created",
+   "kind": "trigger",
+   "group": "Oportunidades",
+   "label_pt": "Tarefa criada",
+   "level": "palette_only",
+   "gated_in_free": true,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "task_completed",
+   "kind": "trigger",
+   "group": "Oportunidades",
+   "label_pt": "Tarefa concluída",
+   "level": "palette_only",
+   "gated_in_free": true,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "meeting_scheduled",
+   "kind": "trigger",
+   "group": "Meetings",
+   "label_pt": "Reunião agendada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "meeting_started",
+   "kind": "trigger",
+   "group": "Meetings",
+   "label_pt": "Reunião iniciada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "meeting_canceled",
+   "kind": "trigger",
+   "group": "Meetings",
+   "label_pt": "Reunião cancelada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "call_ended",
+   "kind": "trigger",
+   "group": "Telefone",
+   "label_pt": "Chamada encerrada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "web_page_visited",
+   "kind": "trigger",
+   "group": "Website",
+   "label_pt": "Página da web visitada",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "custom_event",
+   "kind": "trigger",
+   "group": "Personalizado",
+   "label_pt": "Evento personalizado",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "coupon_sent",
+   "kind": "trigger",
+   "group": "Coupon",
+   "label_pt": "Unique coupon sent",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "add_contact_to_list",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Adicionar um contato a uma lista",
+   "level": "executed_saved",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "list_ids",
+     "ui_label_pt": "Escolha de suas listas",
+     "type": "array",
+     "required": true,
+     "description": "Multi-select of list IDs, grouped by folder."
+    }
+   ],
+   "notes": "Executed and saved with list 6.",
+   "risk": null,
+   "latent_effect": "Adds every contact that reaches the step to the chosen lists once the automation runs."
+  },
+  {
+   "slug": "remove_contact_from_list",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Remover contato de uma lista",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "list_ids",
+     "ui_label_pt": "Escolha de suas listas",
+     "type": "array",
+     "required": true,
+     "description": ""
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "update_contact_attribute",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Atualizar atributo de contato",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "mode",
+     "ui_label_pt": "Atualizar valor de atributo / Excluir valor de atributo",
+     "type": "string",
+     "required": true,
+     "description": "Radio, default 'update'.",
+     "enum": [
+      "update",
+      "delete_value"
+     ]
+    },
+    {
+     "name": "attribute",
+     "ui_label_pt": "Atualizar atributo de contato",
+     "type": "string",
+     "required": true,
+     "description": "Attribute select. The value field that follows was not seen."
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "blocklist_contact",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Colocar contato em lista bloqueada",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "scope",
+     "ui_label_pt": "Colocar contato em lista bloqueada para",
+     "type": "string",
+     "required": true,
+     "description": "Radio: E-mails transacionais (default), Campanha de marketing, Todos os e-mails e remetente.",
+     "enum": [
+      "transactional_email",
+      "marketing_campaigns",
+      "all_email_and_sender"
+     ]
+    },
+    {
+     "name": "senders",
+     "ui_label_pt": "Selecionar remetentes",
+     "type": "array",
+     "required": true,
+     "description": "Shown with the transactional scope."
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": "Contacts reaching the step stop receiving the chosen e-mail types."
+  },
+  {
+   "slug": "assign_contact_user",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Atribuir um usuário a um contato",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "user",
+     "ui_label_pt": "Atribuir para",
+     "type": "string",
+     "required": true,
+     "description": "User select."
+    },
+    {
+     "name": "round_robin",
+     "ui_label_pt": "Round robin",
+     "type": "boolean",
+     "required": false,
+     "description": "Toggle under 'Configurações adicionais'."
+    }
+   ],
+   "notes": "Needs more than the owner user to be meaningful; the account has one user.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "delete_contact",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Excluir um contato",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [],
+   "notes": "The panel has no settings, only a red warning: contacts entering the step are permanently deleted and removed from all running processes; it cannot be undone.",
+   "risk": null,
+   "latent_effect": "Permanently deletes every contact that reaches the step."
+  },
+  {
+   "slug": "update_company_attribute",
+   "kind": "action",
+   "group": "Contatos",
+   "label_pt": "Atualizar atributo de empresa",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "send_email",
+   "kind": "action",
+   "group": "Mensagens",
+   "label_pt": "Enviar um e-mail",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "message",
+     "ui_label_pt": "Mensagem",
+     "type": "object",
+     "required": true,
+     "description": "Choose an existing automation message or create one with 'Adicionar mensagem' (dialog 'Criar nova mensagem'). Templates must be active to be offered."
+    }
+   ],
+   "notes": "A template that is inactive does not show under 'Seus modelos' in the message picker (seen with an inactive test template): activate it first (content.activate_email_template, which needs a design). The account is suspended for marketing e-mail, so this step would not send here.",
+   "risk": null,
+   "latent_effect": "Sends real e-mail to every contact that reaches the step."
+  },
+  {
+   "slug": "send_sms",
+   "kind": "action",
+   "group": "Mensagens",
+   "label_pt": "Enviar um SMS",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "sms_type",
+     "ui_label_pt": "Tipo de SMS",
+     "type": "string",
+     "required": true,
+     "description": "Radio, default transactional.",
+     "enum": [
+      "transactional",
+      "promotional"
+     ]
+    },
+    {
+     "name": "sender_name",
+     "ui_label_pt": "Nome do remetente",
+     "type": "string",
+     "required": true,
+     "description": ""
+    },
+    {
+     "name": "text",
+     "ui_label_pt": "Mensagem",
+     "type": "string",
+     "required": true,
+     "description": "160-character counter."
+    },
+    {
+     "name": "show_special_characters",
+     "ui_label_pt": "Exibir caracteres especiais",
+     "type": "boolean",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "configure_send_time",
+     "ui_label_pt": "Configurar quando enviar o SMS",
+     "type": "boolean",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "The account has 0 SMS credits.",
+   "risk": null,
+   "latent_effect": "Sends real SMS (billed per segment)."
+  },
+  {
+   "slug": "send_individual_email",
+   "kind": "action",
+   "group": "Mensagens",
+   "label_pt": "Envie um e-mail individual a partir de ...",
+   "level": "palette_only",
+   "gated_in_free": true,
+   "fields": [],
+   "notes": "Crown icon in the palette.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "send_whatsapp_message",
+   "kind": "action",
+   "group": "Mensagens",
+   "label_pt": "Enviar uma mensagem de WhatsApp",
+   "level": "palette_only",
+   "gated_in_free": true,
+   "fields": [],
+   "notes": "Crown icon in the palette.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "notify_by_email",
+   "kind": "action",
+   "group": "Mensagens",
+   "label_pt": "Notificar por e-mail",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "sender",
+     "ui_label_pt": "Remetente",
+     "type": "string",
+     "required": true,
+     "description": "Preset to the account sender."
+    },
+    {
+     "name": "notify_mode",
+     "ui_label_pt": "Quem você deseja notificar?",
+     "type": "string",
+     "required": true,
+     "description": "Radio.",
+     "enum": [
+      "contacts",
+      "addresses_from_contact_attributes"
+     ]
+    },
+    {
+     "name": "contacts",
+     "ui_label_pt": "Contato",
+     "type": "array",
+     "required": false,
+     "description": "Shown for 'Um ou mais contatos'."
+    },
+    {
+     "name": "content",
+     "ui_label_pt": "Conteúdo de notificação",
+     "type": "string",
+     "required": true,
+     "description": "Rich text with variables."
+    },
+    {
+     "name": "event_data",
+     "ui_label_pt": "Quais dados de eventos devem ser exibidos?",
+     "type": "string",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": "Sends an internal notification e-mail each time a contact reaches the step."
+  },
+  {
+   "slug": "call_webhook",
+   "kind": "action",
+   "group": "Webhooks",
+   "label_pt": "Chamar um webhook",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "url",
+     "ui_label_pt": "URL",
+     "type": "string",
+     "required": true,
+     "description": "Format https://example.com"
+    },
+    {
+     "name": "auth_method",
+     "ui_label_pt": "Método de autenticação",
+     "type": "string",
+     "required": false,
+     "description": "Default 'Sem autenticação'."
+    },
+    {
+     "name": "headers",
+     "ui_label_pt": "Adicionar objeto",
+     "type": "array",
+     "required": false,
+     "description": "Extra headers (inferred from the label)."
+    },
+    {
+     "name": "include_contact_details",
+     "ui_label_pt": "Incluir detalhes do contato que acionou o evento",
+     "type": "boolean",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": "Sends contact data to the URL every time a contact reaches the step."
+  },
+  {
+   "slug": "create_task",
+   "kind": "action",
+   "group": "Oportunidades",
+   "label_pt": "Criar uma tarefa",
+   "level": "palette_only",
+   "gated_in_free": true,
+   "fields": [],
+   "notes": "Crown icon in the palette. CRM tasks also need the sales CRM activated.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "update_deal_attribute",
+   "kind": "action",
+   "group": "Oportunidades",
+   "label_pt": "Atualizar atributo de oportunidades",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "duplicate_deal",
+   "kind": "action",
+   "group": "Oportunidades",
+   "label_pt": "Duplicar oportunidade",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "create_deal",
+   "kind": "action",
+   "group": "Oportunidades",
+   "label_pt": "Criar oportunidade",
+   "level": "palette_only",
+   "gated_in_free": null,
+   "fields": [],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "start_other_automation",
+   "kind": "action",
+   "group": "Automations",
+   "label_pt": "Iniciar outra automação",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "automation_id",
+     "ui_label_pt": "Automação",
+     "type": "integer",
+     "required": true,
+     "description": ""
+    },
+    {
+     "name": "step_id",
+     "ui_label_pt": "Etapa",
+     "type": "integer",
+     "required": false,
+     "description": "Optional. Empty means the first step."
+    }
+   ],
+   "notes": "",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "redirect_contact",
+   "kind": "action",
+   "group": "Automations",
+   "label_pt": "Redirecionar contato para outra etapa",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "step_id",
+     "ui_label_pt": "Etapa",
+     "type": "integer",
+     "required": true,
+     "description": "Step of the same automation."
+    }
+   ],
+   "notes": "Creates loops if the target is upstream.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "delay",
+   "kind": "rule",
+   "group": "Regras",
+   "label_pt": "Atraso de tempo",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "months",
+     "ui_label_pt": "Meses",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "days",
+     "ui_label_pt": "Dias",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "hours",
+     "ui_label_pt": "Horas",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "minutes",
+     "ui_label_pt": "Minutos",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "At least one unit is required ('Escolha o período antes da próxima etapa'). A month counts as 30 days. The canvas card is titled 'Esperar'.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "conditional_split",
+   "kind": "rule",
+   "group": "Regras",
+   "label_pt": "Divisão condicional",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "branch_a_filters",
+     "ui_label_pt": "Ramificação A > Adicionar filtro",
+     "type": "array",
+     "required": true,
+     "description": "Filter builder, same family as segment filters (inferred)."
+    },
+    {
+     "name": "branch_a_name",
+     "ui_label_pt": "Ramificação A (rename)",
+     "type": "string",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "Branch B is the 'else' branch: contacts matching no condition. 'Adicionar ramificação' (more branches) is crown-gated.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "percentage_split",
+   "kind": "rule",
+   "group": "Regras",
+   "label_pt": "Divisão percentual",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "branch_a_percent",
+     "ui_label_pt": "Ramificação A Porcentagem",
+     "type": "integer",
+     "required": true,
+     "description": "Default 50."
+    },
+    {
+     "name": "branch_b_percent",
+     "ui_label_pt": "Ramificação B Porcentagem",
+     "type": "integer",
+     "required": true,
+     "description": "Default 50."
+    }
+   ],
+   "notes": "More branches are crown-gated.",
+   "risk": null,
+   "latent_effect": null
+  },
+  {
+   "slug": "wait_for_event",
+   "kind": "rule",
+   "group": "Regras",
+   "label_pt": "Espere até que um evento aconteça",
+   "level": "panel_observed",
+   "gated_in_free": false,
+   "fields": [
+    {
+     "name": "event",
+     "ui_label_pt": "Evento",
+     "type": "string",
+     "required": true,
+     "description": "Same category tree as triggers."
+    },
+    {
+     "name": "wait_months",
+     "ui_label_pt": "Meses",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "wait_days",
+     "ui_label_pt": "Dias",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "wait_hours",
+     "ui_label_pt": "Horas",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    },
+    {
+     "name": "wait_minutes",
+     "ui_label_pt": "Minutos",
+     "type": "integer",
+     "required": false,
+     "description": ""
+    }
+   ],
+   "notes": "Two branches: 'Sim' (event happened within the wait time) and 'Não'.",
+   "risk": null,
+   "latent_effect": null
+  }
+ ]
+}

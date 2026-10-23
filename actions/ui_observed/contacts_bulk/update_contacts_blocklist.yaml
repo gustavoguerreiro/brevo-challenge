@@ -1,0 +1,49 @@
+id: contacts.update_contacts_blocklist
+domain: contacts
+summary: Put the selected contacts on the blocklist ('Lista bloqueada' in the selection bar). Stops their e-mail
+  and SMS.
+ui_label_pt: Contatos > Lista bloqueada
+risk: write
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- Inputs change e-mail/SMS consent. Run only on an explicit yes from the person, naming the contacts; never use
+  it to undo someone's unsubscribe.
+inputs:
+  type: object
+  properties:
+    contact_ids:
+      type: array
+      items:
+        type: integer
+      description: Selected rows.
+    blocklisted:
+      type: boolean
+      description: Only true was seen offered.
+  required:
+  - contact_ids
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on:
+- contacts.create_contact
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - On CRM > Contatos tick one or more rows; the bar shows 'Adicionar a uma(s) lista(s)', 'Lista bloqueada' and
+      'Mais ações'.
+    - 'Press ''Lista bloqueada'' (seen, not pressed). Single contact: Preferences tab, Campanhas dropdown ''Colocado
+      em lista bloqueada'' (that route is contacts.update_contact_subscription, executed once and reverted).'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Button seen on a selection of one test contact; not pressed.

@@ -1,0 +1,34 @@
+id: account.connect_individual_email
+domain: account
+summary: Connect the user's own mailbox ('Conectar e-mail individual') to work with contact e-mail inside Brevo.
+ui_label_pt: Configurações > E-mail individual
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: https://conversations-app.brevo.com/individual-email/settings
+    steps:
+    - Open the settings gear > E-mail individual (on conversations-app.brevo.com).
+    - Press 'Conectar e-mail individual' (OAuth with the mailbox provider; not pressed). The page also lists excluded
+      addresses and domains.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: 'Needs an OAuth sign-in with the person''s mailbox: only the person can do that.'

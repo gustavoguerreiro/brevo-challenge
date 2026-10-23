@@ -1,0 +1,52 @@
+id: transactional.get_template_preview
+domain: transactional
+summary: Get template preview (POST /smtp/template/preview).
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- The request body schema was not captured here. Read it from the live spec (developers.brevo.com/openapi/<area>.json)
+  before calling.
+inputs:
+  type: object
+  properties: {}
+  x-body-not-captured: true
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smtp/template/preview
+    auth: api-key header (never store the value).
+  ui:
+    entry: /templates/listing
+    steps:
+    - Row menu > 'Pré-visualização' opens the dialog 'Pré-visualizar e testar'. Tab 'Pré-visualizar' renders the
+      body for a chosen contact ('Pré-visualizar como destinatario'), optionally with JSON transactional data ('Adicionar
+      dados JSON transacionais') or an event ('Pré-visualização de evento').
+    - 'Without a design the UI refuses: toast ''Para pre-visualizar, crie um design.'''
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: The web app's preview dialog was opened with its first tab only. The API operation takes parameters and
+    exists only in the live developer-site spec; whether the dialog uses it was not checked, and the request and
+    response were never seen. UI preview executed with the first tab only. The API preview takes parameters; whether
+    the UI tab uses the same endpoint was not checked. Only in the live developer-site spec read on 2026-10-22 (absent
+    from the Feb 2025 snapshot). Parameter types were not captured, only names and required flags. Not executed.
+  evidence: evidence/content.template_lifecycle.json
+related:
+- content.preview_email_template
+ui_label_pt: Pré-visualização

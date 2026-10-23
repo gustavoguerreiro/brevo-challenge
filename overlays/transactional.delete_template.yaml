@@ -1,0 +1,20 @@
+id: transactional.delete_template
+plan_availability:
+  free: available
+ui_label_pt: Excluir
+ui:
+  entry: /templates/listing
+  steps:
+  - 'Open Marketing > Modelos and the row menu of an INACTIVE template; the red entry ''Excluir'' is last. Active
+    templates do not offer it: deactivate them first (content.deactivate_email_template).'
+  - 'Confirm in the dialog. NOT EXECUTED: the dialog was not seen.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: 'The UI rule matches the API summary ''Delete an inactive email template'': an active template shows no
+    Excluir entry.'
+related:
+- content.delete_email_template

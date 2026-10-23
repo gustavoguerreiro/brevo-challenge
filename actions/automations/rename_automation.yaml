@@ -1,0 +1,45 @@
+id: automations.rename_automation
+domain: automations
+summary: Rename an automation from the list.
+ui_label_pt: Renomear
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - automation_id
+  - new_name
+  properties:
+    automation_id:
+      type: integer
+    new_name:
+      type: string
+side_effects:
+- 'Observed: toast ''Automação renomeada'' and the new name in the list. No other effect was seen.'
+postcondition_check: Toast 'Automação renomeada' and the new name in the list.
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/automations
+    steps:
+    - Open Automações > Cenários and the three-dot menu of the row.
+    - 'Choose ''Renomear''. In the dialog ''Renomear a automação'' replace ''Nome da automação'' (hint: use a clear,
+      descriptive name) and press ''Salvar''.'
+    - The editor also has a pencil/chevron next to the name in its header (not exercised).
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  verified_via:
+  - ui
+  notes: Executed on the test automation (renamed to ZZ_TEST_automation_1).

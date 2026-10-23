@@ -1,0 +1,108 @@
+id: ecommerce.create_product
+domain: ecommerce
+summary: Create or update one product in the e-commerce catalogue.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    id:
+      type: string
+      format: string
+      description: Product ID for which you requested the details
+      x-in: body
+    name:
+      type: string
+      format: string
+      description: Mandatory in case of creation**. Name of the product for which you requested the details
+      x-in: body
+    url:
+      type: string
+      format: string
+      description: URL to the product
+      x-in: body
+    imageUrl:
+      type: string
+      format: string
+      description: Absolute URL to the cover image of the product
+      x-in: body
+    sku:
+      type: string
+      format: string
+      description: Product identifier from the shop
+      x-in: body
+    price:
+      type: number
+      format: float
+      description: Price of the product
+      x-in: body
+    categories:
+      type: array
+      description: Category ID-s of the product
+      items:
+        type: string
+      x-in: body
+    parentId:
+      type: string
+      format: string
+      description: Parent product id of the product
+      x-in: body
+    metaInfo:
+      type: object
+      description: Meta data of product such as description, vendor, producer, stock level. The size of cumulative
+        metaInfo shall not exceed **1000 KB**. Maximum length of metaInfo object can be 10.
+      additionalProperties:
+        type: string
+      x-in: body
+    updateEnabled:
+      type: boolean
+      description: Facilitate to update the existing category in the same request (updateEnabled = true)
+      default: false
+      x-in: body
+    deletedAt:
+      type: string
+      description: UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the product deleted from the shop's database
+      x-in: body
+    isDeleted:
+      type: boolean
+      description: product deleted from the shop's database
+      x-in: body
+  required:
+  - id
+  - name
+outputs:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: ID of the Product when a new product is created
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /products
+    auth: api-key header (never store the value).
+    operation_id: createUpdateProduct
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Creates or updates.'

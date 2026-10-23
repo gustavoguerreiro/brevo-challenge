@@ -1,0 +1,18 @@
+id: transactional.send_test_template
+plan_availability:
+  free: available
+ui_label_pt: Enviar e-mail de teste
+ui:
+  entry: /templates/listing
+  steps:
+  - 'Row menu > ''Pré-visualização'' > tab ''Enviar e-mail de teste'' (or the button ''Pré-visualizar e testar''
+    in the editor). NOT EXECUTED: it sends a real e-mail.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  notes: The tab exists; it was not opened because sending was out of scope.
+side_effects:
+- 'Expected (not observed): Delivers a real e-mail to the test recipients.'

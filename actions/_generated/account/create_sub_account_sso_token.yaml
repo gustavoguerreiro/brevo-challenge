@@ -1,0 +1,76 @@
+id: account.create_sub_account_sso_token
+domain: account
+summary: Generate SSO token to access sub-account.
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Master-account (corporate) feature; availability on a Free account was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: Id of the sub-account organization
+      x-in: body
+    email:
+      type: string
+      description: User email of sub-account organization
+      x-in: body
+    target:
+      type: string
+      description: Set target after login success * automation - Redirect to Automation after login * email_campaign
+        - Redirect to Email Campaign after login * contacts - Redirect to Contacts after login * landing_pages -
+        Redirect to Landing Pages after …
+      enum:
+      - automation
+      - email_campaign
+      - contacts
+      - landing_pages
+      - email_transactional
+      - senders
+      - sms_campaign
+      - sms_transactional
+      x-in: body
+    url:
+      type: string
+      description: Set the full target URL after login success. The user will land directly on this target URL after
+        login
+      x-in: body
+  required:
+  - id
+outputs:
+  type: object
+  required:
+  - token
+  properties:
+    token:
+      type: string
+      description: Session token, it will remain valid for 15 days.
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 403: Current account is not a master account'
+  recovery: The key or plan lacks permission for this operation; check key permissions and plan features.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /corporate/subAccount/ssoToken
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

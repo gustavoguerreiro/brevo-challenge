@@ -1,0 +1,21 @@
+{
+ "action": "contacts.duplicate_list",
+ "observed_at": "2026-10-22",
+ "method": "UI in Claude in Chrome, the test account, pt-BR. Self-reported run; no screenshots or request bodies were kept.",
+ "steps_run": [
+  "CRM > Contatos > Listas, row menu of test list ID 3 (0 contacts) > Duplicar",
+  "Side panel titled 'Lista duplicada': field 'Nome da lista' prefilled 'Duplicado de <name>' (max 255), select 'Pasta de destino' (default 'Sua primeira pasta'). Name changed to ZZ_TEST_list_2_dup",
+  "Pressed the black button at the bottom of the panel (also labelled 'Lista duplicada'): toast 'Duplicar a lista... Pode levar alguns minutos.'",
+  "Reloaded after a few seconds: the table showed a new row ZZ_TEST_list_2_dup with ID 6 (ID 5 was not shown)"
+ ],
+ "results": [
+  "A new list exists with the chosen name and ID 6",
+  "The internal call seen in the page hook was a GET to contacts-api-v2 /lists/duplicate"
+ ],
+ "limitations": [
+  "The source list had no contacts, so whether the copy receives the contacts of the source was not tested",
+  "The skipped ID 5 was not investigated",
+  "Request body not captured"
+ ],
+ "test_data_left_in_account": "list ID 6 ZZ_TEST_list_2_dup (also holds test contact ID 2 after a later action)"
+}

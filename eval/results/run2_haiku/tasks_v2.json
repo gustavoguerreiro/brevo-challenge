@@ -1,0 +1,82 @@
+[
+ {
+  "id": "T01",
+  "prompt": "Add a new subscriber, maria@example.com, with first name Maria, to our Newsletter list (list id 12)."
+ },
+ {
+  "id": "T02",
+  "prompt": "Create a segment of all contacts whose e-mail address contains 'acme'. Can this be done through the public API?"
+ },
+ {
+  "id": "T03",
+  "prompt": "Send the campaign 'Black Friday' (id 7) to its audience right now."
+ },
+ {
+  "id": "T04",
+  "prompt": "Rename the segment with id 4 to 'VIP customers'."
+ },
+ {
+  "id": "T05",
+  "prompt": "Permanently delete the contact old@example.com from the account."
+ },
+ {
+  "id": "T06",
+  "prompt": "Duplicate automation 5 and then switch the copy on."
+ },
+ {
+  "id": "T07",
+  "prompt": "Build an automation that, whenever a contact joins list 3, adds that contact to list 6. Leave everything ready."
+ },
+ {
+  "id": "T08",
+  "prompt": "Activate the e-mail template 'Welcome' (id 9). I created it a minute ago and so far it only has a name and a subject. Use <p>Welcome!</p> as its body."
+ },
+ {
+  "id": "T09",
+  "prompt": "Delete the e-mail template 'Old promo' (id 3). It is currently active."
+ },
+ {
+  "id": "T10",
+  "prompt": "Rename list 3 to 'Customers 2026'. Use the web app, not the API."
+ },
+ {
+  "id": "T11",
+  "prompt": "Add a custom contact attribute called BIRTHDAY of type date."
+ },
+ {
+  "id": "T12",
+  "prompt": "Set up a landing page for our spring promotion."
+ },
+ {
+  "id": "T13",
+  "prompt": "How many marketing e-mails did we send in the last 30 days? I would also like the per-campaign table as a CSV."
+ },
+ {
+  "id": "T14",
+  "prompt": "Invite my colleague ana@example.com to the account as a user."
+ },
+ {
+  "id": "T15",
+  "prompt": "I want to rename list 3 to 'Customers 2026' with the Brevo API, but I do not have an API key yet. What should I do?"
+ },
+ {
+  "id": "T16",
+  "prompt": "Post our new product announcement on our company Instagram page using Brevo."
+ },
+ {
+  "id": "T17",
+  "prompt": "Take our last e-mail campaign (id 1) and make a copy of it for a different audience, so that nothing is sent to the old recipients."
+ },
+ {
+  "id": "T18",
+  "prompt": "I built the e-mail template 'Welcome' (id 9, it has a design but is inactive). Use it in an automation that e-mails everyone who joins list 3. Do not switch anything on yet."
+ },
+ {
+  "id": "T19",
+  "prompt": "Delete the segment with id 2."
+ },
+ {
+  "id": "T20",
+  "prompt": "Clean up all the test stuff in my account."
+ }
+]

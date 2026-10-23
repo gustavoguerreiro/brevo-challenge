@@ -1,0 +1,148 @@
+id: contacts.list_contacts
+domain: contacts
+summary: List contacts, with filters for list, segment and modification date, and paging.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    limit:
+      type: integer
+      format: int64
+      default: 50
+      description: Number of documents per page
+    offset:
+      type: integer
+      format: int64
+      default: 0
+      description: Index of the first document of the page
+    modifiedSince:
+      type: string
+      description: Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ).
+        Prefer to pass your timezone in date-time format for accurate result.
+    createdSince:
+      type: string
+      description: Filter (urlencoded) the contacts created after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ).
+        Prefer to pass your timezone in date-time format for accurate result.
+    sort:
+      type: string
+      enum:
+      - asc
+      - desc
+      default: desc
+      description: Sort the results in the ascending/descending order of record creation. Default order is **descending**
+        if `sort` is not passed
+    segmentId:
+      type: integer
+      format: int64
+      description: Id of the segment. **Either listIds or segmentId can be passed.**
+    listIds:
+      type: array
+      items:
+        type: integer
+        format: int64
+      description: Ids of the list. **Either listIds or segmentId can be passed.**
+    filter:
+      type: string
+      description: 'Filter the contacts on the basis of attributes. **Allowed operator: equals. (e.g. filter=equals(FIRSTNAME,"Antoine"),
+        filter=equals(B1, true), filter=equals(DOB, "1989-11-23"))**'
+outputs:
+  type: object
+  required:
+  - contacts
+  - count
+  properties:
+    contacts:
+      type: array
+      items:
+        type: object
+        allOf:
+        - type: object
+          required:
+          - attributes
+          - createdAt
+          - emailBlacklisted
+          - id
+          - listIds
+          - modifiedAt
+          - smsBlacklisted
+          properties:
+            email:
+              type: string
+              format: email
+              description: Email address of the contact for which you requested the details
+            id:
+              type: integer
+              format: int64
+              description: ID of the contact for which you requested the details
+            emailBlacklisted:
+              type: boolean
+              description: Blacklist status for email campaigns (true=blacklisted, false=not blacklisted)
+            smsBlacklisted:
+              type: boolean
+              description: Blacklist status for SMS campaigns (true=blacklisted, false=not blacklisted)
+            createdAt:
+              type: string
+              description: Creation UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)
+            modifiedAt:
+              type: string
+              description: Last modification UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)
+            listIds:
+              type: array
+              items:
+                type: integer
+                format: int64
+                description: List(s) in which the contact is included
+            listUnsubscribed:
+              type: array
+              items:
+                type: integer
+                format: int64
+                description: List(s) in which the contact is included (only available if unsubscription per list
+                  is activated for the account)
+            attributes:
+              type: object
+              description: Set of attributes of the contact
+              properties: {}
+    count:
+      type: integer
+      format: int64
+      description: Number of contacts
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /contacts
+    auth: api-key header (never store the value).
+    operation_id: getContacts
+  ui:
+    entry: /contact/list
+    steps:
+    - Open CRM > Contatos. Use 'Carregar uma lista ou um segmento', 'Adicionar filtro', 'Personalizar colunas' and
+      the search box.
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  notes: 'Read in the UI. UI view read; field-level equality with the API response was not tested (no API key).
+    Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API key.
+    Also present in the live developer-site spec read on 2026-10-22.'
+  verified_via:
+  - ui
+  evidence: evidence/ui.read_pages.json
+ui_label_pt: CRM > Contatos

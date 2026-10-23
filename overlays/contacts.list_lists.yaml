@@ -1,0 +1,23 @@
+id: contacts.list_lists
+plan_availability:
+  free: available
+ui_label_pt: Listas
+ui:
+  entry: /contact/list-listing
+  steps:
+  - Open CRM > Contatos > Listas.
+  - 'Columns: Listas, ID, Pasta, Contatos, Data de criação, Ações. Search box ''Pesquise um nome ou ID de lista''.
+    The folder dropdown ''Todas as pastas (N listas)'' filters by folder.'
+  - The system list 'identified_contacts' (ID 4, folder marketing_automation) exists in a new account next to 'Sua
+    primeira lista' (ID 2).
+  internal_service: contacts-api-v2/lists/get-lists and lists/get-folders
+provenance:
+  sources:
+  - ui
+  - network
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  verified_via:
+  - ui
+  evidence: evidence/contacts.update_list.json
+  notes: Read in the UI many times.

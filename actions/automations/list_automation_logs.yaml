@@ -1,0 +1,47 @@
+id: automations.list_automation_logs
+domain: automations
+summary: Read scenario logs and the contacts currently in a scenario.
+ui_label_pt: Registros de acesso / Logs
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    automation_id:
+      type: integer
+    step_id:
+      type: integer
+    start_date:
+      type: string
+      format: date
+    end_date:
+      type: string
+      format: date
+    contact:
+      type: string
+side_effects:
+- None; read only.
+postcondition_check: A table of log lines (the test account had none; the table showed loading placeholders).
+errors: []
+limits: []
+depends_on:
+- automations.list_automations
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/logs/scenarios
+    steps:
+    - Open Automações > Logs, or the row menu entry 'Registros de acesso' (/automation/logs/scenarios).
+    - 'Tabs ''Logs de cenários'' and ''Contatos no cenário''; filters: automation, step, date range (default the
+      last 7 days); search ''Buscar contatos''. A banner points to ''Log de eventos'' in the main navigation.'
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.manage_list.json
+  notes: Page opened; no data existed to read.

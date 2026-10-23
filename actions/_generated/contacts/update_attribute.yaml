@@ -1,0 +1,84 @@
+id: contacts.update_attribute
+domain: contacts
+summary: Change the values or the calculation of an existing contact attribute.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- 'Path value ''attributeCategory'' must be one of: category, calculated, global, normal.'
+- Path value 'attributeName' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    attributeCategory:
+      type: string
+      enum:
+      - category
+      - calculated
+      - global
+      - normal
+      description: Category of the attribute
+    attributeName:
+      type: string
+      description: Name of the existing attribute
+    value:
+      type: string
+      description: Value of the attribute to update. Use only if the attribute's category is 'calculated' or 'global'
+      x-in: body
+    enumeration:
+      type: array
+      description: List of the values and labels that the attribute can take. Use only if the attribute's category
+        is "category". For example, [{"value":1, "label":"male"}, {"value":2, "label":"female"}]
+      items:
+        type: object
+        required:
+        - label
+        - value
+        properties:
+          value:
+            type: integer
+            description: Id of the value
+          label:
+            type: string
+            description: Label of the value
+      x-in: body
+    multiCategoryOptions:
+      type: array
+      description: 'Use this option to add multiple-choice attributes options only if the attribute''s category
+        is "normal". **This option is specifically designed for updating multiple-choice attributes**. For example:
+        **["USA","INDIA"]**'
+      items:
+        type: string
+      x-in: body
+  required:
+  - attributeCategory
+  - attributeName
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Attribute not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /contacts/attributes/{attributeCategory}/{attributeName}
+    auth: api-key header (never store the value).
+    operation_id: updateAttribute
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

@@ -1,0 +1,51 @@
+id: content.preview_email_template
+domain: content
+summary: Preview a template as a chosen recipient. Does not send anything unless the third tab is used.
+ui_label_pt: Pré-visualização
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  properties:
+    template_id:
+      type: integer
+    contact_email:
+      type: string
+      description: Contact whose data fills the personalisation tags.
+side_effects:
+- None for the first tab.
+postcondition_check: The dialog shows From, Subject and the rendered body.
+errors:
+- condition: Template has no design
+  symptom: Red toast 'Para pré-visualizar, crie um design.'
+  recovery: Add content first (content.update_email_template_content).
+limits: []
+depends_on:
+- content.update_email_template_content
+related: [transactional.get_template_preview]
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - Open Marketing > Modelos and the row menu; choose 'Pré-visualização'. Without a design Brevo shows the toast
+      'Para pré-visualizar, crie um design.' and no dialog.
+    - 'Dialog ''Pré-visualizar e testar'': tab ''Pré-visualizar'' (desktop/mobile switch; ''Pré-visualizar como
+      destinatário'' with a contact search; ''Adicionar dados JSON transacionais''; ''Pré-visualização de evento''),
+      tab ''Visualizar em caixa de entrada'', tab ''Enviar e-mail de teste''.'
+    - 'Close with the X. DO NOT use the third tab: it sends a real e-mail.'
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: First tab executed. The inbox tab and the test-send tab were NOT opened.

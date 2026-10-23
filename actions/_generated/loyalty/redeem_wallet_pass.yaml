@@ -1,0 +1,54 @@
+id: loyalty.redeem_wallet_pass
+domain: loyalty
+summary: Redeem wallet pass (POST /wallet/passes/{installationId}/redeem).
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: blocked
+  note: The Loyalty module is gated to an Enterprise plan in the UI (observed). The API calls were not tried; they
+    are expected to fail on Free.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'installationId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    installationId:
+      description: Type not captured.
+      x-in: path
+    amountSpent:
+      description: Type not captured.
+      x-in: body
+    customData:
+      description: Type not captured.
+      x-in: body
+    eventTag:
+      description: Type not captured.
+      x-in: body
+    location:
+      description: Type not captured.
+      x-in: body
+  required:
+  - installationId
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 2xx; read the affected item back to confirm.
+errors:
+- condition: Request rejected (any 4xx)
+  recovery: Read the response body code and message, fix the request and retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /wallet/passes/{installationId}/redeem
+    auth: api-key header (never store the value).
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: Only in the live developer-site spec read on 2026-10-22 (absent from the Feb 2025 snapshot). Parameter
+    types were not captured, only names and required flags. Not executed.

@@ -1,0 +1,63 @@
+id: email_campaigns.update_campaign_status
+domain: email_campaigns
+summary: Update an email campaign status.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'campaignId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    campaignId:
+      type: integer
+      format: int64
+      description: Id of the campaign
+    status:
+      type: string
+      description: Note:- replicateTemplate status will be available only for template type campaigns.
+      enum:
+      - suspended
+      - archive
+      - darchive
+      - sent
+      - queued
+      - replicate
+      - replicateTemplate
+      - draft
+      x-in: body
+  required:
+  - campaignId
+side_effects:
+- 'Expected (from the API docs, not verified): Depending on the status value the campaign can be queued to send,
+  suspended or archived.'
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+postcondition_check: HTTP 204 (or 200); read the item back with its get_/list_ action and compare the fields you
+  changed.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Campaign ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: PUT
+    path: /emailCampaigns/{campaignId}/status
+    auth: api-key header (never store the value).
+    operation_id: updateCampaignStatus
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'
+description: 'Author''s note (from the docs or from reading the spec; not verified): Status values can queue a send,
+  suspend or archive a campaign.'

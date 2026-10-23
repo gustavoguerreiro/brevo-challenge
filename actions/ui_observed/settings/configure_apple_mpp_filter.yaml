@@ -1,0 +1,37 @@
+id: contacts.configure_apple_mpp_filter
+domain: contacts
+summary: Include or exclude Apple Mail Privacy Protection opens in segments (card 'Aberturas da Apple MPP em segmentos').
+ui_label_pt: Aberturas da Apple MPP em segmentos
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability was not checked.
+preconditions: []
+inputs:
+  type: object
+  properties:
+    include_mpp_opens:
+      type: boolean
+      description: Assumed from the card description.
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/settings
+    steps:
+    - Open Settings > CRM > Contatos and the card 'Aberturas da Apple MPP em segmentos'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Card and one-line description seen only.

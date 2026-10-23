@@ -1,0 +1,78 @@
+id: ecommerce.create_categories
+domain: ecommerce
+summary: Create categories in batch.
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: limited
+  note: Needs the e-commerce integration or activation (UI shows a plug-in prompt on a new account).
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties:
+    categories:
+      type: array
+      description: array of categories objects
+      items:
+        type: object
+        required:
+        - id
+        properties:
+          id:
+            type: string
+            format: email
+            description: Unique Category ID as saved in the shop
+          name:
+            type: string
+            description: '**Mandatory in case of creation**. Name of the Category, as displayed in the shop'
+          url:
+            type: string
+            description: URL to the category
+          deletedAt:
+            type: string
+            description: UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ) of the category deleted from the shop's database
+          isDeleted:
+            type: boolean
+            description: category deleted from the shop's database
+      x-in: body
+    updateEnabled:
+      type: boolean
+      description: Facilitate to update the existing categories in the same request (updateEnabled = true)
+      x-in: body
+  required:
+  - categories
+outputs:
+  type: object
+  properties:
+    createdCount:
+      type: integer
+      format: int64
+      description: Number of the new created categories
+    updatedCount:
+      type: integer
+      format: int64
+      description: Number of the existing categories updated
+side_effects:
+- 'Expected (from the API docs, not verified): changes account data.'
+postcondition_check: HTTP 201 (or 200) returning the new id; read the item back with its get_/list_ action to confirm.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /categories/batch
+    auth: api-key header (never store the value).
+    operation_id: createUpdateBatchCategory
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

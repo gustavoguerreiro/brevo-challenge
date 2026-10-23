@@ -1,0 +1,17 @@
+{
+  "action": "contacts.create_list",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR",
+  "steps_run": [
+    "Opened /contact/list-listing, pressed 'Criar uma lista'",
+    "Typed name ZZ_TEST_list_1, opened the 'Pasta' dropdown (only option: 'Sua primeira pasta'), selected it, pressed 'Criar lista'"
+  ],
+  "results": [
+    "Toast 'A lista \"ZZ_TEST_list_1\" foi criada na pasta \"Sua primeira pasta\"'",
+    "List table showed ZZ_TEST_list_1, ID #3, 0 contacts",
+    "Resource timing showed contacts-api-v2/lists/create followed by lists/get-lists refresh"
+  ],
+  "row_actions_observed_not_executed": ["Configurações das listas", "Duplicar", "Importar contatos para a lista", "Renomear", "Mover", "Excluir lista"],
+  "pre_existing": "Folder 'Sua primeira pasta' and list 'Sua primeira lista' (ID #2, 1 contact)",
+  "test_data_left_in_account": "list ZZ_TEST_list_1 (ID 3), to be removed by the account owner"
+}

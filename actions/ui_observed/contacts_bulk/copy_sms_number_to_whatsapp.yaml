@@ -1,0 +1,40 @@
+id: contacts.copy_sms_number_to_whatsapp
+domain: contacts
+summary: Copy the SMS number to the WhatsApp field for the selected contacts ('Mais ações > Copie o número de SMS
+  para o WhatsApp').
+ui_label_pt: Contatos > Mais ações > Copie o número de SMS para o WhatsApp
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties:
+    contact_ids:
+      type: array
+      items:
+        type: integer
+      description: Selected rows.
+  required:
+  - contact_ids
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/list
+    steps:
+    - Tick rows, press 'Mais ações' and choose 'Copie o número de SMS para o WhatsApp' (seen, not pressed).
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.pass6_misc_pages.json
+  notes: Menu entry seen; the dialog was not opened.

@@ -1,0 +1,66 @@
+id: sms_whatsapp.get_whatsapp_config
+domain: sms_whatsapp
+summary: Get your WhatsApp API account information.
+risk: read
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: unknown
+  note: Plan availability of this API call was not checked.
+preconditions:
+- An API key (header api-key) that can access this account.
+inputs:
+  type: object
+  properties: {}
+outputs:
+  type: object
+  properties:
+    whatsappBusinessAccountId:
+      type: string
+      description: Id of the WhatsApp business account
+    sendingLimit:
+      type: string
+      description: Sending limit Information of the WhatsApp API account
+    phoneNumberQuality:
+      type: string
+      description: Quality status of phone number associated with WhatsApp account. There are three quality ratings.
+        example - **High (GREEN) , Medium (YELLOW) and Low(RED)**
+      enum:
+      - GREEN
+      - YELLOW
+      - RED
+    whatsappBusinessAccountStatus:
+      type: string
+      description: Status information related to WhatsApp Api account
+    businessStatus:
+      type: string
+      description: Verification status information of the Business account
+    phoneNumberNameStatus:
+      type: string
+      description: Status of the name associated with WhatsApp Phone number
+      enum:
+      - APPROVED
+      - PENDING
+      - REJECTED
+side_effects:
+- 'Expected (from the API docs, not verified): none; read only.'
+postcondition_check: HTTP 200 with the requested data.
+errors:
+- condition: 'HTTP 400: bad request'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: GET
+    path: /whatsappCampaigns/config
+    auth: api-key header (never store the value).
+    operation_id: getWhatsAppConfig
+provenance:
+  sources:
+  - api_docs
+  verification: documented_only
+  verified_at: '2026-10-22'
+  notes: 'Generated from the Brevo public API spec (SDK snapshot, Feb 2025). Not executed: the account had no API
+    key. Also present in the live developer-site spec read on 2026-10-22.'

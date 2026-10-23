@@ -1,0 +1,73 @@
+id: automations.add_action_start_other_automation
+domain: automations
+summary: Add the action step 'Iniciar outra automação' (Automations) to an automation. UI only.
+ui_label_pt: Iniciar outra automação
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions:
+- A draft automation exists (automations.create_automation) and its editor is open at /automation/edit/<id>.
+- The automation has a trigger (see the configure_trigger_* actions).
+inputs:
+  type: object
+  required:
+  - automation_id
+  properties:
+    automation_id:
+      type: integer
+      description: ID of the draft automation, as shown in /automation/edit/<id>.
+    config:
+      type: object
+      properties:
+        automation_id:
+          type: integer
+          description: UI label 'Automação'.
+        step_id:
+          type: integer
+          description: UI label 'Etapa'. Optional. Empty means the first step.
+      required:
+      - automation_id
+    after_step_id:
+      type: integer
+      description: Optional. Step to attach the block after; by default the block goes at the end of the flow.
+outputs:
+  type: object
+  properties:
+    step_id:
+      type: integer
+      description: 'Shown as ''ID da etapa #N'' in the panel. IDs are allocated at drop time and are not reused
+        after an undo.'
+side_effects:
+- 'Expected (from the label, not seen): changes the draft only. Nothing runs while the automation is inactive (Desativada).'
+postcondition_check: The canvas card shows the saved choice instead of the orange 'Defina e salve essa ação.', and
+  the header reads 'Salva hoje às HH:MM'.
+errors:
+- condition: Step left unsaved or incomplete
+  symptom: Card shows 'Defina e salve essa ação.' in orange.
+  recovery: Open the card, fill the required fields and press Salvar, or remove the card with the undo arrow or
+    the card menu.
+limits: []
+depends_on:
+- automations.create_automation
+execution:
+  preferred: ui
+  ui:
+    entry: /automation/edit/<automation_id>
+    steps:
+    - Open /automation/edit/<automation_id>.
+    - In the palette choose the tab 'Ações' (or type part of the name in 'Buscar por nome da etapa').
+    - Drag the block 'Iniciar outra automação' onto the dashed zone 'Solte o bloco aqui' between two steps, or on
+      a connector.
+    - Wait about 3 seconds after any undo before dragging again, otherwise the editor can stay stuck in the drag
+      state until the page is reloaded.
+    - 'In the side panel fill: ''Automação''*; ''Etapa''.'
+    - Press 'Salvar' in the panel. 'Cancelar' leaves an unsaved card marked 'Defina e salve essa ação.'.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/automations.build_steps.json
+  notes: The block was dropped and its settings panel was read, then cancelled. The save was not exercised.

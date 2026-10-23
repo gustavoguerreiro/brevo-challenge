@@ -1,0 +1,64 @@
+id: transactional.send_test_template
+domain: transactional
+summary: Send a template to your test list.
+risk: external_effect
+reversible: false
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions:
+- An API key (header api-key) that can access this account.
+- Path value 'templateId' must identify an existing record.
+inputs:
+  type: object
+  properties:
+    templateId:
+      type: integer
+      format: int64
+      description: Id of the template
+    emailTo:
+      type: array
+      description: List of the email addresses of the recipients whom you wish to send the test mail. If left empty,
+        the test mail will be sent to your entire test list. You can not send more than 50 test emails per day.
+      items:
+        type: string
+        format: email
+        description: Email addres of the recipient
+      x-in: body
+  required:
+  - templateId
+side_effects:
+- 'Expected (from the API docs, not verified): reaches real recipients or third parties and cannot be recalled.'
+- 'Expected (not observed): Delivers a real e-mail to the test recipients.'
+postcondition_check: HTTP 2xx with a message id or empty body; confirm delivery in the matching logs or statistics
+  action.
+errors:
+- condition: 'HTTP 400: Test email could not be sent to the following email addresses'
+  recovery: Fix the request (the response body carries a machine-readable code and message), then retry.
+- condition: 'HTTP 404: Template ID not found'
+  recovery: The referenced id does not exist; list the parent collection to find a valid id.
+limits: []
+depends_on: []
+execution:
+  preferred: api
+  api:
+    method: POST
+    path: /smtp/templates/{templateId}/sendTest
+    auth: api-key header (never store the value).
+    operation_id: sendTestTemplate
+  ui:
+    entry: /templates/listing
+    steps:
+    - 'Row menu > ''Pré-visualização'' > tab ''Enviar e-mail de teste'' (or the button ''Pré-visualizar e testar''
+      in the editor). NOT EXECUTED: it sends a real e-mail.'
+provenance:
+  sources:
+  - api_docs
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  notes: 'The tab exists; it was not opened because sending was out of scope. Generated from the Brevo public API
+    spec (SDK snapshot, Feb 2025). Not executed: the account had no API key. Also present in the live developer-site
+    spec read on 2026-10-22.'
+  evidence: evidence/content.template_lifecycle.json
+ui_label_pt: Enviar e-mail de teste

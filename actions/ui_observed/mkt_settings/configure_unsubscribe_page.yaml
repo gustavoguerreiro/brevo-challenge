@@ -1,0 +1,33 @@
+id: email_campaigns.configure_unsubscribe_page
+domain: email_campaigns
+summary: Customise the unsubscribe page (card 'Páginas de cancelamento de inscrição').
+ui_label_pt: Campanhas > Páginas de cancelamento de inscrição
+risk: write
+reversible: true
+requires_human_confirmation: true
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  properties: {}
+side_effects:
+- 'Not observed: the action was not run.'
+postcondition_check: 'Not observed (the action was not run). Expected: reopen the page and see the saved values.'
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /campaign-settings
+    steps:
+    - Open /campaign-settings and press the button of the card 'Páginas de cancelamento de inscrição'.
+    - Not opened.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/ui.settings_pages_read.json
+  notes: Card and description seen only. Changes what every recipient sees when unsubscribing.

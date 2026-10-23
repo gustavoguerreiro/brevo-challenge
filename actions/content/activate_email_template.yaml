@@ -1,0 +1,51 @@
+id: content.activate_email_template
+domain: content
+summary: Activate an e-mail template so that Automações and Transacional can use it.
+ui_label_pt: Ativar
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - template_id
+  properties:
+    template_id:
+      type: integer
+      description: Template to activate.
+side_effects:
+- 'Observed: the status becomes Ativo, the menu then offers Desativar and no longer offers Excluir.'
+- 'Observed (deactivation dialog text): an inactive template cannot be used in Automações and Transacional.'
+- 'Expected (no automation was run): an automation step that uses an active template sends it when the automation
+  runs.'
+postcondition_check: The row shows status Ativo.
+errors:
+- condition: Template has no design
+  symptom: Red toast 'Adicione um design ao seu modelo antes de ativá-lo.'
+  recovery: Add content first.
+limits: []
+depends_on:
+- content.update_email_template_content
+execution:
+  preferred: ui
+  ui:
+    entry: /templates/listing
+    steps:
+    - Open Marketing > Modelos and the row menu; choose 'Ativar'.
+    - 'Toast ''Seu modelo foi ativado.'' and the status becomes Ativo. Without a design the toast is red: ''Adicione
+      um design ao seu modelo antes de ativá-lo.'''
+provenance:
+  sources:
+  - ui
+  verification: executed_verified
+  verified_at: '2026-10-22'
+  evidence: evidence/content.template_lifecycle.json
+  verified_via:
+  - ui
+  notes: Executed on the copy after adding a body; refused before that. The save menu 'Salvar e ativar' in the editor
+    was not used.
+related:
+- transactional.update_template

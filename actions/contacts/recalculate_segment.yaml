@@ -1,0 +1,40 @@
+id: contacts.recalculate_segment
+domain: contacts
+summary: Recompute a segment's contact count on demand (menu entry 'Atualizar dados').
+ui_label_pt: Atualizar dados
+risk: write
+reversible: true
+requires_human_confirmation: false
+plan_availability:
+  free: available
+preconditions: []
+inputs:
+  type: object
+  required:
+  - segment_id
+  properties:
+    segment_id:
+      type: integer
+      description: Segment to refresh.
+side_effects:
+- 'Expected (not confirmed): starts a recount of the segment; no contact data is changed.'
+postcondition_check: The Contatos column and 'Última edição' may change. The click gave no visible feedback in the
+  test, so verify by reloading.
+errors: []
+limits: []
+depends_on: []
+execution:
+  preferred: ui
+  ui:
+    entry: /contact/segment
+    steps:
+    - Open the Ações menu of the segment row and choose 'Atualizar dados'.
+    - No dialog and no toast were seen; reload the page and read the Contatos column.
+provenance:
+  sources:
+  - ui
+  verification: observed_not_executed
+  verified_at: '2026-10-22'
+  evidence: evidence/contacts.segment_row_actions.json
+  notes: The menu entry was clicked once. No toast, no dialog and no change in the count were seen (the segment had 1 contact
+    before and after), so the effect was never confirmed. Not counted as verified.

@@ -1,0 +1,18 @@
+{
+  "action": "read-only pages used as UI equivalents of API list/get calls",
+  "observed_at": "2026-10-22",
+  "method": "UI in Claude in Chrome session, the test account, pt-BR, Free plan. Pages were opened and read; nothing was changed.",
+  "pages": [
+    {"action": "contacts.list_attributes", "route": "/objects/settings/contact", "seen": "Contact attribute table. Ids seen include NOME, SOBRENOME, SMS, WHATSAPP, LANDLINE_NUMBER, COUNTRY, CONTACT_TIMEZONE, JOB_TITLE, LINKEDIN, DETECTED LANGUAGE, DOUBLE_OPT-IN, OPT_IN. The first and last name attributes carry Portuguese ids in this account."},
+    {"action": "contacts.list_folders", "route": "/contact/list-listing", "seen": "Folders appear as the 'Pasta' column and in the move/list panels: 'Your First Folder' and the system folder 'marketing_automation' (see evidence/contacts.update_list.json)."},
+    {"action": "contacts.list_contacts", "route": "/contact/list", "seen": "Table 'Contatos <n>' with default columns CONTATO, INSCRITO, COLOCADO EM LISTA BLOQUEADA, E-MAIL, WHATSAPP, LANDLINE_NUMBER, ÚLTIMA ALTERAÇÃO, DATA DE CRIAÇÃO; search, filter and list/segment loading."},
+    {"action": "account.list_senders", "route": "/senders/list", "seen": "One default sender with state 'Verificado', tags 'IP compartilhado' and 'Padrão', links Editar, Endereço IP, Assinatura DKIM, DMARC, and the warning that a free-mail domain is not recommended. The address itself is not recorded."},
+    {"action": "account.list_domains", "route": "/senders/domain/list", "seen": "Tab 'Domínios' with the empty state 'Configurar seu domínio' and the button 'Adicionar um domínio'."},
+    {"action": "account.get_account", "route": "'Uso e plano' popover in the top bar and 'Meu plano' in the account menu", "seen": "Plan 'Free', daily e-mail allowance remaining, pre-paid e-mail credits 0, pre-paid SMS credits 0."},
+    {"action": "email_campaigns.list_campaigns", "route": "/campaigns/listing", "seen": "Rows with name, status (Rascunho), last edit, #id and columns Destinatários, Aberturas, Cliques, Inscrição cancelada, Conversões; filters by search and status; tags and folders are crown-gated."}
+  ],
+  "limitations": [
+    "Only the visible fields were read. Equality of these views with the API responses (field names, paging, filters) was not tested because the account has no API key."
+  ],
+  "test_data_left_in_account": "none from this pass"
+}
